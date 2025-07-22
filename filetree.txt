@@ -1,0 +1,26 @@
+CV/
+├─ public/
+│  ├─ ED Cullen CV.pdf
+│  ├─ ED Cullen Headshot.jpg
+│  └─ ED Cullen ID.jpg
+├─ static/
+│  ├─ css/
+│  │  ├─ colours.css
+│  │  ├─ input.css
+│  │  ├─ output.css
+│  │  └─ tailwind.css
+│  └─ js/
+│     └─ main.js
+├─ .gitignore
+├─ compile.bat
+├─ cv.html
+├─ education.html
+├─ experience.html
+├─ filetree.txt
+├─ hobbies.html
+├─ index.html
+├─ install.bat
+├─ package-lock.json
+├─ package.json
+├─ README.md
+└─ watch.bat
