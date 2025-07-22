@@ -1,0 +1,119 @@
+ERIN DAVID CULLEN
+SOFTWARE ENGINEER
+
+About Me:
+I thrive on learning and applying that knowledge to build systems that make a meaningful difference. With a background in mechanical and software engineering, as well as business and people management, I bring a blend of technical and operational insight. In 2022, I began working on a toolset focused on solving challenges in the hire industry, drawing from hands-on experience in business operations, logistics, and systems design. I’m currently studying BComputing with a focus on data science and databases, and I’m eager to apply my skills in a professional environment.
+Early in my academic journey, I pursued mechanical engineering for four years before deciding to transition into software — a field that better aligned with my passion for building and problem-solving. That decision allowed me to shift my focus toward technology and systems development, where I feel I can create the most impact.
+
+Education:
+National Senior Certificate
+St. Albans College (IEB)
+2017
+
+Bachelor of Engineering (Mechanical)
+University of Pretoria
+2018 - 2021
+Completed 3 years
+
+Bachelor of Computing (Data Science)
+Belgium Campus
+2023 - 2025
+Current Average 78% over 3 years
+In 2026 we work in internships as part of the honours degree
+
+Hobbies:
+Carpentry (Woodworking)
+Hiking
+Photography
+
+Personal Qualities:
+Accurate & Precise
+Detail-Oriented
+Ethical
+Efficient & Effective
+Hard-Working
+Responsible
+Analytically Minded
+Self-Motivated
+Independent
+Curious & Always Learning
+Ambitious
+Simple & Clear
+
+Certificates:
+Mensa PTA Member 2024
+Dale Carnegie Generation.Next 2016
+University of Pretoria Most Innovative Project (EBIT Faculty) 2019
+Zeiss Geometric Dimensioning & Tolerancing 2021
+
+Career Objective
+I would like to complete my 2026 Honours internship at Epi-Use Labs and continue developing within the company, with a focus on enterprise software and advanced database systems.
+*make this generic
+
+Work Experience:
+Coastal Hire Centurion
+Junior Manager & Software Developer
+2021 - 2023
+Oversaw branch operations and built custom inventory and logistics systems. Led development of internal tools and acted as a technical consultant to Kerridge Systems during ERP rollout.
+
+Independent Software Developer
+Full Stack Developer
+2022 - present
+Building a modern ERP system for the hire industry, leveraging expertise in business operations, software engineering, and system design. Responsible for database architecture (PostgreSQL), backend (Python/Flask), and frontend (Next.js).
+
+Projects:
+AetherFlow ERP System (for a hire company)
+Diary
+Logistics
+Driver Scheduling
+Employee Task Management
+Inventory
+AI agent (automation)
+AI Chat System
+Locally run
+Highly adaptable
+Modular
+Designed to be integrated into systems
+
+Technical Skills:
+Python (Backend, APIs, Automation)
+JavaScript / TypeScript
+Node.js
+Flask (Python)
+Next.js (React)
+SQL (PostgreSQL, SQLServer)
+MongoDB
+Docker & Docker Compose
+Bash (WSL, Linux CLI)
+Python API Testing
+
+Software:
+Git & GitHub
+VS Code
+Postman (API Testing)
+N8N (Node Based Workflow automation)
+Ollama  (AI Integration)
+
+
+System Architecture & DevOps:
+REST API Design
+Microservices Architecture
+Containerization (Docker)
+Linux Server Management (Ubuntu + WSL)
+Virtual Environments & Dependency Isolation (venv, pipenv, Docker)
+
+AI & Automation:
+Whisper (Speech-to-Text)
+Zero-Shot Classification (NLP)
+OpenAI API Integration
+Ollama with Postgre memory
+Autonomous Agent Design (Planned)
+
+Resources:
+Linkedin
+https://www.linkedin.com/in/de-cullen/
+Github
+https://github.com/BeardedSeal77
+
+References:
+Sebastian Tridente - 076 825 6695 (Epi-Use Labs Software Engineer)
