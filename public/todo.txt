@@ -1,1 +1,12 @@
-add a projects page
+
+hey claude, could you please go through each web page in the project and change the content of each page?
+
+make sure to go through public\Website Design.md for guidance on what works for CVs and Websites.
+
+Something I want changed.
+
+I want the content to be more humble, less overselling and promising, I am not the solution to all their problems.
+
+I want humble, understated prowess and power. I want it to be stoic.
+
+this is simply working on the content itself. 
