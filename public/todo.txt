@@ -1,3 +1,6 @@
+fix link to projects on experience page
+
+change last project to show several smaller projects from github
 
 hey claude, could you please go through each web page in the project and change the content of each page?
 

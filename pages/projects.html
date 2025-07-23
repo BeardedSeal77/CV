@@ -42,7 +42,7 @@
             <!-- Featured Projects -->
             <div class="space-y-8">
                 <!-- AetherFlow Diary System -->
-                <div class="rounded-xl shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
+                <div class="mb-6 rounded-xl shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
                     <div class="h-48 flex items-center justify-center relative" 
                          style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));">
                         <!-- Project Icon -->
@@ -64,9 +64,9 @@
                         </p>
                         
                         <p class="mb-6" style="color: var(--color-text);">
-                            A comprehensive diary and ERP solution specifically designed for the hire industry. 
+                            A comprehensive diary solution specifically designed for the hire industry. 
                             Built from real-world experience in business operations, this system addresses the 
-                            unique challenges of equipment rental, logistics, and customer management.
+                            unique challenges of rental, logistics, and customer management.
                         </p>
 
                         <!-- Project Details -->
@@ -101,16 +101,16 @@
                                 <h3 class="font-semibold mb-3" style="color: var(--color-success);">Project Status</h3>
                                 <div class="space-y-2">
                                     <div class="flex justify-between">
-                                        <span class="text-sm" style="color: var(--color-text);">Backend Development</span>
-                                        <span class="text-sm font-medium" style="color: var(--color-success);">85%</span>
+                                        <span class="text-sm" style="color: var(--color-text);">Database Design</span>
+                                        <span class="text-sm font-medium" style="color: var(--color-success);">90% - needs one more rendition</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-sm" style="color: var(--color-text);">Database Design</span>
-                                        <span class="text-sm font-medium" style="color: var(--color-success);">90%</span>
+                                        <span class="text-sm" style="color: var(--color-text);">Python Layer</span>
+                                        <span class="text-sm font-medium" style="color: var(--color-success);">50% - needs refactoring for modularity</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-sm" style="color: var(--color-text);">Frontend UI</span>
-                                        <span class="text-sm font-medium" style="color: var(--color-warning);">60%</span>
+                                        <span class="text-sm font-medium" style="color: var(--color-success);">60% - modular and ready for expansion</span>
                                     </div>
                                 </div>
                             </div>
@@ -119,42 +119,96 @@
                         <!-- Key Features -->
                         <div class="mb-6">
                             <h3 class="font-semibold mb-3" style="color: var(--color-primary);">Key Features</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                     Diary Management
                                 </div>
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    Logistics Optimization
+                                    Logistics
                                 </div>
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                     Driver Scheduling
                                 </div>
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
+                                    </svg>
+                                    Task Management
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
                                     </svg>
                                     Inventory Control
                                 </div>
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
                                     </svg>
-                                    AI Automation
+                                    AI Automation (communications)
                                 </div>
-                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-text);">
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
                                     <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
                                     </svg>
-                                    Financial Management
+                                    Rep & CRM
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
+                                    </svg>
+                                    Debtors
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"></path>
+                                    </svg>
+                                    Reporting
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"></path>
+                                    </svg>
+                                    Python Interlayer
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"></path>
+                                    </svg>
+                                    Data Aggregation & Validation
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"></path>
+                                    </svg>
+                                    Modular
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"></path>
+                                    </svg>
+                                    Database Auditing
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"></path>
+                                    </svg>
+                                    Lock Control & Rollback
+                                </div>
+                                <div class="flex items-center gap-2 text-sm" style="color: var(--color-subtle);">
+                                    <svg class="w-4 h-4" style="color: var(--color-success);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"></path>
+                                    </svg>
+                                    Security
                                 </div>
                             </div>
                         </div>
@@ -172,7 +226,7 @@
                 </div>
 
                 <!-- AI Chat System -->
-                <div class="rounded-xl shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
+                <div class="mb-6 rounded-xl shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
                     <div class="h-48 flex items-center justify-center" 
                          style="background: linear-gradient(135deg, var(--color-accent), var(--color-warning));">
                         <!-- AI Icon -->
@@ -190,9 +244,11 @@
                         </p>
 
                         <p class="mb-6" style="color: var(--color-text);">
-                            An advanced conversational AI system built for privacy and adaptability. 
-                            Runs entirely locally to ensure data security while providing powerful 
-                            AI capabilities for various use cases.
+                            A prototype AI chat system build on python and Ollama, 
+                            designed to be used in a node format, 
+                            plugged into software (such as AetherFlow) 
+                            and automate certain processes such as customer orders and whatsapp communications, 
+                            updating customers on order status', etc...
                         </p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -233,9 +289,6 @@
                                         PostgreSQL
                                     </span>
                                     <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-text);">
-                                        Vector Search
-                                    </span>
-                                    <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-text);">
                                         Natural Language Processing
                                     </span>
                                 </div>
@@ -245,6 +298,7 @@
                 </div>
 
                 <!-- Personal Website -->
+                <!-- change to several minor projects, reference github -->
                 <div class="rounded-xl shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
                     <div class="h-48 flex items-center justify-center" 
                          style="background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));">
@@ -264,8 +318,7 @@
 
                         <p class="mb-6" style="color: var(--color-text);">
                             This very website you're viewing! Built with modern web technologies and 
-                            best practices, featuring a clean design, dark/light themes, and optimal 
-                            performance across all devices.
+                            best practices, featuring a clean design, dark/light themes.
                         </p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -314,25 +367,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Future Projects -->
-            <div class="mt-8 rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-primary);">Future Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h3 class="font-semibold mb-2" style="color: var(--color-accent);">Data Analytics Platform</h3>
-                        <p class="text-sm" style="color: var(--color-subtle);">
-                            Building tools for business intelligence and data visualization
-                        </p>
-                    </div>
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h3 class="font-semibold mb-2" style="color: var(--color-success);">Mobile Applications</h3>
-                        <p class="text-sm" style="color: var(--color-subtle);">
-                            Exploring React Native and Flutter for cross-platform development
-                        </p>
                     </div>
                 </div>
             </div>
