@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education - Erin David Cullen</title>
+    <!-- Theme initialization BEFORE page render -->
+    <script>
+        // Immediately set theme to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <link rel="stylesheet" href="../static/css/output.css">
     <link rel="stylesheet" href="../static/css/colours.css">
     <script src="../static/js/main.js" defer></script>
@@ -137,7 +145,7 @@
                         <span class="flex items-center gap-2" style="color: var(--color-warning);">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"></path>
+                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                             3 Years Completed
                         </span>
