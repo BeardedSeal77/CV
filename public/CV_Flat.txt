@@ -2,7 +2,7 @@ ERIN DAVID CULLEN
 SOFTWARE ENGINEER
 
 About Me:
-I thrive on learning and applying that knowledge to build systems that make a meaningful difference. With a background in mechanical and software engineering, as well as business and people management, I bring a blend of technical and operational insight. In 2022, I began working on a toolset focused on solving challenges in the hire industry, drawing from hands-on experience in business operations, logistics, and systems design. I’m currently studying BComputing with a focus on data science and databases, and I’m eager to apply my skills in a professional environment.
+I thrive on learning and applying knowledge to build systems that make a meaningful difference. With a background in mechanical and software engineering, as well as business and people management, I bring a blend of technical and operational insight. In 2022, I began working on a toolset focused on solving challenges in the hire industry, drawing from hands-on experience in business operations, logistics, and systems design. I’m currently studying BComputing with a focus on data science and databases, and I’m eager to apply my skills in a professional environment.
 Early in my academic journey, I pursued mechanical engineering for four years before deciding to transition into software — a field that better aligned with my passion for building and problem-solving. That decision allowed me to shift my focus toward technology and systems development, where I feel I can create the most impact.
 
 Education:

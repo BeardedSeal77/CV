@@ -23,36 +23,35 @@
     <div id="navbar-container"></div>
 
     <!-- Main Content -->
-    <main class="h-screen flex flex-col">
-        <!-- PDF Embed Container -->
-        <div class="flex-1 p-4">
-            <div class="h-full rounded-lg shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
-                <!-- PDF Embed -->
-                <embed 
-                    src="../public/ED_Cullen_CV.pdf" 
-                    type="application/pdf" 
-                    width="100%" 
-                    height="100%"
-                    class="w-full h-full"
-                    style="border: none;">
-                
-                <!-- Fallback for browsers that don't support embed -->
-                <div class="flex items-center justify-center h-full" style="display: none;" id="pdf-fallback">
-                    <div class="text-center p-8">
-                        <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-primary);">
-                            CV Document
-                        </h2>
-                        <p class="mb-6" style="color: var(--color-text);">
-                            Your browser doesn't support embedded PDFs. You can download the CV directly:
-                        </p>
-                        <a href="../public/ED_Cullen_CV.pdf" 
-                           download="Erin_David_Cullen_CV.pdf"
-                           class="inline-block px-6 py-3 rounded-lg transition-all hover:scale-105 shadow-sm"
-                           style="background-color: var(--color-primary); color: white; text-decoration: none;">
-                            📄 Download CV (PDF)
-                        </a>
+    <main class="min-h-screen pt-32 pb-6">
+        <!-- Buffer spacing -->
+        <div class="h-8"></div>
+        
+        <!-- PDF Container -->
+        <div class="px-4 flex justify-center">
+            <div class="rounded-lg shadow-lg overflow-hidden" style="background-color: var(--color-surface); width: 70vw; height: 80vh;">
+                <!-- Direct PDF Embed -->
+                <object data="../public/ED_Cullen_CV.pdf" type="application/pdf" width="100%" height="100%" style="border: none;">
+                    <embed src="../public/ED_Cullen_CV.pdf" type="application/pdf" width="100%" height="100%" style="border: none;" />
+                    
+                    <!-- Final fallback -->
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-center p-8">
+                            <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-primary);">
+                                CV Document
+                            </h2>
+                            <p class="mb-6" style="color: var(--color-text);">
+                                Your browser doesn't support embedded PDFs. You can download the CV directly:
+                            </p>
+                            <a href="../public/ED_Cullen_CV.pdf" 
+                               download="Erin_David_Cullen_CV.pdf"
+                               class="inline-block px-6 py-3 rounded-lg transition-all hover:scale-105 shadow-sm"
+                               style="background-color: var(--color-primary); color: white; text-decoration: none;">
+                                📄 Download CV (PDF)
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </object>
             </div>
         </div>
     </main>
@@ -60,26 +59,6 @@
     <script>
         // Initialize navbar with CV page as active
         initializeNavbar('cv');
-
-        // Check if PDF embed is working
-        document.addEventListener('DOMContentLoaded', function() {
-            const embed = document.querySelector('embed');
-            const fallback = document.getElementById('pdf-fallback');
-            
-            // Show fallback if embed fails to load
-            embed.addEventListener('error', function() {
-                embed.style.display = 'none';
-                fallback.style.display = 'flex';
-            });
-            
-            // For browsers that don't support embed
-            setTimeout(function() {
-                if (embed.offsetHeight === 0) {
-                    embed.style.display = 'none';
-                    fallback.style.display = 'flex';
-                }
-            }, 1000);
-        });
     </script>
 </body>
 </html>
