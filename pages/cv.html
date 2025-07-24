@@ -16,6 +16,21 @@
     <link rel="stylesheet" href="../static/css/colours.css">
     <script src="../static/js/main.js" defer></script>
     <script src="../static/js/navbar.js" defer></script>
+    <style>
+        /* Mobile-first: 95% width, 75% height */
+        .pdf-container {
+            width: 95vw;
+            height: 75vh;
+        }
+        
+        /* Desktop: 70% width, 80% height */
+        @media (min-width: 768px) {
+            .pdf-container {
+                width: 70vw;
+                height: 80vh;
+            }
+        }
+    </style>
 </head>
 
 <body class="min-h-screen" style="background-color: var(--color-base); color: var(--color-text);">
@@ -23,13 +38,13 @@
     <div id="navbar-container"></div>
 
     <!-- Main Content -->
-    <main class="min-h-screen pt-32 pb-6">
-        <!-- Buffer spacing -->
-        <div class="h-8"></div>
+    <main class="min-h-screen pt-20 md:pt-32 pb-4 md:pb-6">
+        <!-- Buffer spacing (smaller on mobile) -->
+        <div class="h-4 md:h-8"></div>
         
         <!-- PDF Container -->
-        <div class="px-4 flex justify-center">
-            <div class="rounded-lg shadow-lg overflow-hidden" style="background-color: var(--color-surface); width: 70vw; height: 80vh;">
+        <div class="px-2 md:px-4 flex justify-center">
+            <div class="pdf-container rounded-lg shadow-lg overflow-hidden" style="background-color: var(--color-surface);">
                 <!-- Direct PDF Embed -->
                 <object data="../public/ED_Cullen_CV.pdf" type="application/pdf" width="100%" height="100%" style="border: none;">
                     <embed src="../public/ED_Cullen_CV.pdf" type="application/pdf" width="100%" height="100%" style="border: none;" />
