@@ -1,0 +1,28 @@
+Dear Hiring Manager,
+
+I am writing to express my strong interest in the IT/Software Engineering position at your company. As a dedicated software engineer with a passion for continuous learning and building innovative solutions, I am excited about the opportunity to contribute to your team's success.
+
+Currently pursuing a BComputing degree with a focus on data science and databases (maintaining a 78% academic average), I bring a unique blend of technical expertise and operational insight gained through my experience in mechanical engineering, business operations, and software development. My background has equipped me with a comprehensive understanding of both technical implementation and business requirements.
+
+My technical proficiency includes Python, PostgreSQL, Flask, Next.js, TypeScript, Docker, Git & GitHub, and Linux/WSL. I have successfully applied these technologies in real-world projects, most notably developing the AetherFlow Diary System - a comprehensive solution for the tool hire industry that demonstrates my ability to bridge technical solutions with business needs.
+
+What sets me apart is my analytical mindset, attention to detail, and unwavering drive for continuous improvement. I thrive on learning new technologies and applying knowledge to build solutions that deliver tangible value. My transition from mechanical engineering to software development has strengthened my problem-solving approach and given me perspective on system design from multiple angles.
+
+Key achievements that demonstrate my capabilities:
+• Developed and deployed the AetherFlow Diary System, improving operations in the hire industry
+• Built a local AI chat system with privacy-focused architecture
+• Maintained academic excellence while working on practical projects
+• Recently joined Mensa Pretoria chapter, reflecting my commitment to intellectual growth
+
+I am particularly drawn to roles where I can leverage my technical skills while contributing to meaningful projects that make a positive impact. My experience in business operations, combined with my software engineering expertise, allows me to understand both the technical requirements and business context of development projects.
+
+I would welcome the opportunity to discuss how my passion for technology, commitment to quality, and diverse background can contribute to your team's objectives. Thank you for considering my application.
+
+Sincerely,
+Erin David Cullen
+
+Contact Information:
+Email: edcullen550@gmail.com
+Location: Pretoria East, South Africa
+LinkedIn: https://www.linkedin.com/in/de-cullen/
+GitHub: https://github.com/BeardedSeal77
