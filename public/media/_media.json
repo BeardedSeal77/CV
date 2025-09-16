@@ -1,0 +1,104 @@
+
+{
+    "Images":[
+        {
+            "title": "ED_Cullen_Headshot",
+            "format": "jpg",
+            "description": "High-quality professional headshot for CV and business purposes",
+            "tags":["headshot", "professional", "cv", "portrait", "business"],
+            "usage": "cv_primary",
+            "dimensions": {
+                "width": 1690,
+                "height": 2198
+            }
+        },
+        {
+            "title": "hiking",
+            "format": "jpg",
+            "description": "Outdoor hiking activity showcasing love for nature and adventure",
+            "tags":["hiking", "outdoor", "nature", "adventure", "fitness", "recreation"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 960,
+                "height": 1280
+            }
+        },
+        {
+            "title": "photography",
+            "format": "jpg",
+            "description": "Example of photography work showcasing artistic vision and technical skill",
+            "tags":["photography", "artistic", "creative", "composition", "visual", "portfolio"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 5184,
+                "height": 2912
+            }
+        },
+        {
+            "title": "woodworking_1",
+            "format": "jpg",
+            "description": "Showcasing a wine cellar door made by me, woodworking skills and craftsmanship through handmade projects",
+            "tags":["woodworking", "craftsmanship", "handmade", "creative", "technical", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 3000,
+                "height": 4000
+            }
+        },
+        {
+            "title": "woodworking_2",
+            "format": "jpg",
+            "description": "Showcasing me working on wood, woodworking skills and craftsmanship through handmade projects",
+            "tags":["woodworking", "craftsmanship", "handmade", "creative", "technical", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 356,
+                "height": 482
+            }
+        },
+        {
+            "title": "Car_Gearbox_1",
+            "format": "jpg",
+            "description": "Showing the inner workings of a gearbox, gear shaft",
+            "tags":["technical", "hands on", "mechanical", "inquisitive", "DIY", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 4000,
+                "height": 3000
+            }
+        },
+        {
+            "title": "Car_Gearbox_2",
+            "format": "jpg",
+            "description": "Showing the fialed syncromesh on Gear 5/reverse",
+            "tags":["technical", "hands on", "mechanical", "inquisitive", "DIY", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 960,
+                "height": 1280
+            }
+        },
+        {
+            "title": "Car_Work",
+            "format": "jpg",
+            "description": "showingcasing me manually installing a replacement fuel cap release cable. big job, driver seat, read seats and boot fully removed from car",
+            "tags":["technical", "hands on", "mechanical", "inquisitive", "DIY", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 960,
+                "height": 1280
+            }
+        },
+        {
+            "title": "Car_Gearbox",
+            "format": "mp4",
+            "description": "video of me fiddling with the dissassembled gearbox components, differential and more",
+            "tags":["technical", "hands on", "mechanical", "inquisitive", "DIY", "precision"],
+            "usage": "hobby_showcase",
+            "dimensions": {
+                "width": 3840,
+                "height": 2160
+            }
+        }
+    ]
+}

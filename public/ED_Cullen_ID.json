@@ -1,0 +1,35 @@
+{
+  "title": "Erin David Cullen - Professional ID Photo",
+  "description": "Professional identification photograph of Erin David Cullen",
+  "alt_text": "Professional headshot of Erin David Cullen in business attire",
+  "category": "professional",
+  "tags": ["headshot", "professional", "id", "portrait"],
+  "usage": "primary_identification",
+  "dimensions": {
+    "width": null,
+    "height": null,
+    "aspect_ratio": "1:1"
+  },
+  "technical": {
+    "format": "jpg",
+    "quality": "high",
+    "color_profile": "standard"
+  },
+  "context": {
+    "location": "studio",
+    "purpose": "professional_identification",
+    "setting": "formal"
+  },
+  "metadata": {
+    "created_date": null,
+    "photographer": null,
+    "copyright": "Erin David Cullen",
+    "license": "personal_use"
+  },
+  "display": {
+    "featured": true,
+    "priority": "high",
+    "cropping": "center",
+    "filters": "none"
+  }
+}

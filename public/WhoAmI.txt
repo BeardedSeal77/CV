@@ -1,0 +1,102 @@
+I am Erin David Cullen
+
+I live in Pretoria East (pretorius park) ~ 5-10 minutes from menlyn
+
+I grew up in an entreprenereal house, both my parents have been business owners since I came into being
+
+I grew up going to their offices during my school holidays, the majority of af family dinner discussions have been about business
+I participated in their businesses from a young age, and I also worked under them and later alongside them as I grew up.
+
+I have ambition, I worked in my parents company (coastal hire centurion, a tool hire company, see pages/experience.html)
+and every day I worked there, I was working on systems that would improve the efficiency of the company
+
+# products I have been involved in:
+https://github.com/BeardedSeal77?tab=repositories
+
+## studies:
+### current:
+
+#### data-analysis-dashboard: (End-to-end business intelligence project using CRISP-DM methodology. Features data cleaning, preprocessing, statistical modeling (clustering, classification), and interactive Power BI dashboards. Built with R for analysis and Power BI for visualization. Demonstrates complete data pipeline from raw data to actionable insights.) (Project Lead)
+
+#### Nimbus: (This project enables real-time drone navigation using natural language commands, leveraging a combination of NLP, object detection, SLAM, and mixed reality technologies.
+Objective
+
+To build an intelligent system where a drone receives spoken commands like:
+
+    “Go to the chair”
+
+...and autonomously interprets the environment, identifies the target, calculates the 3D position, and navigates toward it.
+
+🧩 System Components
+🔊 Natural Language Processing (NLP)
+
+    Converts voice input into structured commands.
+    Extracts intent (e.g., go) and target object (e.g., chair).
+    Uses a lightweight LLM or prompt-based classifier.
+
+🎥 Mixed Reality + Vision
+
+    MR headset streams stereo video to the processing system.
+    YOLOv8 or equivalent detects objects (chair, table, etc.).
+    Depth sensors (e.g., RealSense, Azure Kinect) or stereo matching provide 3D location of the object.
+    Optional: MR overlays can provide user feedback or path previews.
+
+📍 SLAM Integration
+
+    RTAB-Map or OpenVSLAM generates real-time environment mapping.
+    Used to localize the drone and compute target location in 3D space.
+    Enables dynamic obstacle avoidance and environment awareness.
+
+🚁 Drone Control (Robotics)
+
+    Computes trajectory using PID control or trajectory planning.
+    Issues acceleration or velocity commands based on drone API.
+    Optionally uses Arduino or microcontroller for low-level motor control.
+) (Project Technical Lead)
+
+### Completed:
+
+#### LinearProgrammingSolver: (A console-based Linear Programming and Integer Programming solver built in C# for academic purposes.
+Overview
+
+This solver implements multiple algorithms for solving Linear Programming (LP) and Integer Programming (IP) problems:
+Linear Programming Algorithms
+
+    Primal Simplex Algorithm - Standard tableau-based simplex method
+    Revised Simplex Algorithm - Matrix-based simplex with basis inverse operations
+
+Integer Programming Algorithms
+
+    Branch and Bound Simplex - General integer programming solver
+    Branch and Bound Knapsack - Specialized knapsack problem solver
+    Cutting Plane Algorithm - Gomory cuts for integer solutions
+
+Features
+
+    Menu-driven console interface
+    Input file parsing for LP/IP models
+    Complete iteration tracking with table naming (t-i, t-1, t-1.1, etc.)
+    Output file generation with all solution steps
+    Canonical form display for all algorithms
+    Sensitivity analysis support
+)) (Project Lead)
+
+#### several notebook based study platforms (Linear Programming, Machine Learning, Stastics)
+
+#### several machine learning projects in which data was harvested, cleaned, prepared, scaled, used to train ML models and then deployed on websites. (python)
+
+#### several database projects (one of each; oracle, sql server, ms access, mongodb) covering various topics, typically retail store or basic inventory system.
+
+## personal:
+#### AetherFlow: (A comprehensive PostgreSQL-based equipment hire Diary and Logistics management system with two-phase booking, equipment allocation, and driver task management. Postgresql, Python, Nextjs)
+
+#### Rep System: (A basic rep CRM system that tracks rep interactions with customers over time and provides valuable reportable information for business owners to make decisions on which customers to chase and which to drop, as well as providing insight into employee performance. currently running on ms access, creating a new version that runs on python+web)
+
+
+
+I decided to study in IT because I have loved computers from a young age, I built my first, albeit infantile, database at 15 years old, and I have built 2 systems for my parents company while I worked there (after engineering) and decided I need to learn more so that I can actually get good at this and make a living out of it. like 
+
+
+My goal is to take the product I have been developing for coastal hire/my parents and continue developing it, become a product owner (current goal of 5-10 years)
+
+

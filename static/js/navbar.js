@@ -11,6 +11,15 @@ function createNavbar(currentPage = '') {
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
+        { 
+            name: 'Presentation', 
+            href: `${pathPrefix}pages/presentation.html`, 
+            id: 'presentation',
+            hasRibbon: true,
+            ribbonItems: [
+                { name: 'BMW IT Hub', href: `${pathPrefix}pages/presentation/bmw.html`, id: 'bmw' }
+            ]
+        },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
 
@@ -40,6 +49,49 @@ function createNavbar(currentPage = '') {
             .mobile-menu-hidden {
                 display: none;
             }
+            
+            /* Ribbon styles */
+            .ribbon-container {
+                position: relative;
+                z-index: 10;
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.3s ease-in-out;
+            }
+            
+            .ribbon-container.show {
+                max-height: 100px;
+            }
+            
+            .ribbon {
+                padding: 12px 24px;
+                background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            .ribbon-container.show .ribbon {
+                transform: translateY(0);
+            }
+            
+            .ribbon-item {
+                display: inline-block;
+                padding: 8px 16px;
+                margin: 0 4px;
+                background-color: rgba(255, 255, 255, 0.2);
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                transition: all 0.2s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .ribbon-item:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
         </style>
         <nav class="shadow-md" style="background-color: var(--color-surface);">
             <div class="px-6 py-4">
@@ -49,6 +101,17 @@ function createNavbar(currentPage = '') {
                     <div class="flex space-x-4">
                         ${navItems.map(item => {
                             const isActive = currentPage === item.id;
+                            if (item.hasRibbon) {
+                                return `
+                                    <button class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium' : 'hover:bg-opacity-80'}" 
+                                       style="${isActive ? 
+                                           'background-color: var(--color-primary); color: var(--color-base);' : 
+                                           'color: var(--color-text);'}"
+                                       ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
+                                                    onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                       onclick="toggleRibbon('${item.id}')">${item.name}</button>
+                                `;
+                            }
                             return `
                                 <a class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium' : 'hover:bg-opacity-80'}" 
                                    style="${isActive ? 
@@ -137,6 +200,17 @@ function createNavbar(currentPage = '') {
                     <div id="mobile-menu" class="mobile-menu-hidden mt-4 space-y-2">
                         ${navItems.map(item => {
                             const isActive = currentPage === item.id;
+                            if (item.hasRibbon) {
+                                return `
+                                    <button class="block w-full text-left px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium' : ''}" 
+                                       style="${isActive ? 
+                                           'background-color: var(--color-primary); color: var(--color-base);' : 
+                                           'color: var(--color-text);'}"
+                                       ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
+                                                    onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                       onclick="toggleRibbon('${item.id}')">${item.name}</button>
+                                `;
+                            }
                             return `
                                 <a class="block px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium' : ''}" 
                                    style="${isActive ? 
@@ -151,6 +225,15 @@ function createNavbar(currentPage = '') {
                 </div>
             </div>
         </nav>
+        
+        <!-- Ribbon Container -->
+        <div id="ribbon-container" class="ribbon-container">
+            <div class="ribbon">
+                <div class="flex justify-start space-x-4" id="ribbon-content">
+                    <!-- Ribbon items will be inserted here dynamically -->
+                </div>
+            </div>
+        </div>
     `;
 }
 
@@ -161,18 +244,17 @@ function loadNavbar(currentPage) {
         navbarContainer.innerHTML = createNavbar(currentPage);
         console.log('Navbar loaded successfully for page:', currentPage);
         
-        // Debug: Check if mobile elements exist
+        // Initialize theme toggles after navbar is loaded
         setTimeout(() => {
-            const mobileNav = document.querySelector('.mobile-nav');
-            const mobileButton = document.getElementById('mobile-menu-button');
-            console.log('Mobile nav found:', !!mobileNav);
-            console.log('Mobile button found:', !!mobileButton);
-            console.log('Window width:', window.innerWidth);
+            if (window.initializeThemeToggle) {
+                window.initializeThemeToggle();
+            }
             
-            if (mobileNav) {
-                const styles = window.getComputedStyle(mobileNav);
-                console.log('Mobile nav display:', styles.display);
-                console.log('Mobile nav visibility:', styles.visibility);
+            // Auto-show ribbon if we're on a presentation page
+            if (currentPage === 'presentation') {
+                setTimeout(() => {
+                    toggleRibbon('presentation');
+                }, 200);
             }
         }, 100);
     } else {
@@ -215,6 +297,55 @@ function toggleMobileMenu() {
     }
 }
 
+// Function to toggle ribbon visibility
+function toggleRibbon(itemId) {
+    const ribbonContainer = document.getElementById('ribbon-container');
+    const ribbonContent = document.getElementById('ribbon-content');
+    
+    if (!ribbonContainer || !ribbonContent) return;
+    
+    // Find the nav item with ribbon data
+    const navItem = getNavItems().find(item => item.id === itemId);
+    if (!navItem || !navItem.hasRibbon) return;
+    
+    const isCurrentlyVisible = ribbonContainer.classList.contains('show');
+    
+    if (isCurrentlyVisible) {
+        // Hide ribbon
+        ribbonContainer.classList.remove('show');
+    } else {
+        // Show ribbon with content
+        ribbonContent.innerHTML = navItem.ribbonItems.map(ribItem => 
+            `<a href="${ribItem.href}" class="ribbon-item">${ribItem.name}</a>`
+        ).join('');
+        ribbonContainer.classList.add('show');
+    }
+}
+
+// Helper function to get nav items (needed for ribbon toggle)
+function getNavItems() {
+    const isInPagesDir = window.location.pathname.includes('/pages/');
+    const pathPrefix = isInPagesDir ? '../' : '';
+    
+    return [
+        { name: 'About Me', href: `${isInPagesDir ? '../' : ''}index.html`, id: 'about' },
+        { name: 'Education', href: `${pathPrefix}pages/education.html`, id: 'education' },
+        { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
+        { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
+        { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
+        { 
+            name: 'Presentation', 
+            href: `${pathPrefix}pages/presentation.html`, 
+            id: 'presentation',
+            hasRibbon: true,
+            ribbonItems: [
+                { name: 'BMW IT Hub', href: `${pathPrefix}pages/presentation/bmw.html`, id: 'bmw' }
+            ]
+        },
+        { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
+    ];
+}
+
 // Auto-detect current page and initialize
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-detect the current page based on URL
@@ -225,6 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (path.includes('experience.html')) currentPage = 'experience';
     else if (path.includes('projects.html')) currentPage = 'projects';
     else if (path.includes('hobbies.html')) currentPage = 'hobbies';
+    else if (path.includes('presentation.html') || path.includes('presentation/')) currentPage = 'presentation';
     else if (path.includes('cv.html')) currentPage = 'cv';
     else if (path.includes('index.html') || path.endsWith('/')) currentPage = 'about';
     
