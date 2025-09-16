@@ -5,135 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience - Erin David Cullen</title>
     <!-- Theme initialization BEFORE page render -->
-    <script>
-        // Immediately set theme to prevent flash
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+    <script src="../static/js/theme.js"></script>
     <link rel="stylesheet" href="../static/css/output.css">
-    <link rel="stylesheet" href="../static/css/colours.css">
     <script src="../static/js/main.js" defer></script>
     <script src="../static/js/navbar.js" defer></script>
 </head>
 
-<body class="min-h-screen" style="background-color: var(--color-base); color: var(--color-text);">
+<body class="min-h-screen bg-base text-base">
     <!-- Navigation Container -->
     <div id="navbar-container"></div>
 
     <!-- Main Content -->
-    <main class="p-6">
+    <main class="p-6 bg-base">
         <div class="max-w-4xl mx-auto mt-8">
             <!-- Page Header -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold mb-2" style="color: var(--color-primary);">Experience</h1>
-                <p class="text-lg" style="color: var(--color-subtle);">Professional Journey & Projects</p>
+                <h1 class="text-4xl font-bold mb-2 text-primary">Experience</h1>
+                <p class="text-lg text-secondary">Professional Journey & Projects</p>
             </div>
 
             <!-- Work Experience Timeline -->
             <div class="space-y-6 mb-8">
                 <!-- Current Position -->
-                <div class="rounded-xl p-6 shadow-lg relative overflow-hidden" 
-                     style="background-color: var(--color-surface); border-left: 4px solid var(--color-secondary);">
-                    <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg" 
-                         style="background-color: var(--color-secondary); color: white;">
+                <div class="rounded-xl p-6 shadow-theme-lg relative overflow-hidden bg-surface border-l-4 border-secondary">
+                    <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg bg-success text-base">
                         <span class="text-sm font-semibold">Current</span>
                     </div>
                     
-                    <h2 class="text-2xl font-semibold mb-2" style="color: var(--color-text);">
+                    <h2 class="text-2xl font-semibold mb-2 text-primary">
                         Independent Software Developer
                     </h2>
-                    <h3 class="text-lg mb-3" style="color: var(--color-secondary);">Full Stack Developer</h3>
-                    <div class="flex items-center gap-2 mb-4" style="color: var(--color-subtle);">
+                    <h3 class="text-lg mb-3 text-secondary">Full Stack Developer</h3>
+                    <div class="flex items-center gap-2 mb-4 text-accent">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         2022 - Present
                     </div>
-                    <p style="color: var(--color-text);" class="mb-3">
+                    <p class="text-body mb-3">
                         Developing a comprehensive diary system tailored for the hire industry. Collaborating with business owners and software engineers to gather domain insights and continuously refine the solution. Responsible for database architecture (PostgreSQL), backend development (Python/Flask), and frontend implementation (Next.js).
                     </p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-2 py-1 rounded text-xs bg-overlay text-accent">
                             Python
                         </span>
-                        <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-2 py-1 rounded text-xs bg-overlay text-accent">
                             PostgreSQL
                         </span>
-                        <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-2 py-1 rounded text-xs bg-overlay text-accent">
                             Next.js
                         </span>
-                        <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-2 py-1 rounded text-xs bg-overlay text-accent">
                             Flask
                         </span>
-                        <span class="px-2 py-1 rounded text-xs" style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-2 py-1 rounded text-xs bg-overlay text-accent">
                             Docker
                         </span>
                     </div>
                 </div>
 
                 <!-- Previous Position -->
-                <div class="rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                    <h2 class="text-2xl font-semibold mb-2" style="color: var(--color-text);">
+                <div class="rounded-xl p-6 shadow-theme-lg bg-surface">
+                    <h2 class="text-2xl font-semibold mb-2 text-primary">
                         Coastal Hire Centurion
                     </h2>
-                    <h3 class="text-lg mb-3" style="color: var(--color-primary);">Operations & Systems Assistant (Part-Time)</h3>
-                    <div class="flex items-center gap-2 mb-4" style="color: var(--color-subtle);">
+                    <h3 class="text-lg mb-3 text-secondary">Operations & Systems Assistant (Part-Time)</h3>
+                    <div class="flex items-center gap-2 mb-4 text-accent">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         2021 - 2023
                     </div>
-                    <p style="color: var(--color-text);" class="mb-3">
+                    <p class="text-body mb-3">
                         Was involved on an ad-hoc and part time basis at a Coastal Hire (Plant and Tool Hire) in Centurion. Got to observe and know various aspects of daily operations and management (including busy and high pressure hire desk operations). Assisted in workshop with technical and mechanical functions. Busy building 2 custom inventory and CRM tools to support sales reps and stock tracking (still work in progress). Also assisted with some technical aspects during the requirements analysis for Kerridge ERP systems that was to be implemented.
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-                        <div class="p-3 rounded-lg" style="background-color: var(--color-overlay);">
-                            <h4 class="font-semibold text-sm mb-1" style="color: var(--color-success);">Operations</h4>
-                            <p class="text-xs" style="color: var(--color-subtle);">Workshop work & hire controller duties</p>
+                        <div class="p-3 rounded-lg bg-tile">
+                            <h4 class="font-semibold text-sm mb-1 text-success">Operations</h4>
+                            <p class="text-xs text-accent">Workshop work & hire controller duties</p>
                         </div>
-                        <div class="p-3 rounded-lg" style="background-color: var(--color-overlay);">
-                            <h4 class="font-semibold text-sm mb-1" style="color: var(--color-success);">Technical</h4>
-                            <p class="text-xs" style="color: var(--color-subtle);">Inventory & CRM systems, Kerridge consulting</p>
+                        <div class="p-3 rounded-lg bg-tile">
+                            <h4 class="font-semibold text-sm mb-1 text-success">Technical</h4>
+                            <p class="text-xs text-accent">Inventory & CRM systems, Kerridge consulting</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Technical Skills -->
-            <div class="mt-8 rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-primary);">Technical Expertise</h2>
+            <div class="mt-8 rounded-xl p-6 shadow-theme-lg bg-surface">
+                <h2 class="text-2xl font-semibold mb-4 text-primary">Technical Expertise</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Languages & Frameworks -->
                     <div>
-                        <h3 class="font-semibold mb-3" style="color: var(--color-secondary);">Languages & Frameworks</h3>
+                        <h3 class="font-semibold mb-3 text-secondary">Languages & Frameworks</h3>
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm" style="color: var(--color-text);">Python</span>
-                                <div class="w-32 h-2 rounded-full" style="background-color: var(--color-overlay);">
-                                    <div class="h-full rounded-full" style="width: 70%; background-color: var(--color-success);"></div>
+                                <span class="text-sm text-body">Python</span>
+                                <div class="w-32 h-2 rounded-full bg-overlay">
+                                    <div class="h-full rounded-full bg-success" style="width: 70%;"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm" style="color: var(--color-text);">SQL</span>
-                                <div class="w-32 h-2 rounded-full" style="background-color: var(--color-overlay);">
-                                    <div class="h-full rounded-full" style="width: 80%; background-color: var(--color-success);"></div>
+                                <span class="text-sm text-body">SQL</span>
+                                <div class="w-32 h-2 rounded-full bg-overlay">
+                                    <div class="h-full rounded-full bg-success" style="width: 80%;"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm" style="color: var(--color-text);">JavaScript/TypeScript</span>
-                                <div class="w-32 h-2 rounded-full" style="background-color: var(--color-overlay);">
-                                    <div class="h-full rounded-full" style="width: 40%; background-color: var(--color-success);"></div>
+                                <span class="text-sm text-body">JavaScript/TypeScript</span>
+                                <div class="w-32 h-2 rounded-full bg-overlay">
+                                    <div class="h-full rounded-full bg-success" style="width: 40%;"></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm" style="color: var(--color-text);">Next.js/React</span>
-                                <div class="w-32 h-2 rounded-full" style="background-color: var(--color-overlay);">
-                                    <div class="h-full rounded-full" style="width: 45%; background-color: var(--color-success);"></div>
+                                <span class="text-sm text-body">Next.js/React</span>
+                                <div class="w-32 h-2 rounded-full bg-overlay">
+                                    <div class="h-full rounded-full bg-success" style="width: 45%;"></div>
                                 </div>
                             </div>
                         </div>
@@ -141,30 +132,30 @@
 
                     <!-- Tools & Technologies -->
                     <div>
-                        <h3 class="font-semibold mb-3" style="color: var(--color-accent);">Tools & Technologies</h3>
+                        <h3 class="font-semibold mb-3 text-accent">Tools & Technologies</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 Docker
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 Git & GitHub
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 PostgreSQL
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 MongoDB
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 Linux/WSL
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 REST APIs
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 N8N
                             </span>
-                            <span class="px-3 py-1 rounded-lg text-sm" style="background-color: var(--color-overlay); color: var(--color-text);">
+                            <span class="px-3 py-1 rounded-lg text-sm bg-tile text-body">
                                 Ollama
                             </span>
                         </div>

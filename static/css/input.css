@@ -2,34 +2,37 @@
 
 @theme {
   /* Light theme colors (default) */
-  --color-base: #edede9;
-  --color-surface: #d6ccc2;
-  --color-overlay: #f5ebe0;
-  --color-muted: #e3d5ca;
-  --color-subtle: #d5bdaf;
-  --color-text: #293241;
-  
-  /* Accent Colors - light theme */
-  --color-primary: #3b82f6;
-  --color-secondary: #8b5cf6;
-  --color-accent: #06b6d4;
+
+  /* Background layers (4) */
+  --color-base: #eff1f5;
+  --color-surface: #ccd0da;
+  --color-overlay: #9ca0b0;
+  --color-tile: #e6e9ef;
+
+  /* Text layers (4) - semantic */
+  --color-primary: #d20f39;
+  --color-secondary: #e64553;
+  --color-body: #4c4f69;
+  --color-accent: #5c5f77;
+
+  /* Status colors */
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  
-  /* Semantic Colors - light theme */
+
+  /* Accent colors */
   --color-gold: #f59e0b;
   --color-rose: #f43f5e;
   --color-pine: #10b981;
   --color-foam: #06b6d4;
   --color-iris: #8b5cf6;
-  
-  /* UI State Colors - light theme */
+
+  /* UI highlight states */
   --color-highlight-low: #f1f5f9;
   --color-highlight-med: #e2e8f0;
   --color-highlight-high: #cbd5e1;
-  
-  /* Shadow Definitions - light theme */
+
+  /* Shadow definitions */
   --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -37,34 +40,36 @@
 
 /* Dark theme colors */
 .dark {
-  --color-base: #0f172a;
-  --color-surface: #1e293b;
-  --color-overlay: #334155;
-  --color-muted: #94a3b8;
-  --color-subtle: #64748b;
-  --color-text: #f1f5f9;
-  
-  /* Accent Colors - dark theme */
-  --color-primary: #60a5fa;
-  --color-secondary: #a78bfa;
-  --color-accent: #22d3ee;
+  /* Background layers (4) */
+  --color-base: #303446;
+  --color-surface: #414559;
+  --color-overlay: #737994;
+  --color-tile: #292c3c;
+
+  /* Text layers (4) - semantic */
+  --color-primary: #e78284;
+  --color-secondary: #ea999c;
+  --color-body: #c6d0f5;
+  --color-accent: #b5bfe2;
+
+  /* Status colors */
   --color-success: #34d399;
   --color-warning: #fbbf24;
   --color-danger: #f87171;
-  
-  /* Semantic Colors - dark theme */
+
+  /* Accent colors */
   --color-gold: #fbbf24;
   --color-rose: #fb7185;
   --color-pine: #34d399;
   --color-foam: #22d3ee;
   --color-iris: #a78bfa;
-  
-  /* UI State Colors - dark theme */
+
+  /* UI highlight states */
   --color-highlight-low: #1e293b;
   --color-highlight-med: #334155;
   --color-highlight-high: #475569;
-  
-  /* Shadow Definitions - dark theme */
+
+  /* Shadow definitions */
   --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
   --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);

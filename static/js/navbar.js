@@ -1,25 +1,31 @@
 // Navbar component for CV website
 function createNavbar(currentPage = '') {
-    // Determine the correct path prefix based on current location
-    const isInPagesDir = window.location.pathname.includes('/pages/');
-    const pathPrefix = isInPagesDir ? '../' : '';
-    
+    // Determine the correct path prefix based on current location depth
+    const path = window.location.pathname;
+    let pathPrefix = '';
+    let indexPath = 'index.html';
+
+    if (path.includes('/pages/presentation/')) {
+        // In subdirectory like /pages/presentation/
+        pathPrefix = '../../';
+        indexPath = '../../index.html';
+    } else if (path.includes('/pages/')) {
+        // In pages directory like /pages/
+        pathPrefix = '../';
+        indexPath = '../index.html';
+    } else {
+        // At root level
+        pathPrefix = '';
+        indexPath = 'index.html';
+    }
+
     // Navigation items with their paths
     const navItems = [
-        { name: 'About Me', href: `${isInPagesDir ? '../' : ''}index.html`, id: 'about' },
+        { name: 'About Me', href: indexPath, id: 'about' },
         { name: 'Education', href: `${pathPrefix}pages/education.html`, id: 'education' },
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
-        { 
-            name: 'Presentation', 
-            href: `${pathPrefix}pages/presentation.html`, 
-            id: 'presentation',
-            hasRibbon: true,
-            ribbonItems: [
-                { name: 'BMW IT Hub', href: `${pathPrefix}pages/presentation/bmw.html`, id: 'bmw' }
-            ]
-        },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
 
@@ -93,7 +99,7 @@ function createNavbar(currentPage = '') {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
         </style>
-        <nav class="shadow-md" style="background-color: var(--color-surface);">
+        <nav class="shadow-md bg-surface">
             <div class="px-6 py-4">
                 <!-- Desktop Layout -->
                 <div class="desktop-nav justify-between items-center">
@@ -103,22 +109,12 @@ function createNavbar(currentPage = '') {
                             const isActive = currentPage === item.id;
                             if (item.hasRibbon) {
                                 return `
-                                    <button class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium' : 'hover:bg-opacity-80'}" 
-                                       style="${isActive ? 
-                                           'background-color: var(--color-primary); color: var(--color-base);' : 
-                                           'color: var(--color-text);'}"
-                                       ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
-                                                    onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                    <button class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium bg-primary text-base' : 'bg-surface text-body hover:bg-overlay'}"
                                        onclick="toggleRibbon('${item.id}')">${item.name}</button>
                                 `;
                             }
                             return `
-                                <a class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium' : 'hover:bg-opacity-80'}" 
-                                   style="${isActive ? 
-                                       'background-color: var(--color-primary); color: var(--color-base);' : 
-                                       'color: var(--color-text);'}"
-                                   ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
-                                                onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                <a class="px-4 py-2 rounded-xl transition-colors ${isActive ? 'font-medium bg-primary text-base' : 'bg-surface text-body hover:bg-overlay'}"
                                    href="${item.href}">${item.name}</a>
                             `;
                         }).join('')}
@@ -145,7 +141,7 @@ function createNavbar(currentPage = '') {
                         </label>
                         
                         <!-- Name/Brand -->
-                        <span class="text-lg font-semibold" style="color: var(--color-primary);">
+                        <span class="text-lg font-semibold text-primary">
                             Erin David Cullen
                         </span>
                     </div>
@@ -156,7 +152,7 @@ function createNavbar(currentPage = '') {
                     <!-- Mobile Header -->
                     <div class="flex justify-between items-center">
                         <!-- Name/Brand -->
-                        <span class="text-lg font-semibold" style="color: var(--color-primary);">
+                        <span class="text-lg font-semibold text-primary">
                             Erin David Cullen
                         </span>
                         
@@ -173,23 +169,8 @@ function createNavbar(currentPage = '') {
                             </label>
                             
                             <!-- Hamburger Menu Button -->
-                            <button id="mobile-menu-button" class="transition-colors" 
-                                    style="
-                                        color: var(--color-text); 
-                                        border: 2px solid var(--color-primary); 
-                                        background-color: var(--color-overlay);
-                                        padding: 12px;
-                                        border-radius: 8px;
-                                        font-size: 18px;
-                                        font-weight: bold;
-                                        min-width: 50px;
-                                        min-height: 50px;
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                                    onmouseover="this.style.backgroundColor='var(--color-surface)'" 
-                                    onmouseout="this.style.backgroundColor='var(--color-overlay)'"
+                            <button id="mobile-menu-button" class="p-3 rounded-lg transition-colors bg-overlay text-body border-2 border-primary hover:bg-surface flex items-center justify-center"
+                                    style="min-width: 50px; min-height: 50px; font-size: 18px; font-weight: bold;"
                                     onclick="toggleMobileMenu()">
                                 ☰
                             </button>
@@ -202,22 +183,12 @@ function createNavbar(currentPage = '') {
                             const isActive = currentPage === item.id;
                             if (item.hasRibbon) {
                                 return `
-                                    <button class="block w-full text-left px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium' : ''}" 
-                                       style="${isActive ? 
-                                           'background-color: var(--color-primary); color: var(--color-base);' : 
-                                           'color: var(--color-text);'}"
-                                       ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
-                                                    onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                    <button class="block w-full text-left px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium bg-primary text-base' : 'bg-surface text-body hover:bg-overlay'}"
                                        onclick="toggleRibbon('${item.id}')">${item.name}</button>
                                 `;
                             }
                             return `
-                                <a class="block px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium' : ''}" 
-                                   style="${isActive ? 
-                                       'background-color: var(--color-primary); color: var(--color-base);' : 
-                                       'color: var(--color-text);'}"
-                                   ${!isActive ? `onmouseover="this.style.backgroundColor='var(--color-overlay)'" 
-                                                onmouseout="this.style.backgroundColor='transparent'"` : ''}
+                                <a class="block px-4 py-3 rounded-lg transition-colors ${isActive ? 'font-medium bg-primary text-base' : 'bg-surface text-body hover:bg-overlay'}"
                                    href="${item.href}">${item.name}</a>
                             `;
                         }).join('')}
@@ -324,24 +295,31 @@ function toggleRibbon(itemId) {
 
 // Helper function to get nav items (needed for ribbon toggle)
 function getNavItems() {
-    const isInPagesDir = window.location.pathname.includes('/pages/');
-    const pathPrefix = isInPagesDir ? '../' : '';
-    
+    // Determine the correct path prefix based on current location depth
+    const path = window.location.pathname;
+    let pathPrefix = '';
+    let indexPath = 'index.html';
+
+    if (path.includes('/pages/presentation/')) {
+        // In subdirectory like /pages/presentation/
+        pathPrefix = '../../';
+        indexPath = '../../index.html';
+    } else if (path.includes('/pages/')) {
+        // In pages directory like /pages/
+        pathPrefix = '../';
+        indexPath = '../index.html';
+    } else {
+        // At root level
+        pathPrefix = '';
+        indexPath = 'index.html';
+    }
+
     return [
-        { name: 'About Me', href: `${isInPagesDir ? '../' : ''}index.html`, id: 'about' },
+        { name: 'About Me', href: indexPath, id: 'about' },
         { name: 'Education', href: `${pathPrefix}pages/education.html`, id: 'education' },
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
-        { 
-            name: 'Presentation', 
-            href: `${pathPrefix}pages/presentation.html`, 
-            id: 'presentation',
-            hasRibbon: true,
-            ribbonItems: [
-                { name: 'BMW IT Hub', href: `${pathPrefix}pages/presentation/bmw.html`, id: 'bmw' }
-            ]
-        },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
 }

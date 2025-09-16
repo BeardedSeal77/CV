@@ -5,116 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education - Erin David Cullen</title>
     <!-- Theme initialization BEFORE page render -->
-    <script>
-        // Immediately set theme to prevent flash
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+    <script src="../static/js/theme.js"></script>
     <link rel="stylesheet" href="../static/css/output.css">
-    <link rel="stylesheet" href="../static/css/colours.css">
     <script src="../static/js/main.js" defer></script>
     <script src="../static/js/navbar.js" defer></script>
 </head>
 
-<body class="min-h-screen" style="background-color: var(--color-base); color: var(--color-text);">
+<body class="min-h-screen bg-base text-base">
     <!-- Navigation Container -->
     <div id="navbar-container"></div>
 
     <!-- Main Content -->
-    <main class="p-6">
+    <main class="p-6 bg-base">
         <div class="max-w-4xl mx-auto mt-8">
             <!-- Page Header -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold mb-2" style="color: var(--color-primary);">Education</h1>
-                <p class="text-lg" style="color: var(--color-subtle);">Academic Journey & Qualifications</p>
+                <h1 class="text-4xl font-bold mb-2 text-primary">Education</h1>
+                <p class="text-lg text-secondary">Academic Journey & Qualifications</p>
             </div>
 
             <!-- Education Timeline -->
             <div class="space-y-6">
                 <!-- Current Education -->
-                <div class="rounded-xl p-6 shadow-lg relative overflow-hidden" 
-                     style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
-                    <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg" 
-                         style="background-color: var(--color-success); color: white;">
+                <div class="rounded-xl p-6 shadow-theme-lg relative overflow-hidden bg-surface border-l-4 border-success">
+                    <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-lg bg-success text-base">
                         <span class="text-sm font-semibold">Current</span>
                     </div>
                     
-                    <h2 class="text-2xl font-semibold mb-2" style="color: var(--color-text);">
+                    <h2 class="text-2xl font-semibold mb-2 text-primary">
                         Bachelor of Computing (Data Science)
                     </h2>
-                    <h3 class="text-lg mb-3" style="color: var(--color-primary);">Belgium Campus</h3>
+                    <h3 class="text-lg mb-3 text-secondary">Belgium Campus</h3>
                     <div class="flex flex-wrap gap-4 mb-4">
-                        <span class="flex items-center gap-2" style="color: var(--color-subtle);">
+                        <span class="flex items-center gap-2 text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                             2023 - 2025
                         </span>
-                        <span class="flex items-center gap-2" style="color: var(--color-accent);">
+                        <span class="flex items-center gap-2 text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                             Current Average: 78%
                         </span>
                     </div>
-                    <p style="color: var(--color-text);">
-                        Focusing on data science and database systems, developing expertise in modern software development 
+                    <p class="text-body">
+                        Focusing on data science and database systems, developing expertise in modern software development
                         and data analysis techniques.
                     </p>
-                    <div class="mt-3 p-3 rounded-lg" style="background-color: var(--color-overlay);">
-                        <p class="text-sm" style="color: var(--color-secondary);">
+                    <div class="mt-3">
+                        <span class="px-3 py-1 rounded-lg text-sm bg-overlay text-accent">
                             <strong>Note:</strong> In 2026, internships will be undertaken as part of the honours degree programme.
-                        </p>
+                        </span>
                     </div>
                 </div>
 
                 <!-- Previous Education - Mechanical Engineering -->
-                <div class="rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                    <h2 class="text-2xl font-semibold mb-2" style="color: var(--color-text);">
+                <div class="rounded-xl p-6 shadow-theme-lg bg-surface">
+                    <h2 class="text-2xl font-semibold mb-2 text-primary">
                         Bachelor of Engineering (Mechanical)
                     </h2>
-                    <h3 class="text-lg mb-3" style="color: var(--color-primary);">University of Pretoria</h3>
+                    <h3 class="text-lg mb-3 text-secondary">University of Pretoria</h3>
                     <div class="flex flex-wrap gap-4 mb-4">
-                        <span class="flex items-center gap-2" style="color: var(--color-subtle);">
+                        <span class="flex items-center gap-2 text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                             2018 - 2021
                         </span>
-                        <span class="flex items-center gap-2" style="color: var(--color-warning);">
+                        <span class="flex items-center gap-2 text-accent">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                             3 Years
                         </span>
                     </div>
-                    <p style="color: var(--color-text);">
-                        Completed three years of mechanical engineering studies before transitioning to software engineering 
+                    <p class="text-body">
+                        Completed three years of mechanical engineering studies before transitioning to software engineering
                         to better align with my passion for building and problem-solving in technology.
                     </p>
                     <div class="mt-3">
-                        <span class="px-3 py-1 rounded-lg text-sm" 
-                              style="background-color: var(--color-overlay); color: var(--color-accent);">
+                        <span class="px-3 py-1 rounded-lg text-sm bg-overlay text-accent">
                             Most Innovative Project (EBIT Faculty) 2019
                         </span>
                     </div>
                 </div>
 
                 <!-- High School -->
-                <div class="rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                    <h2 class="text-2xl font-semibold mb-2" style="color: var(--color-text);">
+                <div class="rounded-xl p-6 shadow-theme-lg bg-surface">
+                    <h2 class="text-2xl font-semibold mb-2 text-primary">
                         National Senior Certificate
                     </h2>
-                    <h3 class="text-lg mb-3" style="color: var(--color-primary);">St. Albans College (IEB)</h3>
-                    <div class="flex items-center gap-2 mb-4" style="color: var(--color-subtle);">
+                    <h3 class="text-lg mb-3 text-secondary">St. Albans College (IEB)</h3>
+                    <div class="flex items-center gap-2 mb-4 text-accent">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         2017
@@ -123,34 +113,34 @@
             </div>
 
             <!-- Certificates Section -->
-            <div class="mt-8 rounded-xl p-6 shadow-lg" style="background-color: var(--color-surface);">
-                <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-primary);">
+            <div class="mt-8 rounded-xl p-6 shadow-theme-lg bg-surface">
+                <h2 class="text-2xl font-semibold mb-4 text-primary">
                     Certificates & Achievements
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h4 class="font-semibold mb-1" style="color: var(--color-secondary);">Mensa PTA Member</h4>
-                        <p class="text-sm" style="color: var(--color-subtle);">2024</p>
+                    <div class="p-4 rounded-lg bg-tile">
+                        <h4 class="font-semibold mb-1 text-gold">Mensa PTA Member</h4>
+                        <p class="text-sm text-gold">2024</p>
                     </div>
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h4 class="font-semibold mb-1" style="color: var(--color-success);">
+                    <div class="p-4 rounded-lg bg-tile">
+                        <h4 class="font-semibold mb-1 text-rose">
                             Zeiss Geometric Dimensioning & Tolerancing
                         </h4>
-                        <p class="text-sm" style="color: var(--color-subtle);">2021</p>
+                        <p class="text-sm text-rose">2021</p>
                     </div>
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h4 class="font-semibold mb-1" style="color: var(--color-warning);">
+                    <div class="p-4 rounded-lg bg-tile">
+                        <h4 class="font-semibold mb-1 text-pine">
                             Most Innovative Project
                         </h4>
-                        <p class="text-sm" style="color: var(--color-subtle);">
+                        <p class="text-sm text-pine">
                             University of Pretoria (EBIT Faculty) - 2019
                         </p>
                     </div>
-                    <div class="p-4 rounded-lg" style="background-color: var(--color-overlay);">
-                        <h4 class="font-semibold mb-1" style="color: var(--color-accent);">
+                    <div class="p-4 rounded-lg bg-tile">
+                        <h4 class="font-semibold mb-1 text-foam">
                             Dale Carnegie Generation.Next
                         </h4>
-                        <p class="text-sm" style="color: var(--color-subtle);">2016</p>
+                        <p class="text-sm text-foam">2016</p>
                     </div>
                 </div>
             </div>

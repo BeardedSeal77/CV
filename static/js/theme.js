@@ -32,10 +32,10 @@
         const mobileToggle = document.getElementById('theme-toggle-mobile');
         
         if (desktopToggle) {
-            desktopToggle.checked = savedTheme === 'dark';
+            desktopToggle.checked = savedTheme === 'light';
         }
         if (mobileToggle) {
-            mobileToggle.checked = savedTheme === 'dark';
+            mobileToggle.checked = savedTheme === 'light';
         }
     }
     
@@ -56,10 +56,10 @@
         const mobileToggle = document.getElementById('theme-toggle-mobile');
         
         if (desktopToggle) {
-            desktopToggle.checked = !isDark;
+            desktopToggle.checked = isDark;
         }
         if (mobileToggle) {
-            mobileToggle.checked = !isDark;
+            mobileToggle.checked = isDark;
         }
     }
     

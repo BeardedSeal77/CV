@@ -39,7 +39,7 @@ function updateActiveNavigation() {
             link.onmouseout = null;
         } else {
             link.classList.remove('font-medium', 'bg-primary', 'text-white');
-            link.classList.add('text-text');
+            link.classList.add('text-body');
         }
     });
 }
