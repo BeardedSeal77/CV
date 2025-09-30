@@ -1,0 +1,44 @@
+# Color System Documentation
+
+## Background Layers (4 levels)
+base - Primary background color (page background)
+surface - Secondary surfaces on top of base (cards, panels)
+overlay - Tertiary surfaces on top of surface (modals, dropdowns)
+tile - Quaternary surfaces for multiple elements (tiles within surfaces)
+
+## Semantic/Text Colors (4 levels)
+primary - Main headings and primary text elements
+secondary - Secondary headings and subtext
+body - Regular body text and content
+accent - Accent text and supporting elements
+invert - Always dark text to be used when background is an Accent Color
+
+## Status Colors
+success - Success states, confirmations, positive actions
+warning - Warning states, cautions, attention needed
+danger - Error states, destructive actions, alerts
+
+## Accent Colors
+gold - Gold/amber accent color
+rose - Rose/pink accent color
+pine - Green accent color (nature theme)
+foam - Cyan/teal accent color (water theme)
+iris - Purple accent color (mystical theme)
+
+Note: Accent colors are for visual highlights and decorative elements only.
+Use for: gradient blocks, backgrounds, borders, underlines, heroicons, and standout elements.
+Do NOT use for text content - use semantic text colors instead.
+
+## UI Highlight States
+highlight-low - Subtle highlighting (hover states)
+highlight-med - Medium highlighting (active states)
+highlight-high - Strong highlighting (selected states)
+
+## Shadow Definitions
+shadow-theme-sm - Small shadow (subtle depth)
+shadow-theme-md - Medium shadow (moderate depth)
+shadow-theme-lg - Large shadow (prominent depth)
+
+## Theme Notes
+- Background layers create visual depth from base → surface → overlay → tile
+- Text colors provide clear hierarchy from primary → secondary → body → accent

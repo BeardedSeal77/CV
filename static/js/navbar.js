@@ -5,8 +5,8 @@ function createNavbar(currentPage = '') {
     let pathPrefix = '';
     let indexPath = 'index.html';
 
-    if (path.includes('/pages/presentation/')) {
-        // In subdirectory like /pages/presentation/
+    if (path.includes('/pages/aetherflow/')) {
+        // In subdirectory like /pages/aetherflow/
         pathPrefix = '../../';
         indexPath = '../../index.html';
     } else if (path.includes('/pages/')) {
@@ -19,6 +19,9 @@ function createNavbar(currentPage = '') {
         indexPath = 'index.html';
     }
 
+    // Check dev mode state
+    const isDevMode = sessionStorage.getItem('devMode') === 'true';
+
     // Navigation items with their paths
     const navItems = [
         { name: 'About Me', href: indexPath, id: 'about' },
@@ -26,8 +29,14 @@ function createNavbar(currentPage = '') {
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
+        { name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
+
+    // Add pallet page if dev mode is enabled
+    if (isDevMode) {
+        navItems.push({ name: 'Pallet', href: `${pathPrefix}pages/pallet.html`, id: 'pallet' });
+    }
 
     return `
         <style>
@@ -139,9 +148,9 @@ function createNavbar(currentPage = '') {
                                 </svg>
                             </div>
                         </label>
-                        
-                        <!-- Name/Brand -->
-                        <span class="text-lg font-semibold text-primary">
+
+                        <!-- Name/Brand (Secret Dev Mode Button) -->
+                        <span class="text-lg font-semibold text-primary cursor-pointer select-none" onclick="toggleDevMode()">
                             Erin David Cullen
                         </span>
                     </div>
@@ -151,8 +160,8 @@ function createNavbar(currentPage = '') {
                 <div class="mobile-nav">
                     <!-- Mobile Header -->
                     <div class="flex justify-between items-center">
-                        <!-- Name/Brand -->
-                        <span class="text-lg font-semibold text-primary">
+                        <!-- Name/Brand (Secret Dev Mode Button) -->
+                        <span class="text-lg font-semibold text-primary cursor-pointer select-none" onclick="toggleDevMode()">
                             Erin David Cullen
                         </span>
                         
@@ -198,13 +207,7 @@ function createNavbar(currentPage = '') {
         </nav>
         
         <!-- Ribbon Container -->
-        <div id="ribbon-container" class="ribbon-container">
-            <div class="ribbon">
-                <div class="flex justify-start space-x-4" id="ribbon-content">
-                    <!-- Ribbon items will be inserted here dynamically -->
-                </div>
-            </div>
-        </div>
+        <div id="ribbon-container"></div>
     `;
 }
 
@@ -221,11 +224,11 @@ function loadNavbar(currentPage) {
                 window.initializeThemeToggle();
             }
             
-            // Auto-show ribbon if we're on a presentation page
-            if (currentPage === 'presentation') {
+            // Initialize ribbon if available
+            if (window.loadRibbon) {
                 setTimeout(() => {
-                    toggleRibbon('presentation');
-                }, 200);
+                    window.loadRibbon();
+                }, 100);
             }
         }, 100);
     } else {
@@ -300,8 +303,8 @@ function getNavItems() {
     let pathPrefix = '';
     let indexPath = 'index.html';
 
-    if (path.includes('/pages/presentation/')) {
-        // In subdirectory like /pages/presentation/
+    if (path.includes('/pages/aetherflow/')) {
+        // In subdirectory like /pages/aetherflow/
         pathPrefix = '../../';
         indexPath = '../../index.html';
     } else if (path.includes('/pages/')) {
@@ -314,14 +317,31 @@ function getNavItems() {
         indexPath = 'index.html';
     }
 
-    return [
+    const items = [
         { name: 'About Me', href: indexPath, id: 'about' },
         { name: 'Education', href: `${pathPrefix}pages/education.html`, id: 'education' },
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
+        { name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
+
+    const isDevMode = sessionStorage.getItem('devMode') === 'true';
+    if (isDevMode) {
+        items.push({ name: 'Pallet', href: `${pathPrefix}pages/pallet.html`, id: 'pallet' });
+    }
+
+    return items;
+}
+
+// Function to toggle dev mode
+function toggleDevMode() {
+    const currentMode = sessionStorage.getItem('devMode') === 'true';
+    sessionStorage.setItem('devMode', (!currentMode).toString());
+
+    // Reload the page to update navbar
+    window.location.reload();
 }
 
 // Auto-detect current page and initialize
@@ -329,15 +349,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-detect the current page based on URL
     const path = window.location.pathname;
     let currentPage = 'about'; // default
-    
+
     if (path.includes('education.html')) currentPage = 'education';
     else if (path.includes('experience.html')) currentPage = 'experience';
     else if (path.includes('projects.html')) currentPage = 'projects';
     else if (path.includes('hobbies.html')) currentPage = 'hobbies';
-    else if (path.includes('presentation.html') || path.includes('presentation/')) currentPage = 'presentation';
+    else if (path.includes('aetherflow.html') || path.includes('aetherflow/')) currentPage = 'aetherflow';
     else if (path.includes('cv.html')) currentPage = 'cv';
+    else if (path.includes('pallet.html')) currentPage = 'pallet';
     else if (path.includes('index.html') || path.endsWith('/')) currentPage = 'about';
-    
+
     console.log('Auto-detected page:', currentPage);
     loadNavbar(currentPage);
 });

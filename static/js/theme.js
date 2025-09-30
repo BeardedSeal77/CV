@@ -30,7 +30,7 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         const desktopToggle = document.getElementById('theme-toggle');
         const mobileToggle = document.getElementById('theme-toggle-mobile');
-        
+
         if (desktopToggle) {
             desktopToggle.checked = savedTheme === 'light';
         }
@@ -38,11 +38,11 @@
             mobileToggle.checked = savedTheme === 'light';
         }
     }
-    
+
     // Toggle theme function
     function toggleTheme() {
         const isDark = document.documentElement.classList.contains('dark');
-        
+
         if (isDark) {
             document.documentElement.classList.remove('dark');
             localStorage.setItem('theme', 'light');
@@ -50,11 +50,11 @@
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
         }
-        
+
         // Update both toggle switches
         const desktopToggle = document.getElementById('theme-toggle');
         const mobileToggle = document.getElementById('theme-toggle-mobile');
-        
+
         if (desktopToggle) {
             desktopToggle.checked = isDark;
         }

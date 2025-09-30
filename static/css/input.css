@@ -7,7 +7,7 @@
   --color-base: #ffffff;
   --color-surface: #eeeeee;
   --color-overlay: #cccccc;
-  --color-tile: #999999;
+  --color-tile: #b6b6b6;
 
   /* Text layers (4) - semantic */
   --color-primary: #d20f39;
@@ -16,17 +16,21 @@
   --color-accent: #333333;
   --color-invert: #222222;
 
-
   /* Status colors */
   --color-success: #10b981;
-  --color-warning: #f59e0b;
+  --color-warning: #fe640b;
   --color-danger: #ef4444;
 
-  /* Accent colors */
-  --color-gold: #f59e0b;
+  /* Accent colors (ordered: red -> green -> blue) */
+  --color-maroon: #e64553;
   --color-rose: #f43f5e;
+  --color-gold: #ea9d34;
   --color-pine: #10b981;
+  --color-teal: #179299;
   --color-foam: #06b6d4;
+  --color-sky: #04a5e5;
+  --color-blue: #1e66f5;
+  --color-lavender: #7287fd;
   --color-iris: #8b5cf6;
 
   /* UI highlight states */
@@ -38,19 +42,35 @@
   --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
-  /* Typography defaults */
-  h1 {
-    color: #d20f39;
-  }
+/* Typography defaults - Light mode */
+h1 {
+  color: #d20f39;
+  text-align: center;
+}
 
-  h2 {
-    color: #e64553;
-  }
+h2 {
+  color: #e64553;
+  text-align: center;
+}
 
-  p {
-    color: #222222;
-  }
+h3 {
+  color: #e64553;
+}
+
+h4 {
+  color: #e64553;
+}
+
+p {
+  color: #222222;
+  font-size: 1rem;
+}
+
+ul {
+  color: #333333;
+  font-size: 1rem;
 }
 
 .dark {
@@ -71,14 +91,19 @@
 
   /* Status colors */
   --color-success: #34d399;
-  --color-warning: #fbbf24;
+  --color-warning: #fe640b;
   --color-danger: #f87171;
 
-  /* Accent colors */
-  --color-gold: #fbbf24;
+  /* Accent colors (ordered: red -> green -> blue) */
+  --color-maroon: #ea999c;
   --color-rose: #fb7185;
+  --color-gold: #f6c177;
   --color-pine: #34d399;
-  --color-foam: #22d3ee;
+  --color-teal: #81c8be;
+  --color-foam: #89dceb;
+  --color-sky: #99d1db;
+  --color-blue: #8caaee;
+  --color-lavender: #babbf1;
   --color-iris: #a78bfa;
 
   /* UI highlight states */
@@ -93,16 +118,29 @@
 
   /* Typography defaults */
   h1 {
-    color: #e78284;
+    color: var(--color-primary);
+    text-align: center;
   }
-
   h2 {
-    color: #ea999c;
+    color: var(--color-secondary);
+    text-align: center;
+  }
+  h3 {
+    color: var(--color-secondary);
+  }
+  h4 {
+    color: var(--color-secondary);
+  }
+  p {
+    color: var(--color-body);
+    font-size: 1rem;
+  }
+  ul {
+    color: var(--color-accent);
+    font-size: 1rem;
   }
 
-  p {
-    color: #ffffff;
-  }
+
 }
 
 /* Smooth transitions for theme switching */

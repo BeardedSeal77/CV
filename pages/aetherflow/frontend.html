@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Architecture - Technical Presentation</title>
+    <!-- Theme initialization BEFORE page render -->
+    <script src="../../static/js/theme.js"></script>
+    <link rel="stylesheet" href="../../static/css/output.css">
+    <script src="../../static/js/main.js" defer></script>
+    <script src="../../static/js/navbar.js" defer></script>
+    <script src="../../static/js/ribbon.js" defer></script>
+</head>
+
+<body class="min-h-screen bg-base text-base">
+    <!-- Navigation Container -->
+    <div id="navbar-container"></div>
+
+
+    <!-- Main Content -->
+    <main class="p-6 bg-base">
+        <div class="max-w-6xl mx-auto mt-8">
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4 text-primary">Frontend Architecture</h1>
+                <p class="text-xl text-secondary">Next.js Server & Web-Based Interface</p>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="space-y-12">
+                <!-- Modern Web Application Overview -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-8 text-primary text-center">Modern Web Application Features</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Component Architecture -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-tile rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-2xl">🧩</span>
+                                </div>
+                                <h3 class="font-semibold text-accent">Component-Based Architecture</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-body">
+                                <li>• Reusable UI components</li>
+                                <li>• Modular development approach</li>
+                                <li>• Easy maintenance and testing</li>
+                                <li>• Consistent design patterns</li>
+                                <li>• Scalable component library</li>
+                            </ul>
+                        </div>
+
+                        <!-- Responsive Design -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-tile rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-2xl">📱</span>
+                                </div>
+                                <h3 class="font-semibold text-success">Cross-Device Compatibility</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-body">
+                                <li>• Works across all devices</li>
+                                <li>• Responsive design patterns</li>
+                                <li>• Touch interface optimization</li>
+                                <li>• Consistent user experience</li>
+                            </ul>
+                        </div>
+
+                        <!-- Real-Time Features -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-tile rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-2xl">🔄</span>
+                                </div>
+                                <h3 class="font-semibold text-warning">Real-Time Updates</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-body">
+                                <li>• Live data synchronization</li>
+                                <li>• Instant UI updates</li>
+                                <li>• Multi-user collaboration</li>
+                                <li>• Dynamic content loading</li>
+                            </ul>
+                        </div>
+                        <!-- Server-Side Rendering -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-tile rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-2xl">⚡</span>
+                                </div>
+                                <h3 class="font-semibold text-accent">Server-Side Rendering</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-body">
+                                <li>• Fast initial page loads</li>
+                                <li>• Improved performance</li>
+                                <li>• Better user experience</li>
+                                <li>• Reduced client-side processing</li>
+                            </ul>
+                        </div>
+                         <!-- API Integration -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-tile rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                                    <span class="text-2xl">🔗</span>
+                                </div>
+                                <h3 class="font-semibold text-warning">API-Only Communication</h3>
+                            </div>
+                            <ul class="space-y-2 text-sm text-body">
+                                <li>• No direct database access</li>
+                                <li>• Clean separation of concerns</li>
+                                <li>• Consistent data flow</li>
+                                <li>• Easier debugging and testing</li>
+                                <li>• Scalable architecture</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Network Accessibility -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">Local Network Accessibility</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Multi-Device Access</h3>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Universal Web Access</h4>
+                                <p class="text-body mb-3 text-sm">
+                                    Any device on the local network can access the web interface
+                                </p>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Desktop computers</li>
+                                    <li>• Laptops and tablets</li>
+                                    <li>• Mobile devices</li>
+                                    <li>• Any web browser</li>
+                                    <li>• No software installation required</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-success">Centralized Updates</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Single point of deployment</li>
+                                    <li>• Instant updates for all users</li>
+                                    <li>• No client-side maintenance</li>
+                                    <li>• Consistent user experience</li>
+                                    <li>• Reduced IT overhead</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Infrastructure Benefits</h3>
+
+                            <div class="bg-gradient-to-br from-success to-pine rounded-xl p-6 text-base">
+                                <h4 class="font-semibold mb-3 !text-invert">Server-Bound Approach</h4>
+                                <p class="text-sm mb-3 !text-invert">
+                                    All business logic and data processing happens on the server
+                                </p>
+                                <ul class="space-y-2 text-sm !text-invert">
+                                    <li>• Consistent data access</li>
+                                    <li>• Centralized security</li>
+                                    <li>• Better performance control</li>
+                                    <li>• Simplified backup and recovery</li>
+                                    <li>• Enhanced monitoring capabilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Operational Advantages -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">Operational Advantages in Tool Hire Environment</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Environment Challenges</h3>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Dirty Work Environment</h4>
+                                <p class=" mb-3 text-sm">
+                                    Tool hire companies operate in challenging conditions
+                                </p>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• Dust, dirt, and debris exposure</li>
+                                    <li>• Equipment and machinery proximity</li>
+                                    <li>• Higher computer failure rates</li>
+                                    <li>• Frequent hardware replacement needs</li>
+                                    <li>• Limited IT support availability</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-tile rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-warning">High Computer Turnover</h4>
+                                <p class="text-body mb-3 text-sm">
+                                    Equipment failures are common and expected
+                                </p>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Regular hardware failures</li>
+                                    <li>• Emergency replacements needed</li>
+                                    <li>• Minimize downtime requirements</li>
+                                    <li>• Simple swap-out procedures</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Web-Based Solution Benefits</h3>
+
+                            <div class="bg-gradient-to-br from-foam to-teal rounded-xl p-6 text-base">
+                                <h4 class="font-semibold mb-3 !text-invert">Cold Spare Strategy</h4>
+                                <p class="text-sm mb-3 !text-invert">
+                                    Maintaining ready-to-deploy backup computers
+                                </p>
+                                <ul class="space-y-2 text-sm !text-invert">
+                                    <li>• 2 cold spares ready at home</li>
+                                    <li>• Basic OS and browser only</li>
+                                    <li>• No software installation needed</li>
+                                    <li>• 5-minute deployment time</li>
+                                    <li>• Immediate productivity restoration</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-secondary">Traditional vs Web-Based</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <h5 class="font-semibold text-warning mb-2">Traditional Setup</h5>
+                                        <ul class="space-y-1 text-body">
+                                            <li>• Software installations</li>
+                                            <li>• Configuration setup</li>
+                                            <li>• License management</li>
+                                            <li>• Hours of setup time</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-success mb-2">Web-Based</h5>
+                                        <ul class="space-y-1 text-body">
+                                            <li>• Just open browser</li>
+                                            <li>• Type in IP address</li>
+                                            <li>• Login and work</li>
+                                            <li>• 5 minutes maximum</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- User Interface Design -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">User Interface Design</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Responsive Design -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-accent text-center">Responsive Design</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Device Adaptation</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Desktop optimization</li>
+                                        <li>• Tablet compatibility</li>
+                                        <li>• Mobile-friendly layouts</li>
+                                        <li>• Touch interface support</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Screen Sizes</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Large monitor support</li>
+                                        <li>• Standard desktop displays</li>
+                                        <li>• Small screen adaptation</li>
+                                        <li>• Flexible layout system</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Experience -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-success text-center">User Experience</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Interface Design</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Intuitive navigation</li>
+                                        <li>• Clear visual hierarchy</li>
+                                        <li>• Consistent design patterns</li>
+                                        <li>• Accessibility considerations</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Performance</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Fast page loads</li>
+                                        <li>• Smooth interactions</li>
+                                        <li>• Real-time updates</li>
+                                        <li>• Minimal loading times</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business-Focused Features -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-warning text-center">Business-Focused</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Workflow Integration</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Task-oriented design</li>
+                                        <li>• Process-driven interfaces</li>
+                                        <li>• Role-based access</li>
+                                        <li>• Contextual information</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Data Presentation</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Clear data visualization</li>
+                                        <li>• Interactive dashboards</li>
+                                        <li>• Report generation</li>
+                                        <li>• Export capabilities</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize navbar with presentation page as active
+        initializeNavbar('aetherflow');
+    </script>
+</body>
+</html>

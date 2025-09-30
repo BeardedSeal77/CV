@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Layer - Technical Presentation</title>
+    <!-- Theme initialization BEFORE page render -->
+    <script src="../../static/js/theme.js"></script>
+    <link rel="stylesheet" href="../../static/css/output.css">
+    <script src="../../static/js/main.js" defer></script>
+    <script src="../../static/js/navbar.js" defer></script>
+    <script src="../../static/js/ribbon.js" defer></script>
+</head>
+
+<body class="min-h-screen bg-base text-base">
+    <!-- Navigation Container -->
+    <div id="navbar-container"></div>
+
+
+    <!-- Main Content -->
+    <main class="p-6 bg-base">
+        <div class="max-w-6xl mx-auto mt-8">
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4 text-primary">Data Layer</h1>
+                <p class="text-xl text-secondary">Flask + Python API Architecture</p>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="space-y-12">
+                <!-- Modular Service Architecture -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-8 text-primary text-center">Modular Service Architecture</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Service Layer Organization</h3>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Core Service Modules</h4>
+                                <div class="space-y-3">
+                                    <div class="bg-tile rounded-lg p-3">
+                                        <h5 class="font-semibold text-primary text-sm">customer_service.py</h5>
+                                        <p class="text-xs text-body">Customer and contact management operations</p>
+                                    </div>
+                                    <div class="bg-tile rounded-lg p-3">
+                                        <h5 class="font-semibold text-success text-sm">equipment_service.py</h5>
+                                        <p class="text-xs text-body">Equipment search, allocation, and availability</p>
+                                    </div>
+                                    <div class="bg-tile rounded-lg p-3">
+                                        <h5 class="font-semibold text-warning text-sm">interaction_service.py</h5>
+                                        <p class="text-xs text-body">Universal interaction handling (35KB+ business logic)</p>
+                                    </div>
+                                    <div class="bg-tile rounded-lg p-3">
+                                        <h5 class="font-semibold text-accent text-sm">config/database.py</h5>
+                                        <p class="text-xs text-body">Centralized database connection management</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Design Patterns & Statistics</h3>
+
+                            <div class="bg-gradient-to-br from-success to-success rounded-xl p-6 text-base">
+                                <h4 class="font-semibold mb-4 text-center !text-invert">Codebase Metrics</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm !text-invert">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold">20+</div>
+                                        <div>RESTful Endpoints</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold">100%</div>
+                                        <div>API Coverage</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-success">Key Design Patterns</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Service Layer Pattern: Clean separation of concerns</li>
+                                    <li>• Universal Interactions: Single endpoint for all interaction types</li>
+                                    <li>• Modular Blueprint Architecture</li>
+                                    <li>• Comprehensive Error Handling</li>
+                                    <li>• Centralized Configuration Management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technical Stack & Dependencies -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">Technical Stack & Dependencies</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-accent text-center">Core Technologies</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-primary">Python 3.11+</h4>
+                                    <p class="text-xs text-body">Core application language</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-success">Flask 3.1</h4>
+                                    <p class="text-xs text-body">Web framework with modular blueprints</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-warning">psycopg2</h4>
+                                    <p class="text-xs text-body">Robust database connectivity</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-success text-center">API Design</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-primary">RESTful Architecture</h4>
+                                    <p class="text-xs text-body">Clean, predictable endpoint design</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-success">CORS Configuration</h4>
+                                    <p class="text-xs text-body">Secure cross-origin resource sharing</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-warning">Response Utilities</h4>
+                                    <p class="text-xs text-body">Standardized success/error formatting</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-warning text-center">Integration Features</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-primary">Error Handling</h4>
+                                    <p class="text-xs text-body">Comprehensive error response patterns</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-success">Legacy Support</h4>
+                                    <p class="text-xs text-body">Backward compatibility during migration</p>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-warning">Environment Management</h4>
+                                    <p class="text-xs text-body">Secure configuration handling</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Connect Per Request Pattern -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">Connect Per Request (CPR) Pattern</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Implementation Details</h3>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Request Lifecycle</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-base rounded-full flex items-center justify-center text-xs font-bold text-pine">1</div>
+                                        <span class="text-body">User submits interaction form</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-base rounded-full flex items-center justify-center text-xs font-bold text-foam">2</div>
+                                        <span class="text-body">Build complete interaction in memory</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-base rounded-full flex items-center justify-center text-xs font-bold text-blue">3</div>
+                                        <span class="text-body">Validate all data and business rules</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-base rounded-full flex items-center justify-center text-xs font-bold text-iris">4</div>
+                                        <span class="text-body">Single database transaction on completion</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-overlay rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-success">Concurrency Benefits</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• No shared state between requests</li>
+                                    <li>• Eliminates race conditions</li>
+                                    <li>• Simple error handling</li>
+                                    <li>• Clean transaction boundaries</li>
+                                    <li>• Predictable behavior</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Design Philosophy</h3>
+
+                            <div class="bg-tile rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-warning">Avoiding Dirty Records</h4>
+                                <p class="text-body mb-3 text-sm">
+                                    No partial saves or intermediate states in database
+                                </p>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Complete interactions only</li>
+                                    <li>• All-or-nothing approach</li>
+                                    <li>• Data consistency guaranteed</li>
+                                    <li>• Simplified rollback logic</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-success to-pine rounded-xl p-6 text-base">
+                                <h4 class="font-semibold mb-3 !text-invert">Future Enhancements</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li>• Advanced rollback mechanisms</li>
+                                    <li>• Transaction logging</li>
+                                    <li>• Performance monitoring</li>
+                                    <li>• Connection pooling optimization</li>
+                                    <li>• Error recovery strategies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Structure & Organization -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary">API Structure & Organization</h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Customer Operations -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-accent text-center">Customer Operations</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Interactions</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• New hire requests</li>
+                                        <li>• Off-hire processing</li>
+                                        <li>• Quote generations</li>
+                                        <li>• Application submissions</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Data Management</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Customer information</li>
+                                        <li>• Contact details</li>
+                                        <li>• Interaction history</li>
+                                        <li>• Account statements</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Task Management -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-success text-center">Task Management</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Driver Tasks</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Delivery assignments</li>
+                                        <li>• Pickup schedules</li>
+                                        <li>• Breakdown responses</li>
+                                        <li>• Equipment swaps</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">User Tasks</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• KANBAN workflow</li>
+                                        <li>• Price list updates</li>
+                                        <li>• Quote processing</li>
+                                        <li>• Refund handling</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Operations -->
+                        <div class="bg-overlay rounded-xl p-6">
+                            <h3 class="font-semibold mb-4 text-warning text-center">System Operations</h3>
+                            <div class="space-y-3">
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Authentication</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• User login/logout</li>
+                                        <li>• Session management</li>
+                                        <li>• Permission checking</li>
+                                        <li>• Audit logging</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-tile rounded-lg p-3">
+                                    <h4 class="text-sm font-semibold text-secondary">Reporting</h4>
+                                    <ul class="text-xs text-body space-y-1 mt-2">
+                                        <li>• Performance metrics</li>
+                                        <li>• Usage analytics</li>
+                                        <li>• Error monitoring</li>
+                                        <li>• Business intelligence</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Integration Layer -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-gradient-to-br from-surface to-overlay">
+                    <h2 class="text-2xl font-bold mb-8 text-primary text-center">Integration & Communication</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Database Integration</h3>
+
+                            <div class="bg-surface rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Stored Procedure Calls</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Single entry point per operation</li>
+                                    <li>• Consistent error handling</li>
+                                    <li>• Parameter validation</li>
+                                    <li>• Result set processing</li>
+                                    <li>• Connection management</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-surface rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-success">Data Transformation</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Database to API format conversion</li>
+                                    <li>• JSON serialization</li>
+                                    <li>• Date/time formatting</li>
+                                    <li>• Numeric precision handling</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-lg font-semibold text-secondary">Frontend Communication</h3>
+
+                            <div class="bg-surface rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-warning">API Response Format</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Standardized JSON responses</li>
+                                    <li>• Consistent error codes</li>
+                                    <li>• Structured data format</li>
+                                    <li>• Metadata inclusion</li>
+                                    <li>• Pagination support</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-surface rounded-xl p-6">
+                                <h4 class="font-semibold mb-3 text-accent">Security Implementation</h4>
+                                <ul class="space-y-2 text-sm text-body">
+                                    <li>• Input sanitization</li>
+                                    <li>• Authentication</li>
+                                    <li>• CORS configuration</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize navbar with presentation page as active
+        initializeNavbar('aetherflow');
+    </script>
+</body>
+</html>
