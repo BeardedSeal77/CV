@@ -4,16 +4,18 @@
   /* Light theme colors (default) */
 
   /* Background layers (4) */
-  --color-base: #eff1f5;
-  --color-surface: #ccd0da;
-  --color-overlay: #9ca0b0;
-  --color-tile: #e6e9ef;
+  --color-base: #ffffff;
+  --color-surface: #eeeeee;
+  --color-overlay: #cccccc;
+  --color-tile: #999999;
 
   /* Text layers (4) - semantic */
   --color-primary: #d20f39;
   --color-secondary: #e64553;
-  --color-body: #4c4f69;
-  --color-accent: #5c5f77;
+  --color-body: #222222;
+  --color-accent: #333333;
+  --color-invert: #222222;
+
 
   /* Status colors */
   --color-success: #10b981;
@@ -36,21 +38,36 @@
   --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Typography defaults */
+  h1 {
+    color: #d20f39;
+  }
+
+  h2 {
+    color: #e64553;
+  }
+
+  p {
+    color: #222222;
+  }
 }
 
-/* Dark theme colors */
 .dark {
+  /* Dark theme colors */
+
   /* Background layers (4) */
   --color-base: #303446;
   --color-surface: #414559;
-  --color-overlay: #737994;
+  --color-overlay: #494d5e;
   --color-tile: #292c3c;
 
   /* Text layers (4) - semantic */
   --color-primary: #e78284;
   --color-secondary: #ea999c;
-  --color-body: #c6d0f5;
-  --color-accent: #b5bfe2;
+  --color-body: #ffffff;
+  --color-accent: #eeeeee;
+  --color-invert: #222222;
 
   /* Status colors */
   --color-success: #34d399;
@@ -73,6 +90,19 @@
   --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
   --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+
+  /* Typography defaults */
+  h1 {
+    color: #e78284;
+  }
+
+  h2 {
+    color: #ea999c;
+  }
+
+  p {
+    color: #ffffff;
+  }
 }
 
 /* Smooth transitions for theme switching */
@@ -84,3 +114,4 @@
 .no-transitions * {
   transition: none !important;
 }
+
