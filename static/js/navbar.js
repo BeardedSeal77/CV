@@ -29,12 +29,12 @@ function createNavbar(currentPage = '') {
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
-        { name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
 
-    // Add pallet page if dev mode is enabled
+    // Add dev mode items if dev mode is enabled
     if (isDevMode) {
+        navItems.push({ name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' });
         navItems.push({ name: 'Pallet', href: `${pathPrefix}pages/pallet.html`, id: 'pallet' });
     }
 
@@ -323,12 +323,12 @@ function getNavItems() {
         { name: 'Experience', href: `${pathPrefix}pages/experience.html`, id: 'experience' },
         { name: 'Projects', href: `${pathPrefix}pages/projects.html`, id: 'projects' },
         { name: 'Hobbies', href: `${pathPrefix}pages/hobbies.html`, id: 'hobbies' },
-        { name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' },
         { name: 'CV', href: `${pathPrefix}pages/cv.html`, id: 'cv' }
     ];
 
     const isDevMode = sessionStorage.getItem('devMode') === 'true';
     if (isDevMode) {
+        items.push({ name: 'AetherFlow', href: `${pathPrefix}pages/aetherflow.html`, id: 'aetherflow' });
         items.push({ name: 'Pallet', href: `${pathPrefix}pages/pallet.html`, id: 'pallet' });
     }
 

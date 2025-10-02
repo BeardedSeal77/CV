@@ -16,6 +16,7 @@ function createRibbon() {
             { name: 'Introduction', href: `${pathPrefix}introduction.html`, id: 'introduction' },
             { name: 'Business', href: `${pathPrefix}business.html`, id: 'business' },
             { name: 'Features', href: `${pathPrefix}features.html`, id: 'features' },
+            { name: 'Demonstration', href: `${pathPrefix}demonstration.html`, id: 'demonstration' },
             { name: 'Database', href: `${pathPrefix}database.html`, id: 'database' },
             { name: 'Data Layer', href: `${pathPrefix}data-layer.html`, id: 'data-layer' },
             { name: 'Frontend', href: `${pathPrefix}frontend.html`, id: 'frontend' }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Demonstration - Technical Presentation</title>
+    <!-- Theme initialization BEFORE page render -->
+    <script src="../../static/js/theme.js"></script>
+    <link rel="stylesheet" href="../../static/css/output.css">
+    <script src="../../static/js/main.js" defer></script>
+    <script src="../../static/js/navbar.js" defer></script>
+    <script src="../../static/js/ribbon.js" defer></script>
+</head>
+
+<body class="min-h-screen bg-base text-base">
+    <!-- Navigation Container -->
+    <div id="navbar-container"></div>
+
+
+    <!-- Main Content -->
+    <main class="p-6 bg-base">
+        <div class="max-w-6xl mx-auto mt-8">
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4 text-primary">System Demonstration</h1>
+                <p class="text-xl text-secondary">Live Application Screenshots</p>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="space-y-12">
+                <!-- Universal Interactions -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary text-center">Universal Interactions Platform</h2>
+                    <div class="bg-overlay rounded-xl p-6">
+                        <div class="flex justify-center mb-4">
+                            <img src="../../public/AetherFlow_Presentation/NewInteractionPage.png"
+                                 alt="New Interaction Page showing modular interaction types"
+                                 class="rounded-lg shadow-xl max-w-full h-auto border-2 border-tile">
+                        </div>
+                        <p class="text-sm text-body text-center">
+                            Modular interaction tiles that can be configured for different business processes
+                        </p>
+                    </div>
+                </section>
+
+                <!-- All Tasks Dashboard -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary text-center">Task Management Dashboard</h2>
+                    <div class="bg-overlay rounded-xl p-6">
+                        <div class="flex justify-center mb-4">
+                            <img src="../../public/AetherFlow_Presentation/AllTasks.png"
+                                 alt="All Tasks view with compound search and filters"
+                                 class="rounded-lg shadow-xl max-w-full h-auto border-2 border-tile">
+                        </div>
+                        <p class="text-sm text-body text-center">
+                            Comprehensive task overview with compound search across all fields (ref numbers, contacts, customers, addresses)
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Driver Coordination -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary text-center">Driver Schedule & Coordination</h2>
+                    <div class="bg-overlay rounded-xl p-6">
+                        <div class="flex justify-center mb-4">
+                            <img src="../../public/AetherFlow_Presentation/DriversSchedule.png"
+                                 alt="Driver Schedule with drag-and-drop task assignment"
+                                 class="rounded-lg shadow-xl max-w-full h-auto border-2 border-tile">
+                        </div>
+                        <p class="text-sm text-body text-center">
+                            Drag-and-drop driver task allocation with real-time schedule management
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Driver Task Detail -->
+                <section class="rounded-2xl shadow-theme-xl p-8 bg-surface">
+                    <h2 class="text-2xl font-bold mb-6 text-primary text-center">Driver Task Management & Quality Control</h2>
+                    <div class="bg-overlay rounded-xl p-6">
+                        <div class="flex justify-center mb-4">
+                            <img src="../../public/AetherFlow_Presentation/DriversTaskManagement.png"
+                                 alt="Driver Task detail view with quality control checkboxes"
+                                 class="rounded-lg shadow-xl max-w-full h-auto border-2 border-tile">
+                        </div>
+                        <p class="text-sm text-body text-center">
+                            Detailed driver task information with integrated quality control workflows and verification steps
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize navbar with aetherflow page as active
+        initializeNavbar('aetherflow');
+    </script>
+</body>
+</html>
