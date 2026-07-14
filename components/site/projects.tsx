@@ -56,7 +56,7 @@ function FeaturedProject({ project }: { project: Project }) {
 
         {project.impact && (
           <p className="mt-6 rounded-lg bg-muted/50 p-4 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">Impact — </span>
+            <span className="font-semibold text-foreground">Impact: </span>
             {project.impact}
           </p>
         )}

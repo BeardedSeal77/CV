@@ -24,4 +24,4 @@ links:
     href: https://github.com/BeardedSeal77
 ---
 
-A collection of smaller projects and experiments showcasing different technologies and problem-solving approaches — continuous learning across various programming concepts and frameworks.
+A collection of smaller projects and experiments showcasing different technologies and problem-solving approaches, with continuous learning across various programming concepts and frameworks.

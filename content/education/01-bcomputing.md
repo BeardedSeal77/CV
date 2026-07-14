@@ -6,4 +6,4 @@ status: Dissertation in progress
 current: true
 ---
 
-Focusing on data science and database systems — developing expertise in modern software development and data analysis techniques.
+Focusing on data science and database systems, developing expertise in modern software development and data analysis techniques.

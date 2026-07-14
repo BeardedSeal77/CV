@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite()
-  const title = `${site.name} — ${site.title}`
-  const description = `${site.title} at BMW IT Hub South Africa — ${site.tagline}. Experience, projects, skills and CV.`
+  const title = `${site.name} | ${site.title}`
+  const description = `${site.name}: ${site.tagline}. Experience, projects, skills and CV.`
   return {
     title,
     description,

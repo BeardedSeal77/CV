@@ -9,10 +9,13 @@ export function Skills({ groups }: { groups: SkillGroup[] }) {
     <Section id="skills" title="Skills" className="bg-muted/30">
       <div className="grid gap-4 sm:grid-cols-2">
         {groups.map((group, index) => (
-          <Card
-            key={group.title}
-            className={cn(index === 0 && "ring-primary/40")}
-          >
+          <Card key={group.title}>
+            {index === 0 && (
+              <div
+                aria-hidden
+                className="-mt-(--card-spacing) h-1.5 w-full bg-linear-to-r from-primary to-brand-2"
+              />
+            )}
             <CardHeader>
               <CardTitle className={cn(index === 0 && "text-primary")}>
                 {group.title}

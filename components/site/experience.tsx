@@ -20,11 +20,17 @@ export function Experience({ entries }: { entries: ExperienceEntry[] }) {
             <span
               aria-hidden
               className={cn(
-                "absolute -start-[30px] top-2 size-3 rounded-full ring-4 ring-background",
+                "absolute -inset-s-7.5 top-2 size-3 rounded-full ring-4 ring-background",
                 entry.current ? "bg-primary" : "bg-muted-foreground/40"
               )}
             />
-            <Card className={cn(entry.current && "ring-primary/40")}>
+            <Card>
+              {entry.current && (
+                <div
+                  aria-hidden
+                  className="-mt-(--card-spacing) h-1.5 w-full bg-linear-to-r from-primary to-brand-2"
+                />
+              )}
               <CardHeader>
                 <CardTitle className="text-lg">{entry.role}</CardTitle>
                 <CardDescription className="font-medium text-primary">

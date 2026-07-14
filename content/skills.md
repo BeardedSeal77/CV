@@ -1,24 +1,29 @@
 ---
 groups:
-  - title: "Data & AI Automation"
+  - title: "Backend & Data"
     items:
       - "C#"
       - .NET
-      - N8N
-      - Ollama
-      - OpenAI API
-      - Agent Design
-      - Zero-Shot Classification
-      - Whisper
-  - title: "Backend & Data"
-    items:
-      - Python
-      - Flask
+      - Entity Framework
+      - MassTransit
+      - Serilog
+      - Clean Architecture
       - PostgreSQL
       - SQL Server
       - MongoDB
       - REST APIs
       - Microservices
+      - Flask
+  - title: "AI & Automation"
+    items:
+      - N8N
+      - Python
+      - Ollama
+      - Agent Design
+      - OpenAI API
+      - "Jira & Confluence Automation"
+      - Whisper
+      - Zero-Shot Classification
   - title: Frontend
     items:
       - Next.js

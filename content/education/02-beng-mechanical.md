@@ -5,4 +5,4 @@ institution: University of Pretoria
 award: Most Innovative Project (EBIT Faculty)
 ---
 
-Studied mechanical engineering before moving into software — an engineering mindset I still apply to systems design and problem-solving.
+Studied mechanical engineering before moving into software, bringing an engineering mindset to systems design and problem-solving.

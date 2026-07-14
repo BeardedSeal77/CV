@@ -12,15 +12,18 @@ interface HeroProps {
 }
 
 export function Hero({ site, cvHref }: HeroProps) {
+  // overflow-x-clip (not hidden): stops the glows causing a horizontal
+  // scrollbar while still letting them fade vertically into the next section
   return (
-    <div id="top" className="relative overflow-hidden">
+    <div id="top" className="relative overflow-x-clip">
+      {/* Glow blobs as radial gradients: blur() gets clamped by the browser and cuts off in a hard edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 right-[-10%] -z-10 size-96 rounded-full bg-primary/10 blur-3xl"
+        className="pointer-events-none absolute -top-40 right-[-12%] -z-10 size-136 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-primary)_16%,transparent),transparent_72%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute top-40 left-[-10%] -z-10 size-72 rounded-full bg-brand-2/10 blur-3xl"
+        className="pointer-events-none absolute top-24 left-[-12%] -z-10 size-104 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-brand-2)_14%,transparent),transparent_72%)]"
       />
 
       <div className="mx-auto grid max-w-5xl items-center gap-10 px-4 pt-16 pb-14 md:grid-cols-[1fr_auto] md:pt-24 md:pb-20">

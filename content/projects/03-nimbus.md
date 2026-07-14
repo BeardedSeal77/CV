@@ -1,6 +1,6 @@
 ---
 order: 3
-title: Nimbus — NLP Drone Control
+title: "Nimbus: NLP Drone Control"
 subtitle: "Natural Language Processing • Computer Vision • Mixed Reality"
 tags:
   - OpenCV
