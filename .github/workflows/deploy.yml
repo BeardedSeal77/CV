@@ -25,7 +25,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      # npm install (not ci): lockfiles written on Windows omit Linux-only
+      # optional packages (@emnapi/* wasm fallbacks), which makes npm ci fail here.
+      - run: npm install
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
