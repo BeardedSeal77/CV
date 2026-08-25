@@ -16,6 +16,7 @@ npm run build      # production static export to out/ (basePath /CV applied)
 npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
 npm run format     # prettier --write on **/*.{ts,tsx}
+npm run generate:pdf  # regenerate public/ED_Cullen_CV.pdf from the /cv-print route (needs `npx playwright install chromium` once)
 ```
 
 There are no tests. Validate changes with `npm run lint`, `npm run typecheck`, and `npm run build`.

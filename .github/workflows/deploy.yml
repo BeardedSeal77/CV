@@ -28,6 +28,10 @@ jobs:
       # npm install (not ci): lockfiles written on Windows omit Linux-only
       # optional packages (@emnapi/* wasm fallbacks), which makes npm ci fail here.
       - run: npm install
+      # Regenerate public/ED_Cullen_CV.pdf from content/ before the export, so
+      # the published CV can never drift from the site's markdown.
+      - run: npx playwright install --with-deps chromium
+      - run: npm run generate:pdf
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
