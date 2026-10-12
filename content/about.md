@@ -8,25 +8,25 @@ qualities:
 stats:
   - value: "4+"
     label: Years Building Software
-  - value: "2"
-    label: Major Projects
-  - value: "8+"
-    label: Minor Projects
+  - value: "3"
+    label: Branches Piloting My Hire Platform
+  - value: "10–15"
+    label: Pilot Users
   - value: Mensa
     label: Member since 2024
 highlights:
   - title: BMW IT Hub South Africa
-    text: "Building enterprise-grade internal software on C#/.NET, plus AI & automation solutions with N8N"
-  - title: AetherFlow
-    text: Designed and built a comprehensive diary system for the hire industry
+    text: "Building an AI assistant on Jira and Confluence, plus C#/.NET systems and N8N automations in production"
+  - title: Hire Operations Platform
+    text: "Operations software for the hire industry, piloting in three Coastal Hire branches"
+  - title: DevTools
+    text: "A SQL-first workbench that lets developers and AI agents safely change a process-driven Python codebase"
   - title: Local AI
     text: Built privacy-focused, fully local AI chat and automation systems
-  - title: Mensa
-    text: Member of the Pretoria chapter since 2024
 ---
 
-I thrive on learning and applying knowledge to build solutions that deliver value. I have a natural and unwavering drive for continuous improvement. With an understanding and involvement in mechanical and software engineering, as well as business, I can bring a blend of technical and operational insight.
+I build software around how a business actually runs: its processes, the people who carry them out, and the data that connects them. Python is my main backend language and React my frontend, and I'm also comfortable working in C# and Angular. Most of my work combines business process automation with AI.
 
-In 2022, I began working on a toolset focused on improving both people and systems in the tool hire industry, applying knowledge and experience I had in business operations, logistics and systems design.
+That started in 2022 at Coastal Hire, where my parents own a franchise branch. I had worked the hire desk, the workshop and the logistics side, so I set out to automate the business's biggest pain points. That work became the Hire Operations Platform, now piloting in three branches. The tooling I built alongside it grew into DevTools, a workbench that gives developers and AI agents full visibility into a process-driven Python codebase.
 
-Today I work as a Software Engineer at BMW IT Hub South Africa, building enterprise-grade internal software on C# and .NET (clean architecture, Entity Framework, MassTransit) and developing AI and automation solutions with N8N and Python, while completing my BComputing dissertation.
+Since January 2026 I've been a Software Engineer at BMW IT Hub South Africa, building an AI assistant for the department alongside C#/.NET systems and N8N automations. I'm finishing my BComputing dissertation this year. Before software I studied mechanical engineering, which still shapes how I think about systems.

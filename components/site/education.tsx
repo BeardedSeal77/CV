@@ -28,8 +28,11 @@ export function Education({ entries, certifications }: EducationProps) {
               <CardDescription className="font-medium text-primary">
                 {entry.institution}
               </CardDescription>
-              {(entry.status || entry.award) && (
+              {(entry.dates || entry.status || entry.award) && (
                 <CardAction className="flex flex-wrap justify-end gap-1.5">
+                  {entry.dates && (
+                    <Badge variant="secondary">{entry.dates}</Badge>
+                  )}
                   {entry.status && <Badge>{entry.status}</Badge>}
                   {entry.award && (
                     <Badge variant="outline">

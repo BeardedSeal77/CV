@@ -49,6 +49,7 @@ export interface ExperienceEntry {
 export interface EducationEntry {
   degree: string
   institution: string
+  dates?: string
   status?: string
   award?: string
   current?: boolean

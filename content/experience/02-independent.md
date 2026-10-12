@@ -6,9 +6,11 @@ dates: "2022 – Present"
 tags:
   - Python
   - PostgreSQL
+  - React
   - Next.js
   - Flask
+  - MongoDB
   - Docker
 ---
 
-Developing AetherFlow, a comprehensive diary system tailored for the hire industry. Collaborating with business owners and software engineers to gather domain insights and continuously refine the solution. Responsible for database architecture (PostgreSQL), backend development (Python/Flask), and frontend implementation (Next.js).
+Building software that automates how businesses run. My main work is the Hire Operations Platform, now piloting in three Coastal Hire branches. I gather requirements directly from the branches and their staff, and I own the full stack, from the PostgreSQL schema and Python backend to the React/Next.js frontend. Alongside it I built DevTools, a SQL-first workbench that lets developers and AI agents safely change and inspect a process-driven Python codebase.

@@ -2,7 +2,8 @@
 order: 1
 degree: Bachelor of Computing (Data Science)
 institution: Belgium Campus
-status: Dissertation in progress
+dates: "2023 – Present"
+status: To complete end of 2026
 current: true
 ---
 

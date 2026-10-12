@@ -9,7 +9,14 @@ export function Skills({ groups }: { groups: SkillGroup[] }) {
     <Section id="skills" title="Skills" className="bg-muted/30">
       <div className="grid gap-4 sm:grid-cols-2">
         {groups.map((group, index) => (
-          <Card key={group.title}>
+          <Card
+            key={group.title}
+            className={cn(
+              groups.length % 2 === 1 &&
+                index === groups.length - 1 &&
+                "sm:col-span-2"
+            )}
+          >
             {index === 0 && (
               <div
                 aria-hidden

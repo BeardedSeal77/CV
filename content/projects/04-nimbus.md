@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 4
 title: "Nimbus: NLP Drone Control"
 subtitle: "Natural Language Processing • Computer Vision • Mixed Reality"
 tags:

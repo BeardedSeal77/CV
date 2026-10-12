@@ -1,7 +1,7 @@
 ---
 name: Erin David Cullen
 title: Software Engineer
-tagline: "Enterprise software & AI automation at BMW IT Hub South Africa"
+tagline: "Business process automation and AI, built in Python and React"
 location: "Pretoria, South Africa"
 email: edcullen550@gmail.com
 github: https://github.com/BeardedSeal77
