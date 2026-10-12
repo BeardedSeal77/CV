@@ -4,6 +4,8 @@ title: Software Engineer
 tagline: "Business process automation and AI, built in Python and React"
 location: "Pretoria, South Africa"
 email: edcullen550@gmail.com
+phone: "078 120 4717"
+website: https://beardedseal77.github.io/CV/
 github: https://github.com/BeardedSeal77
 linkedin: https://www.linkedin.com/in/de-cullen/
 cvPdf: /ED_Cullen_CV.pdf

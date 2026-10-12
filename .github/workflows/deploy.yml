@@ -29,6 +29,8 @@ jobs:
       # optional packages (@emnapi/* wasm fallbacks), which makes npm ci fail here.
       - run: npm install
       - run: npm run build
+      # Renders /cv to the CV PDF in out/ (uses the runner's preinstalled Chrome)
+      - run: npm run cv:pdf
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

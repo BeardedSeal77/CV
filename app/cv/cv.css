@@ -1,0 +1,60 @@
+/* Printable two-page A4 CV. Rendered to PDF by scripts/cv-pdf.mjs. */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* The sheet is always light, whatever theme the site is in */
+.cv {
+  --primary: #d20f39;
+  --brand-2: #e64553;
+  --foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --border: oklch(0.922 0 0);
+  color: var(--foreground);
+  font-size: 8.75pt;
+  line-height: 1.42;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cv-page {
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  background: #fff;
+}
+
+@media screen {
+  .cv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8mm;
+    padding: 8mm 0;
+  }
+  .cv-page {
+    box-shadow: 0 2px 16px rgb(0 0 0 / 0.18);
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  .cv-page {
+    break-after: page;
+  }
+  .cv-page:last-child {
+    break-after: auto;
+  }
+}
+
+.cv-prose p + p {
+  margin-top: 0.45em;
+}

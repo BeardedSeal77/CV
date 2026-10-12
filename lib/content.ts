@@ -13,6 +13,8 @@ export interface SiteMeta {
   tagline: string
   location: string
   email: string
+  phone?: string
+  website?: string
   github: string
   linkedin: string
   cvPdf: string
