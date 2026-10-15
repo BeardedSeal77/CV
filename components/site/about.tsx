@@ -1,5 +1,4 @@
 import { Section } from "@/components/site/section"
-import { Badge } from "@/components/ui/badge"
 import type { About as AboutContent } from "@/lib/content"
 
 export function About({ about }: { about: AboutContent }) {
@@ -11,13 +10,6 @@ export function About({ about }: { about: AboutContent }) {
             className="markdown text-foreground/80"
             dangerouslySetInnerHTML={{ __html: about.html }}
           />
-          <div className="mt-6 flex flex-wrap gap-1.5">
-            {about.qualities.map((quality) => (
-              <Badge key={quality} variant="secondary">
-                {quality}
-              </Badge>
-            ))}
-          </div>
         </div>
 
         <div>

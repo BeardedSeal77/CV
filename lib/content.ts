@@ -12,6 +12,7 @@ export interface SiteMeta {
   title: string
   tagline: string
   location: string
+  relocation?: string
   email: string
   phone?: string
   website?: string
@@ -33,7 +34,6 @@ export interface Highlight {
 }
 
 export interface About {
-  qualities: string[]
   stats: Stat[]
   highlights: Highlight[]
   html: string

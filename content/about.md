@@ -1,10 +1,4 @@
 ---
-qualities:
-  - "Accurate & Precise"
-  - Detail-Oriented
-  - Analytically Minded
-  - Self-Motivated
-  - Always Learning
 stats:
   - value: "4+"
     label: Years Building Software

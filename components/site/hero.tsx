@@ -1,7 +1,8 @@
 import Image from "next/image"
-import { FileText, Mail, MapPin } from "lucide-react"
+import { FileText, Mail, MapPin, Plane } from "lucide-react"
 
 import { GitHubIcon, LinkedInIcon } from "@/components/site/icons"
+import { RelocationParts } from "@/components/site/relocation"
 import { Button } from "@/components/ui/button"
 import type { SiteMeta } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
@@ -41,6 +42,12 @@ export function Hero({ site, cvHref }: HeroProps) {
             <MapPin className="size-4" />
             {site.location}
           </p>
+          {site.relocation && (
+            <p className="mt-3 inline-flex items-start gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary">
+              <Plane className="mt-0.5 size-4 shrink-0" />
+              <RelocationParts text={site.relocation} />
+            </p>
+          )}
 
           <div className="mt-7 flex flex-wrap gap-2.5">
             <Button

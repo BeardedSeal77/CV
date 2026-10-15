@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { Globe, Mail, MapPin, Phone } from "lucide-react"
+import { Globe, Mail, MapPin, Phone, Plane } from "lucide-react"
 
 import "./cv.css"
 import { GitHubIcon, LinkedInIcon } from "@/components/site/icons"
+import { RelocationParts } from "@/components/site/relocation"
 import {
   getAbout,
   getCertifications,
@@ -157,6 +158,12 @@ export default async function CvPage() {
             <p className="mt-[1mm] text-[10pt] text-muted-foreground">
               {site.tagline}
             </p>
+            {site.relocation && (
+              <p className="mt-[2mm] flex items-start gap-[1.5mm] rounded-md bg-primary/10 px-[2.2mm] py-[1.2mm] text-[7.75pt] leading-snug font-medium text-primary">
+                <Plane className="mt-[0.3mm] size-[3.2mm] shrink-0" />
+                <RelocationParts text={site.relocation} />
+              </p>
+            )}
           </div>
           <ul className="shrink-0 space-y-[1.2mm] text-[8pt]">
             {[...contacts, ...links.map((l) => ({ ...l, text: "" }))].map(
@@ -332,15 +339,6 @@ export default async function CvPage() {
                   </li>
                 ))}
               </ul>
-            </section>
-
-            <section>
-              <Heading>Qualities</Heading>
-              <div className="flex flex-wrap gap-[1mm]">
-                {about.qualities.map((quality) => (
-                  <Chip key={quality}>{quality}</Chip>
-                ))}
-              </div>
             </section>
 
             <section>

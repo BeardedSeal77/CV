@@ -45,4 +45,9 @@ groups:
       - Linux/WSL
       - Bash
       - Postman
+  - title: Working style
+    items:
+      - Detail-Oriented
+      - Analytically Minded
+      - Self-Motivated
 ---
