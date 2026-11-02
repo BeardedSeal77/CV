@@ -269,42 +269,34 @@ function labelChars(bar: Bar) {
   return bar.label.length + bar.years.length + 3
 }
 
-function place(bar: Bar, pct: (year: number) => number): Placed {
+// Every way a bar's label can sit: inside when it fits, else after or before
+function candidates(bar: Bar, pct: (year: number) => number): Placed[] {
   const left = pct(bar.start)
   const width = pct(bar.end) - left
   const labelPct = labelChars(bar) / CHARS_PER_PCT.doc
-  if (labelPct <= width)
-    return {
-      ...bar,
-      left,
-      width,
-      place: "inside",
-      from: left,
-      to: left + width,
-    }
-  if (left + width + labelPct <= 100)
-    return {
-      ...bar,
-      left,
-      width,
-      place: "after",
-      from: left,
-      to: left + width + labelPct,
-    }
-  return {
+  const at = (place: Placed["place"], from: number, to: number): Placed => ({
     ...bar,
     left,
     width,
-    place: "before",
-    from: left - labelPct,
-    to: left + width,
-  }
+    place,
+    from,
+    to,
+  })
+  if (labelPct <= width) return [at("inside", left, left + width)]
+  const options = []
+  if (left + width + labelPct <= 100)
+    options.push(at("after", left, left + width + labelPct))
+  if (left - labelPct >= 0)
+    options.push(at("before", left - labelPct, left + width))
+  return options.length
+    ? options
+    : [at("before", left - labelPct, left + width)]
 }
 
 // Greedy rows: a bar joins the first row where neither it nor its label overlaps
 function rows(bars: Placed[]) {
   const out: Placed[][] = []
-  for (const bar of [...bars].sort((a, b) => a.from - b.from)) {
+  for (const bar of [...bars].sort((a, b) => a.left - b.left)) {
     const row = out.find((r) =>
       r.every((b) => b.to <= bar.from || b.from >= bar.to)
     )
@@ -312,6 +304,32 @@ function rows(bars: Placed[]) {
     else out.push([bar])
   }
   return out
+}
+
+// Tries each label side per bar and keeps the layout with the fewest rows,
+// preferring labels after their bars. Lanes are small, so this stays cheap.
+function pack(bars: Bar[], pct: (year: number) => number) {
+  const options = bars.map((bar) => candidates(bar, pct))
+  let best: Placed[][] | null = null
+  let bestAfter = -1
+  const walk = (index: number, chosen: Placed[]) => {
+    if (index === options.length) {
+      const layout = rows(chosen)
+      const after = chosen.filter((b) => b.place !== "before").length
+      if (
+        !best ||
+        layout.length < best.length ||
+        (layout.length === best.length && after > bestAfter)
+      ) {
+        best = layout
+        bestAfter = after
+      }
+      return
+    }
+    for (const option of options[index]) walk(index + 1, [...chosen, option])
+  }
+  if (bars.length <= 10) walk(0, [])
+  return best ?? rows(options.map((o) => o[0]))
 }
 
 // "2021" + "2023" -> "2021–23"; "2022" + "now" -> "2022–now"
@@ -396,7 +414,8 @@ export function Timeline({
     <figure
       aria-label="Career timeline"
       className={cn(
-        "mt-6 overflow-x-auto doc:mt-2 doc:overflow-visible",
+        // Boxed, so the roles that follow read as a separate block
+        "mt-5 mb-3 overflow-x-auto rounded-lg border bg-card px-4 pt-2 pb-1 doc:mt-2 doc:mb-4 doc:overflow-visible doc:px-3 doc:pt-1 doc:pb-0.5",
         className
       )}
     >
@@ -420,7 +439,7 @@ export function Timeline({
         {lanes.map((lane) => (
           <div
             key={lane.name}
-            className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-4 border-b py-2 doc:grid-cols-[5rem_minmax(0,1fr)] doc:py-1"
+            className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-4 border-b py-2 last:border-b-0 doc:grid-cols-[5rem_minmax(0,1fr)] doc:py-1"
           >
             <p className="pt-1 font-mono text-[12.5px] text-muted-foreground">
               {lane.name}
@@ -440,7 +459,7 @@ export function Timeline({
                 />
               </div>
               <ol className="relative space-y-1 doc:space-y-0.5">
-                {rows(lane.bars.map((b) => place(b, pct))).map((row, index) => (
+                {pack(lane.bars, pct).map((row, index) => (
                   <li key={index} className="relative h-7 doc:h-5">
                     <ol>
                       {row.map((b) => {

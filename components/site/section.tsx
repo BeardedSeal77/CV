@@ -7,7 +7,7 @@ interface SectionProps {
   className?: string
 }
 
-// Section name over a hairline: it orients, the content is the headline
+// Section name under a hard rule: sections read as clearly separate blocks
 export function Section({ id, title, children, className }: SectionProps) {
   return (
     <section
@@ -18,7 +18,7 @@ export function Section({ id, title, children, className }: SectionProps) {
       <div className="mx-auto max-w-page px-6 doc:max-w-none doc:px-0">
         <h2
           id={`${id}-title`}
-          className="border-b pb-3 text-[15px] leading-snug font-semibold doc:pb-1.5"
+          className="border-t-2 border-foreground pt-3 pb-1 text-[15px] leading-snug font-semibold doc:pt-1.5 doc:pb-0.5"
         >
           {title}
         </h2>
@@ -60,25 +60,4 @@ export function StackLine({ items }: { items: string[] }) {
   )
 }
 
-// Longer markdown behind a disclosure on the website; never printed
-export function MoreDetail({
-  html,
-  label = "More detail",
-}: {
-  html: string
-  label?: string
-}) {
-  if (!html) return null
-  return (
-    <details className="group mt-3 max-w-[720px] doc:hidden">
-      <summary className="w-fit cursor-pointer list-none text-sm font-medium text-muted-foreground transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
-        <span className="group-open:hidden">{label}</span>
-        <span className="hidden group-open:inline">Less</span>
-      </summary>
-      <div
-        className="markdown mt-3 text-[15px] text-foreground/85"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </details>
-  )
-}
+export { MoreDetail } from "@/components/site/more-detail"
