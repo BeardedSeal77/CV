@@ -19,6 +19,23 @@ function contentPath(relativePath: string) {
   return full
 }
 
+// The kind of work something is; each has a colour pair in globals.css (--domain-*)
+export const DOMAINS = [
+  "ai",
+  "automation",
+  "backend",
+  "frontend",
+  "infra",
+  "study",
+] as const
+export type Domain = (typeof DOMAINS)[number]
+
+// Timeline dates: "2021" or "2021-06"; end "now" for ongoing
+export interface Span {
+  start?: string
+  end?: string
+}
+
 export interface SiteMeta {
   name: string
   title: string
@@ -37,6 +54,8 @@ export interface SiteMeta {
   contactBlurb: string
   // Page-level proof strip under the hero: measured numbers only
   proof?: Stat[]
+  // The short stack shown in the website hero, logos and names
+  stack?: string[]
   languages?: string[]
 }
 
@@ -58,22 +77,30 @@ export interface About {
   html: string
 }
 
-export interface ExperienceEntry {
+export interface Achievement {
+  title: string
+  detail?: string
+  domain?: Domain
+  // A lucide icon name, e.g. "Bot"
+  icon?: string
+}
+
+export interface ExperienceEntry extends Span {
   company: string
   role: string
   dates: string
   current?: boolean
   // 2–4 outcome-first bullets, used instead of the body paragraph where present
   highlights?: string[]
+  // Results as tiles; used instead of highlights where present
+  achievements?: Achievement[]
   // One or two lines that replace the body paragraph in printed documents
   summary?: string
-  // Slug of a project to show compactly under this role in printed documents
-  project?: string
   tags: string[]
   html: string
 }
 
-export interface EducationEntry {
+export interface EducationEntry extends Span {
   degree: string
   institution: string
   dates?: string
@@ -100,6 +127,8 @@ export interface MiniProject {
 }
 
 export interface Capability {
+  domain?: Domain
+  icon?: string
   // Stage in a capability grid (Plan, Build…); capabilities without one show as chips
   group?: string
   title: string
@@ -118,7 +147,8 @@ export interface ProjectMedia {
   alt: string
 }
 
-export interface Project {
+export interface Project extends Span {
+  domain?: Domain
   // Anchor and portfolio id: frontmatter `slug`, else the file name without its order prefix
   slug: string
   title: string
@@ -139,6 +169,9 @@ export interface Project {
 export interface SkillGroup {
   title: string
   items: string[]
+  // Colour for the group's chips, with per-skill overrides
+  domain?: Domain
+  domains?: Record<string, Domain>
 }
 
 export interface Hobby {

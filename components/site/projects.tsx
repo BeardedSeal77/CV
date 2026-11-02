@@ -2,8 +2,9 @@ import { ExternalLink } from "lucide-react"
 
 import { linkClass } from "@/components/site/hero"
 import { ProofStrip } from "@/components/site/proof-strip"
-import { MoreDetail, Section, StackLine } from "@/components/site/section"
-import type { Capability, Project } from "@/lib/content"
+import { DomainChip, Pipeline, TechStrip } from "@/components/site/graphics"
+import { MoreDetail, Section } from "@/components/site/section"
+import type { Capability, Domain, Project } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
 
@@ -107,7 +108,7 @@ function Links({ project }: { project: Project }) {
   )
 }
 
-// The flagship: problem, capabilities by stage, proof, stack
+// A pitched project: problem, capabilities (by stage when staged, else as chips), proof, stack
 export function PitchBlock({ project }: { project: Project }) {
   const pitch = project.pitch!
   return (
@@ -132,37 +133,48 @@ export function PitchBlock({ project }: { project: Project }) {
         </div>
       </div>
 
-      <CapabilityGrid
-        capabilities={pitch.capabilities ?? []}
-        className="mt-7 doc:mt-3"
-      />
+      {isGridPitch(project) ? (
+        <Pipeline
+          capabilities={pitch.capabilities ?? []}
+          className="mt-7 doc:mt-3"
+        />
+      ) : (
+        pitch.capabilities && <Chips items={pitch.capabilities} />
+      )}
 
       {pitch.proof && <ProofStrip items={pitch.proof} variant="inline" />}
-      <StackLine items={project.tags} />
+      <TechStrip items={project.tags} />
       <MoreDetail html={project.html} label="How it works" />
     </article>
   )
 }
 
+// Capabilities or features as chips: domain-coloured where a domain is given
 export function Chips({
   items,
 }: {
-  items: { title: string; planned?: boolean }[]
+  items: { title: string; planned?: boolean; domain?: Domain }[]
 }) {
   return (
-    <ul className="mt-5 flex flex-wrap gap-2 text-[13.5px] doc:mt-2.5 doc:gap-1.5">
-      {items.map((item) => (
-        <li
-          key={item.title}
-          className={cn(
-            "rounded-md border px-2.5 py-1.5 doc:py-0.5",
-            item.planned && "border-dashed text-muted-foreground"
-          )}
-        >
-          {item.title}
-          {item.planned && " · in development"}
-        </li>
-      ))}
+    <ul className="mt-5 flex flex-wrap gap-2 doc:mt-2.5 doc:gap-1.5">
+      {items.map((item) =>
+        item.domain || item.planned ? (
+          <DomainChip
+            key={item.title}
+            domain={item.domain}
+            planned={item.planned}
+          >
+            {item.title}
+          </DomainChip>
+        ) : (
+          <li
+            key={item.title}
+            className="rounded-md border px-2.5 py-1 text-[13.5px] leading-snug doc:py-0.5"
+          >
+            {item.title}
+          </li>
+        )
+      )}
     </ul>
   )
 }
@@ -242,7 +254,7 @@ export function ProjectCard({
       )}
 
       <div className="mt-auto pt-1">
-        <StackLine items={project.tags} />
+        <TechStrip items={project.tags} />
         {project.links && (
           <div className="mt-4 doc:hidden">
             <Links project={{ ...project, caseStudy: undefined }} />
@@ -254,25 +266,29 @@ export function ProjectCard({
 }
 
 export function Projects({ projects }: { projects: Project[] }) {
-  const pitched = projects.filter(isGridPitch)
-  const rest = projects.filter((project) => !isGridPitch(project))
+  // Staged pitches lead, then the other pitched projects, then compact cards
+  const pitched = [
+    ...projects.filter(isGridPitch),
+    ...projects.filter((project) => project.pitch && !isGridPitch(project)),
+  ]
+  const rest = projects.filter((project) => !project.pitch)
 
   return (
     <Section id="projects" title="Projects">
       {pitched.map((project) => (
         <PitchBlock key={project.title} project={project} />
       ))}
-      <div className="mt-5 grid gap-5 md:grid-cols-2 doc:mt-3 doc:gap-3">
-        {rest.map((project) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            className={
-              project.pitch || project.minis ? "md:col-span-2" : undefined
-            }
-          />
-        ))}
-      </div>
+      {rest.length > 0 && (
+        <div className="mt-5 grid gap-5 md:grid-cols-2 doc:mt-3 doc:gap-3">
+          {rest.map((project) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              className={project.minis ? "md:col-span-2" : undefined}
+            />
+          ))}
+        </div>
+      )}
     </Section>
   )
 }

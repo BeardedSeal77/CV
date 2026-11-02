@@ -1,6 +1,9 @@
 ---
 order: 2
 title: Manifest Parser
+domain: backend
+start: "2022"
+end: now
 subtitle: "Open Source • Python Library"
 tags:
   - Python

@@ -6,6 +6,7 @@ import "../print.css"
 import { About } from "@/components/site/about"
 import { Education } from "@/components/site/education"
 import { Experience } from "@/components/site/experience"
+import { Timeline } from "@/components/site/graphics"
 import { displayUrl, Hero } from "@/components/site/hero"
 import { Projects } from "@/components/site/projects"
 import { Skills } from "@/components/site/skills"
@@ -39,12 +40,8 @@ export default async function CvPage() {
       getCertifications(),
     ])
 
-  // Only pitched projects make the two pages (a role's own project prints under
-  // that role); the rest live on the website
-  const linked = new Set(experience.map((entry) => entry.project))
-  const cvProjects = projects.filter(
-    (project) => project.pitch && !linked.has(project.slug)
-  )
+  // Only pitched projects make the two pages; the rest live on the website
+  const cvProjects = projects.filter((project) => project.pitch)
   const more = site.website
     ? `${displayUrl(site.website)}${site.portfolioPdf ? "/portfolio" : ""}`
     : undefined
@@ -55,7 +52,17 @@ export default async function CvPage() {
         <div className="doc-body">
           <Hero site={site} cvHref={site.cvPdf} />
           <About about={about} />
-          <Experience entries={experience} projects={projects} />
+          <Experience
+            entries={experience}
+            timeline={
+              <Timeline
+                experience={experience}
+                projects={projects}
+                education={education}
+              />
+            }
+          />
+          <Education entries={education} certifications={certifications} />
         </div>
       </section>
 
@@ -63,7 +70,6 @@ export default async function CvPage() {
         <div className="doc-body">
           {cvProjects.length > 0 && <Projects projects={cvProjects} />}
           <Skills groups={skills} />
-          <Education entries={education} certifications={certifications} />
           {more || site.languages?.length ? (
             <p className="mt-5 border-t pt-2.5 font-mono text-[13px] text-muted-foreground">
               {site.languages?.length ? (

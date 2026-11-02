@@ -1,8 +1,9 @@
 import { About } from "@/components/site/about"
+import { BentoHero } from "@/components/site/bento-hero"
 import { Education } from "@/components/site/education"
 import { Experience } from "@/components/site/experience"
 import { Footer } from "@/components/site/footer"
-import { Hero } from "@/components/site/hero"
+import { Timeline } from "@/components/site/graphics"
 import { Hobbies } from "@/components/site/hobbies"
 import { Navbar, type NavSection } from "@/components/site/navbar"
 import { Projects } from "@/components/site/projects"
@@ -67,9 +68,22 @@ export default async function Page() {
     <>
       <Navbar name={site.name} cvHref={cvHref} sections={sections} />
       <main>
-        <Hero site={site} cvHref={cvHref} />
+        <BentoHero
+          site={site}
+          cvHref={cvHref}
+          current={experience.find((entry) => entry.current)}
+        />
         <About about={about} />
-        <Experience entries={experience} />
+        <Experience
+          entries={experience}
+          timeline={
+            <Timeline
+              experience={experience}
+              projects={projects}
+              education={education}
+            />
+          }
+        />
         <Projects projects={projects} />
         <Skills groups={skills} />
         <Education entries={education} certifications={certifications} />

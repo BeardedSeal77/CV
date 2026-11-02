@@ -1,13 +1,8 @@
 import Image from "next/image"
 
 import { ProofStrip } from "@/components/site/proof-strip"
-import {
-  CapabilityGrid,
-  Chips,
-  eyebrow,
-  isGridPitch,
-} from "@/components/site/projects"
-import { StackLine } from "@/components/site/section"
+import { Chips, eyebrow, isGridPitch } from "@/components/site/projects"
+import { Pipeline, TechStrip } from "@/components/site/graphics"
 import type { Project } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
@@ -75,7 +70,7 @@ function CaseStudy({ project, first }: { project: Project; first: boolean }) {
         What it does
       </h3>
       {isGridPitch(project) ? (
-        <CapabilityGrid
+        <Pipeline
           capabilities={pitch.capabilities ?? []}
           className="mt-5 doc:mt-3"
         />
@@ -96,7 +91,7 @@ function CaseStudy({ project, first }: { project: Project; first: boolean }) {
           />
         </>
       )}
-      <StackLine items={project.tags} />
+      <TechStrip items={project.tags} />
     </article>
   )
 }

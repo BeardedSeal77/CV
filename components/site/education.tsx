@@ -39,7 +39,16 @@ export function Education({ entries, certifications }: EducationProps) {
 
       {certifications.length > 0 && (
         <MetaRow meta="Certificates" className="pt-6 doc:pt-2">
-          <ul className="grid gap-x-10 md:grid-cols-2">
+          {/* Print runs the certificates as one line */}
+          <p className="hidden text-[14px] doc:block">
+            {certifications
+              .map(
+                (c) =>
+                  `${c.title}${c.detail ? `, ${c.detail}` : ""} (${c.year})`
+              )
+              .join(" · ")}
+          </p>
+          <ul className="grid gap-x-10 md:grid-cols-2 doc:hidden">
             {certifications.map((certification) => (
               <li
                 key={certification.title}

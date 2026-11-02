@@ -44,6 +44,18 @@
     --color-foreground: var(--foreground);
     --color-background: var(--background);
     --color-brand-2: var(--brand-2);
+    --color-domain-ai-soft: var(--domain-ai-soft);
+    --color-domain-ai: var(--domain-ai);
+    --color-domain-automation-soft: var(--domain-automation-soft);
+    --color-domain-automation: var(--domain-automation);
+    --color-domain-backend-soft: var(--domain-backend-soft);
+    --color-domain-backend: var(--domain-backend);
+    --color-domain-frontend-soft: var(--domain-frontend-soft);
+    --color-domain-frontend: var(--domain-frontend);
+    --color-domain-infra-soft: var(--domain-infra-soft);
+    --color-domain-infra: var(--domain-infra);
+    --color-domain-study-soft: var(--domain-study-soft);
+    --color-domain-study: var(--domain-study);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -91,6 +103,19 @@
     --sidebar-accent-foreground: #111418;
     --sidebar-border: #e2e4e8;
     --sidebar-ring: #2b59e0;
+    /* Kinds of work: soft fill + ink, always next to a label */
+    --domain-ai-soft: #efeafd;
+    --domain-ai: #5b3fc4;
+    --domain-automation-soft: #fdf0dc;
+    --domain-automation: #8a5300;
+    --domain-backend-soft: #e3f4e8;
+    --domain-backend: #1f7a3d;
+    --domain-frontend-soft: #fde7ea;
+    --domain-frontend: #b4233f;
+    --domain-infra-soft: #def3f5;
+    --domain-infra: #0f6e78;
+    --domain-study-soft: #eceef2;
+    --domain-study: #475063;
 }
 
 .dark {
@@ -127,6 +152,18 @@
     --sidebar-accent-foreground: #e7eaef;
     --sidebar-border: #252c36;
     --sidebar-ring: #7d9bff;
+    --domain-ai-soft: #241d3d;
+    --domain-ai: #b8a6ff;
+    --domain-automation-soft: #33260f;
+    --domain-automation: #f2c072;
+    --domain-backend-soft: #13291b;
+    --domain-backend: #7fd39a;
+    --domain-frontend-soft: #3a1820;
+    --domain-frontend: #f59aab;
+    --domain-infra-soft: #10292c;
+    --domain-infra: #7dd3dc;
+    --domain-study-soft: #1e232b;
+    --domain-study: #aab3c2;
 }
 
 /* Printable documents use the print theme on screen too, whatever the site theme */
@@ -148,6 +185,18 @@
     --border: #c9cdd4;
     --input: #858c97;
     --ring: #1f47c4;
+    --domain-ai-soft: #efeafd;
+    --domain-ai: #5b3fc4;
+    --domain-automation-soft: #fdf0dc;
+    --domain-automation: #8a5300;
+    --domain-backend-soft: #e3f4e8;
+    --domain-backend: #1f7a3d;
+    --domain-frontend-soft: #fde7ea;
+    --domain-frontend: #b4233f;
+    --domain-infra-soft: #def3f5;
+    --domain-infra: #0f6e78;
+    --domain-study-soft: #eceef2;
+    --domain-study: #475063;
     color-scheme: light;
     color: var(--foreground);
 }

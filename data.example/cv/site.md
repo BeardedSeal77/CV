@@ -13,6 +13,13 @@ cvPdf: /Sam_Example_CV.pdf
 portfolioPdf: /Sam_Example_Portfolio.pdf
 headshot: /media/headshot.svg
 contactBlurb: "This is sample data. Replace data/ with your own data repo to make it yours."
+stack:
+  - Python
+  - FastAPI
+  - PostgreSQL
+  - React
+  - TypeScript
+  - Docker
 proof:
   - value: "40"
     label: daily users on the dispatch board

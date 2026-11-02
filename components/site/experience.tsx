@@ -1,12 +1,6 @@
-import {
-  MetaRow,
-  MoreDetail,
-  Section,
-  StackLine,
-} from "@/components/site/section"
-import { ProjectCard } from "@/components/site/projects"
-import type { ExperienceEntry, Project } from "@/lib/content"
-import { cn } from "@/lib/utils"
+import { AchievementTiles, TechStrip } from "@/components/site/graphics"
+import { MetaRow, MoreDetail, Section } from "@/components/site/section"
+import type { ExperienceEntry } from "@/lib/content"
 
 function Dates({ entry }: { entry: ExperienceEntry }) {
   return (
@@ -22,24 +16,22 @@ function Dates({ entry }: { entry: ExperienceEntry }) {
   )
 }
 
-const prose =
-  "markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85 doc:mt-1"
-
 export function Experience({
   entries,
-  projects = [],
+  timeline,
 }: {
   entries: ExperienceEntry[]
-  // Printed documents show a linked project compactly under its role
-  projects?: Project[]
+  // The career timeline, drawn above the roles
+  timeline?: React.ReactNode
 }) {
   return (
     <Section id="experience" title="Experience">
+      {timeline}
       <ol>
         {entries.map((entry) => (
           <li
             key={entry.company}
-            className="border-b py-7 last:border-b-0 doc:py-3"
+            className="border-b py-7 last:border-b-0 doc:py-2"
           >
             <MetaRow meta={<Dates entry={entry} />}>
               <h3 className="text-[19px] leading-snug font-semibold tracking-[-0.01em] doc:text-[17px]">
@@ -49,41 +41,32 @@ export function Experience({
                 </span>
               </h3>
 
-              {entry.highlights?.length ? (
-                <>
-                  <ul className="mt-3.5 max-w-[720px] list-disc space-y-2 pl-[18px] text-[15px] leading-normal marker:text-muted-foreground doc:mt-1.5 doc:max-w-none doc:space-y-1">
-                    {entry.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
-                    ))}
-                  </ul>
-                  <MoreDetail html={entry.html} />
-                </>
+              {/* Results as tiles, else highlights, else the one-line summary;
+                  the full paragraph stays behind "More detail" on the website */}
+              {entry.achievements?.length ? (
+                <AchievementTiles items={entry.achievements} />
+              ) : entry.highlights?.length ? (
+                <ul className="mt-3.5 max-w-[720px] list-disc space-y-2 pl-[18px] text-[15px] leading-normal marker:text-muted-foreground doc:mt-1.5 doc:max-w-none doc:space-y-1">
+                  {entry.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              ) : entry.summary ? (
+                <p className="mt-2 max-w-[720px] text-[15px] doc:mt-1 doc:max-w-none">
+                  {entry.summary}
+                </p>
               ) : (
-                <>
-                  {/* Print uses the short summary; the website keeps the full paragraph */}
-                  {entry.summary && (
-                    <p className={cn(prose, "hidden doc:block")}>
-                      {entry.summary}
-                    </p>
-                  )}
-                  <div
-                    className={cn(prose, entry.summary && "doc:hidden")}
-                    dangerouslySetInnerHTML={{ __html: entry.html }}
-                  />
-                </>
+                <div
+                  className="markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85 doc:mt-1"
+                  dangerouslySetInnerHTML={{ __html: entry.html }}
+                />
               )}
+              {(entry.achievements?.length ||
+                entry.highlights?.length ||
+                entry.summary) && <MoreDetail html={entry.html} />}
 
-              {/* A role with a linked project prints that project's stack instead */}
-              <div className={cn(entry.project && "doc:hidden")}>
-                <StackLine items={entry.tags} />
-              </div>
-              {projects
-                .filter((project) => project.slug === entry.project)
-                .map((project) => (
-                  <div key={project.slug} className="hidden doc:mt-2 doc:block">
-                    <ProjectCard project={project} />
-                  </div>
-                ))}
+              {/* Print leaves the stack to Skills */}
+              <TechStrip items={entry.tags} className="doc:hidden" />
             </MetaRow>
           </li>
         ))}

@@ -53,7 +53,7 @@ function ContactLine({ site }: { site: SiteMeta }) {
 export function Hero({ site, cvHref }: HeroProps) {
   return (
     <div id="top" className="mx-auto max-w-page px-6 doc:max-w-none doc:px-0">
-      <div className="flex flex-col-reverse gap-6 pt-10 pb-10 md:flex-row md:items-end md:justify-between md:gap-12 md:pt-18 md:pb-12 doc:flex-row doc:items-center doc:gap-8 doc:pt-0 doc:pb-5">
+      <div className="flex flex-col-reverse gap-6 pt-10 pb-10 md:flex-row md:items-end md:justify-between md:gap-12 md:pt-18 md:pb-12 doc:flex-row doc:items-center doc:gap-8 doc:pt-0 doc:pb-3">
         <div className="min-w-0 flex-1">
           <p className="font-mono text-[13px] tracking-[0.02em] text-muted-foreground">
             {site.title} · {site.location}

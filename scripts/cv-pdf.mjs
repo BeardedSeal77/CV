@@ -9,7 +9,7 @@ import path from "node:path"
 import matter from "gray-matter"
 
 import { cvDir } from "../lib/data-dir.mjs"
-import { launchBrowser, printPage } from "../lib/pdf.mjs"
+import { cvKeywords, launchBrowser, printPage, withMeta } from "../lib/pdf.mjs"
 
 const root = process.cwd()
 const outDir = path.join(root, "out")
@@ -35,13 +35,24 @@ if (!fs.existsSync(path.join(outDir, "cv.html"))) {
   process.exit(1)
 }
 
-const { name, cvPdf, portfolioPdf } = matter.read(
-  path.join(cvDir(), "site.md")
-).data
+const site = matter.read(path.join(cvDir(), "site.md")).data
+const { groups } = matter.read(path.join(cvDir(), "skills.md")).data
+const { name, cvPdf, portfolioPdf } = site
 
-const documents = [{ route: "/cv", file: cvPdf }]
+// Real metadata only: the keywords are the role and skills the CV itself lists
+const meta = {
+  author: name,
+  subject: `${site.title}: ${site.tagline}`,
+  keywords: cvKeywords(site, groups ?? []),
+}
+
+const documents = [{ route: "/cv", file: cvPdf, title: `${name}: CV` }]
 if (portfolioPdf)
-  documents.push({ route: "/portfolio/print", file: portfolioPdf })
+  documents.push({
+    route: "/portfolio/print",
+    file: portfolioPdf,
+    title: `${name}: Portfolio`,
+  })
 
 // Static server for out/, mirroring GitHub Pages: /CV/cv -> out/cv.html
 const server = http.createServer((req, res) => {
@@ -68,11 +79,12 @@ const { port } = server.address()
 
 const browser = await launchBrowser()
 try {
-  for (const { route, file } of documents) {
-    const pdf = await printPage(
+  for (const { route, file, title } of documents) {
+    const printed = await printPage(
       browser,
       `http://127.0.0.1:${port}${BASE_PATH}${route}`
     )
+    const pdf = await withMeta(printed, { ...meta, title })
     for (const dir of [outDir, path.join(root, "public")]) {
       fs.writeFileSync(path.join(dir, file), pdf)
     }

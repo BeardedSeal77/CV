@@ -6,8 +6,8 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 
-import { getSite } from "../content"
-import { launchBrowser, mergePdfs, printPage } from "../pdf.mjs"
+import { getSite, getSkills } from "../content"
+import { cvKeywords, launchBrowser, mergePdfs, printPage } from "../pdf.mjs"
 import { getOpportunity, jobhuntDir } from "./store"
 
 export interface PdfOptions {
@@ -40,7 +40,7 @@ export async function buildApplicationPdf(
   options: PdfOptions = { kind: "application", coverLetter: true }
 ): Promise<BuiltPdf> {
   const { opportunity } = await getOpportunity(id)
-  const site = await getSite()
+  const [site, skills] = await Promise.all([getSite(), getSkills()])
 
   const parts: { key: "letter" | "cv" | "portfolio"; route: string }[] = []
   if (options.kind === "letter" || options.coverLetter) {
@@ -69,6 +69,8 @@ export async function buildApplicationPdf(
   const { bytes, pages } = await mergePdfs(printed, {
     title: `${site.name}: ${label} for ${opportunity.company}`,
     author: site.name,
+    subject: `${site.title}: ${site.tagline}`,
+    keywords: cvKeywords(site, skills),
   })
   const count = (key: string) => pages[parts.findIndex((p) => p.key === key)] ?? 0
 
