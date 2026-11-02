@@ -1,61 +1,57 @@
-import { Section } from "@/components/site/section"
-import { Badge } from "@/components/ui/badge"
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  MetaRow,
+  MoreDetail,
+  Section,
+  StackLine,
+} from "@/components/site/section"
 import type { ExperienceEntry } from "@/lib/content"
-import { cn } from "@/lib/utils"
+
+function Dates({ entry }: { entry: ExperienceEntry }) {
+  return (
+    <>
+      <p>{entry.dates}</p>
+      {entry.current && (
+        <p className="mt-1.5 inline-flex items-center gap-1.5 text-primary">
+          <span aria-hidden className="size-1.5 rounded-full bg-primary" />
+          Current
+        </p>
+      )}
+    </>
+  )
+}
 
 export function Experience({ entries }: { entries: ExperienceEntry[] }) {
   return (
-    <Section id="experience" title="Experience" className="bg-muted/30">
-      <ol className="relative ml-2 space-y-8 border-s border-border ps-6">
+    <Section id="experience" title="Experience">
+      <ol>
         {entries.map((entry) => (
-          <li key={entry.company} className="relative">
-            <span
-              aria-hidden
-              className={cn(
-                "absolute -inset-s-7.5 top-2 size-3 rounded-full ring-4 ring-background",
-                entry.current ? "bg-primary" : "bg-muted-foreground/40"
-              )}
-            />
-            <Card>
-              {entry.current && (
+          <li key={entry.company} className="border-b py-7">
+            <MetaRow meta={<Dates entry={entry} />}>
+              <h3 className="text-[19px] leading-snug font-semibold tracking-[-0.01em]">
+                {entry.role}{" "}
+                <span className="font-normal text-muted-foreground">
+                  · {entry.company}
+                </span>
+              </h3>
+
+              {entry.highlights?.length ? (
+                <>
+                  <ul className="mt-3.5 max-w-[720px] list-disc space-y-2 pl-[18px] text-[15px] leading-normal marker:text-muted-foreground">
+                    {entry.highlights.map((highlight) => (
+                      <li key={highlight}>{highlight}</li>
+                    ))}
+                  </ul>
+                  <MoreDetail html={entry.html} />
+                </>
+              ) : (
                 <div
-                  aria-hidden
-                  className="-mt-(--card-spacing) h-1.5 w-full bg-linear-to-r from-primary to-brand-2"
-                />
-              )}
-              <CardHeader>
-                <CardTitle className="text-lg">{entry.role}</CardTitle>
-                <CardDescription className="font-medium text-primary">
-                  {entry.company}
-                </CardDescription>
-                <CardAction>
-                  <Badge variant={entry.current ? "default" : "secondary"}>
-                    {entry.dates}
-                  </Badge>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
-                <div
-                  className="markdown text-sm text-foreground/80"
+                  className="markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85"
                   dangerouslySetInnerHTML={{ __html: entry.html }}
                 />
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {entry.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              )}
+
+              <StackLine items={entry.tags} />
+            </MetaRow>
           </li>
         ))}
       </ol>

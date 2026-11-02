@@ -1,8 +1,6 @@
-import { Download } from "lucide-react"
-
-import { GitHubIcon, LinkedInIcon } from "@/components/site/icons"
+import { linkClass } from "@/components/site/hero"
+import { Section } from "@/components/site/section"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import type { SiteMeta } from "@/lib/content"
 
 interface FooterProps {
@@ -12,54 +10,52 @@ interface FooterProps {
 
 export function Footer({ site, cvHref }: FooterProps) {
   return (
-    <footer id="contact" className="scroll-mt-20 border-t">
-      <div className="mx-auto max-w-5xl px-4 py-14 text-center md:py-20">
-        <h2 className="font-heading text-2xl font-bold tracking-tight md:text-3xl">
-          Get in touch
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-          {site.contactBlurb}
-        </p>
-        <a
-          href={`mailto:${site.email}`}
-          className="mt-4 inline-block text-lg font-medium text-primary hover:underline"
-        >
-          {site.email}
-        </a>
-
-        <div className="mt-6 flex justify-center gap-2">
-          <Button
-            variant="outline"
-            nativeButton={false}
-            render={<a href={site.github} target="_blank" rel="noreferrer" />}
+    <>
+      <Section id="contact" title="Contact">
+        <div className="mt-7 max-w-[720px]">
+          <p className="text-lg leading-relaxed">{site.contactBlurb}</p>
+          <a
+            href={`mailto:${site.email}`}
+            className="mt-4 inline-block text-2xl font-semibold tracking-[-0.02em] break-all underline decoration-border underline-offset-[6px] transition-colors hover:decoration-primary md:text-3xl"
           >
-            <GitHubIcon data-icon="inline-start" />
-            GitHub
-          </Button>
-          <Button
-            variant="outline"
-            nativeButton={false}
-            render={<a href={site.linkedin} target="_blank" rel="noreferrer" />}
-          >
-            <LinkedInIcon data-icon="inline-start" />
-            LinkedIn
-          </Button>
-          <Button
-            variant="outline"
-            nativeButton={false}
-            render={<a href={cvHref} target="_blank" rel="noreferrer" />}
-          >
-            <Download data-icon="inline-start" />
-            CV
-          </Button>
+            {site.email}
+          </a>
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px]">
+            <Button
+              className="h-11 rounded-md px-5 text-[15px]"
+              nativeButton={false}
+              render={<a href={cvHref} target="_blank" rel="noreferrer" />}
+            >
+              Download CV (PDF)
+            </Button>
+            <a
+              href={site.github}
+              target="_blank"
+              rel="noreferrer"
+              className={linkClass}
+            >
+              GitHub
+            </a>
+            <a
+              href={site.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className={linkClass}
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
+      </Section>
 
-        <Separator className="mx-auto mt-10 max-w-xs" />
-        <p className="mt-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} {site.name} · {site.location} · Built
-          with Next.js & shadcn/ui
-        </p>
-      </div>
-    </footer>
+      <footer className="mx-auto max-w-page px-6 pt-16 pb-10">
+        <div className="flex flex-wrap justify-between gap-3 border-t pt-5 font-mono text-[13px] text-muted-foreground">
+          <span>
+            © {new Date().getFullYear()} {site.name} · {site.location}
+          </span>
+          <span>Built with Next.js and shadcn/ui</span>
+        </div>
+      </footer>
+    </>
   )
 }

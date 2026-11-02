@@ -20,7 +20,7 @@ import {
 import { withBasePath } from "@/lib/paths"
 
 const NAV_SECTIONS: NavSection[] = [
-  { id: "about", label: "About" },
+  { id: "profile", label: "Profile" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },

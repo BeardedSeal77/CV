@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { FileText, Menu, X } from "lucide-react"
+import { Download, Menu, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/site/theme-toggle"
@@ -40,9 +40,9 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
   }, [sections])
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4">
-        <a href="#top" className="shrink-0 text-sm font-bold tracking-tight">
+    <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-page items-center justify-between gap-2 px-6">
+        <a href="#top" className="shrink-0 text-[15px] font-semibold">
           {name}
         </a>
 
@@ -56,7 +56,7 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
               href={`#${section.id}`}
               className={cn(
                 "rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground",
-                activeId === section.id && "font-medium text-primary"
+                activeId === section.id && "font-medium text-foreground"
               )}
             >
               {section.label}
@@ -72,8 +72,8 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
             nativeButton={false}
             render={<a href={cvHref} target="_blank" rel="noreferrer" />}
           >
-            <FileText data-icon="inline-start" />
-            CV
+            <Download data-icon="inline-start" />
+            Download CV
           </Button>
           <Button
             variant="ghost"
@@ -90,7 +90,7 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
 
       {menuOpen && (
         <nav
-          className="border-t px-4 py-2 md:hidden"
+          className="border-t px-6 py-2 md:hidden"
           aria-label="Sections"
           onClick={() => setMenuOpen(false)}
         >
@@ -100,7 +100,7 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
               href={`#${section.id}`}
               className={cn(
                 "block rounded-md px-2 py-2.5 text-sm text-muted-foreground hover:text-foreground",
-                activeId === section.id && "font-medium text-primary"
+                activeId === section.id && "font-medium text-foreground"
               )}
             >
               {section.label}

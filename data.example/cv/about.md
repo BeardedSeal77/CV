@@ -1,4 +1,5 @@
 ---
+summary: "Sample profile: Sam builds backend services and internal tools for small operations teams, mostly in Python with React front ends."
 stats:
   - value: "5+"
     label: Years Building Software

@@ -29,8 +29,11 @@ export interface SiteMeta {
   github: string
   linkedin: string
   cvPdf: string
-  headshot: string
+  headshot?: string
   contactBlurb: string
+  // Page-level proof strip under the hero: measured numbers only
+  proof?: Stat[]
+  languages?: string[]
 }
 
 export interface Stat {
@@ -44,6 +47,8 @@ export interface Highlight {
 }
 
 export interface About {
+  // Three-line profile shown first; the markdown body is the longer version
+  summary?: string
   stats: Stat[]
   highlights: Highlight[]
   html: string
@@ -54,6 +59,8 @@ export interface ExperienceEntry {
   role: string
   dates: string
   current?: boolean
+  // 2–4 outcome-first bullets, used instead of the body paragraph where present
+  highlights?: string[]
   tags: string[]
   html: string
 }
@@ -84,6 +91,25 @@ export interface MiniProject {
   text: string
 }
 
+export interface Capability {
+  // Stage in a capability grid (Plan, Build…); capabilities without one show as chips
+  group?: string
+  title: string
+  value?: string
+  planned?: boolean
+}
+
+export interface Pitch {
+  problem: string
+  capabilities?: Capability[]
+  proof?: Stat[]
+}
+
+export interface ProjectMedia {
+  src: string
+  alt: string
+}
+
 export interface Project {
   title: string
   subtitle: string
@@ -94,6 +120,9 @@ export interface Project {
   minis?: MiniProject[]
   links?: ProjectLink[]
   impact?: string
+  pitch?: Pitch
+  caseStudy?: string
+  media?: ProjectMedia[]
   html: string
 }
 

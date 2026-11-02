@@ -1,43 +1,32 @@
 import { Section } from "@/components/site/section"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { SkillGroup } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
+const isWorkingStyle = (group: SkillGroup) => /working style/i.test(group.title)
+
+// Groups as plain rows; trait words always come last
 export function Skills({ groups }: { groups: SkillGroup[] }) {
+  const ordered = [
+    ...groups.filter((group) => !isWorkingStyle(group)),
+    ...groups.filter(isWorkingStyle),
+  ]
+
   return (
-    <Section id="skills" title="Skills" className="bg-muted/30">
-      <div className="grid gap-4 sm:grid-cols-2">
-        {groups.map((group, index) => (
-          <Card
+    <Section id="skills" title="Skills">
+      <dl className="mt-4">
+        {ordered.map((group) => (
+          <div
             key={group.title}
             className={cn(
-              groups.length % 2 === 1 &&
-                index === groups.length - 1 &&
-                "sm:col-span-2"
+              "grid gap-x-12 gap-y-1 border-b py-3 text-[15px] md:grid-cols-[11.25rem_minmax(0,1fr)]",
+              isWorkingStyle(group) && "text-muted-foreground"
             )}
           >
-            {index === 0 && (
-              <div
-                aria-hidden
-                className="-mt-(--card-spacing) h-1.5 w-full bg-linear-to-r from-primary to-brand-2"
-              />
-            )}
-            <CardHeader>
-              <CardTitle className={cn(index === 0 && "text-primary")}>
-                {group.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-wrap gap-1.5">
-              {group.items.map((item) => (
-                <Badge key={item} variant="secondary">
-                  {item}
-                </Badge>
-              ))}
-            </CardContent>
-          </Card>
+            <dt className="font-semibold">{group.title}</dt>
+            <dd className="max-w-[720px]">{group.items.join(", ")}</dd>
+          </div>
         ))}
-      </div>
+      </dl>
     </Section>
   )
 }

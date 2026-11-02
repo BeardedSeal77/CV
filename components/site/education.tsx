@@ -1,15 +1,4 @@
-import { Award } from "lucide-react"
-
-import { Section } from "@/components/site/section"
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { MetaRow, Section } from "@/components/site/section"
 import type { CertificationItem, EducationEntry } from "@/lib/content"
 
 interface EducationProps {
@@ -20,62 +9,59 @@ interface EducationProps {
 export function Education({ entries, certifications }: EducationProps) {
   return (
     <Section id="education" title="Education">
-      <div className="space-y-4">
+      <ol>
         {entries.map((entry) => (
-          <Card key={entry.degree}>
-            <CardHeader>
-              <CardTitle className="text-lg">{entry.degree}</CardTitle>
-              <CardDescription className="font-medium text-primary">
-                {entry.institution}
-              </CardDescription>
-              {(entry.dates || entry.status || entry.award) && (
-                <CardAction className="flex flex-wrap justify-end gap-1.5">
-                  {entry.dates && (
-                    <Badge variant="secondary">{entry.dates}</Badge>
-                  )}
-                  {entry.status && <Badge>{entry.status}</Badge>}
-                  {entry.award && (
-                    <Badge variant="outline">
-                      <Award />
-                      {entry.award}
-                    </Badge>
-                  )}
-                </CardAction>
-              )}
-            </CardHeader>
-            {entry.html && (
-              <CardContent>
-                <div
-                  className="markdown text-sm text-foreground/80"
-                  dangerouslySetInnerHTML={{ __html: entry.html }}
-                />
-              </CardContent>
-            )}
-          </Card>
-        ))}
-      </div>
-
-      <h3 className="mt-10 mb-4 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-        Certificates & Achievements
-      </h3>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {certifications.map((certification) => (
-          <div
-            key={certification.title}
-            className="flex items-center justify-between gap-3 rounded-xl bg-card p-4 ring-1 ring-foreground/10"
-          >
-            <div>
-              <p className="text-sm font-medium">{certification.title}</p>
-              {certification.detail && (
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {certification.detail}
+          <li key={entry.degree} className="border-b py-6">
+            <MetaRow meta={entry.dates}>
+              <h3 className="text-[17px] leading-snug font-semibold">
+                {entry.degree}{" "}
+                <span className="font-normal text-muted-foreground">
+                  · {entry.institution}
+                </span>
+              </h3>
+              {(entry.status || entry.award) && (
+                <p className="mt-1 font-mono text-[13px] text-muted-foreground">
+                  {[entry.status, entry.award && `Award: ${entry.award}`]
+                    .filter(Boolean)
+                    .join(" · ")}
                 </p>
               )}
-            </div>
-            <Badge variant="outline">{certification.year}</Badge>
-          </div>
+              {entry.html && (
+                <div
+                  className="markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85"
+                  dangerouslySetInnerHTML={{ __html: entry.html }}
+                />
+              )}
+            </MetaRow>
+          </li>
         ))}
-      </div>
+      </ol>
+
+      {certifications.length > 0 && (
+        <MetaRow meta="Certificates" className="pt-6">
+          <ul className="grid gap-x-10 md:grid-cols-2">
+            {certifications.map((certification) => (
+              <li
+                key={certification.title}
+                className="flex items-baseline justify-between gap-4 border-b py-2.5 text-[15px]"
+              >
+                <span>
+                  {certification.title}
+                  {certification.detail && (
+                    <span className="text-muted-foreground">
+                      {" "}
+                      · {certification.detail}
+                    </span>
+                  )}
+                </span>
+                <span className="font-mono text-[13px] text-muted-foreground">
+                  {certification.year}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </MetaRow>
+      )}
     </Section>
   )
 }

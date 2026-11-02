@@ -141,13 +141,15 @@ export default async function CvPage() {
     <div className="cv">
       <Page accent>
         <header className="flex items-center gap-[6mm]">
-          <Image
-            src={site.headshot}
-            alt={site.name}
-            width={240}
-            height={240}
-            className="size-[27mm] shrink-0 rounded-full object-cover ring-[0.8mm] ring-primary/15"
-          />
+          {site.headshot && (
+            <Image
+              src={site.headshot}
+              alt={site.name}
+              width={240}
+              height={240}
+              className="size-[27mm] shrink-0 rounded-full object-cover ring-[0.8mm] ring-primary/15"
+            />
+          )}
           <div className="min-w-0 flex-1">
             <p className="text-[8pt] font-semibold tracking-[0.18em] text-primary uppercase">
               {site.title}
