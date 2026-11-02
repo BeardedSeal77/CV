@@ -1,0 +1,23 @@
+{
+  "id": "sample-data-ai-engineer",
+  "company": "Sample Data Co",
+  "role": "AI Engineer",
+  "country": "DE",
+  "city": "Berlin",
+  "platform": "LinkedIn",
+  "url": "https://example.com/jobs/ai-engineer",
+  "email": "",
+  "pay": "",
+  "mode": "On-site",
+  "fit": "Good",
+  "posted": "",
+  "deadline": "2026-12-15",
+  "size": "",
+  "what": "Sample company: data tools.",
+  "added": "2026-10-10",
+  "application": {
+    "status": "Shortlisted",
+    "updated": "2026-10-10",
+    "events": [{ "date": "2026-10-10", "status": "Shortlisted", "note": "Added." }]
+  }
+}

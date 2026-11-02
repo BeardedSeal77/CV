@@ -1,0 +1,79 @@
+# Builds the public CV from this repo plus the private data repo and deploys it
+# to GitHub Pages. Only the data repo's cv/ folder is checked out (sparse), so
+# the job hunt never reaches the runner.
+#
+# Settings → Secrets and variables → Actions:
+#   secret   CV_DATA_DEPLOY_KEY  read-only deploy key for the data repo
+#   variable CV_DATA_REPO        owner/name of the data repo
+#   variable CV_BASE_PATH        "/<repo>" while served at <user>.github.io/<repo>;
+#                                leave unset once a custom domain is live
+#   variable CV_DATA_DIR         "data.example" to deploy the sample data instead
+# Without the deploy key or CV_DATA_DIR the build fails, rather than publishing
+# sample data over a real CV.
+name: Deploy CV to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Sent by the data repo when cv/ changes
+  repository_dispatch:
+    types: [cv-data-updated]
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CV_BASE_PATH: ${{ vars.CV_BASE_PATH }}
+      CV_DATA_DIR: ${{ vars.CV_DATA_DIR }}
+      HAS_DATA_KEY: ${{ secrets.CV_DATA_DEPLOY_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out the CV data (cv/ only)
+        if: env.HAS_DATA_KEY == 'true' && env.CV_DATA_DIR == ''
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CV_DATA_REPO }}
+          ssh-key: ${{ secrets.CV_DATA_DEPLOY_KEY }}
+          path: data
+          sparse-checkout: cv
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # npm install (not ci): lockfiles written on Windows omit Linux-only
+      # optional packages, which makes npm ci fail here.
+      - run: npm install
+      - run: npm run build
+      # Renders /cv to the CV PDF in out/ (uses the runner's preinstalled Chrome)
+      - run: npm run cv:pdf
+      - run: npm run check-export
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

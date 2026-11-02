@@ -1,0 +1,27 @@
+{
+  "id": "example-robotics-backend",
+  "company": "Example Robotics",
+  "role": "Backend Engineer (Python)",
+  "country": "NL",
+  "city": "Utrecht",
+  "platform": "Company site",
+  "url": "https://example.com/careers/backend",
+  "email": "",
+  "pay": "€4,500–6,000 / month gross",
+  "mode": "Hybrid, 2 office days",
+  "fit": "Strong",
+  "posted": "2026-10-01",
+  "deadline": "",
+  "size": "120 staff",
+  "what": "Sample company: warehouse robots.",
+  "added": "2026-10-05",
+  "application": {
+    "status": "Interview",
+    "updated": "2026-10-20",
+    "events": [
+      { "date": "2026-10-05", "status": "Shortlisted", "note": "Added." },
+      { "date": "2026-10-08", "status": "Applied", "note": "Applied through the careers site." },
+      { "date": "2026-10-20", "status": "Interview", "note": "Technical interview booked." }
+    ]
+  }
+}
