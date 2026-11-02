@@ -62,7 +62,7 @@ Tools: `jobs_list`, `jobs_get`, `jobs_add`, `jobs_update`, `jobs_log_event`, `jo
 
 Every write is validated (`lib/jobhunt/schema.ts`), locked per opportunity and written atomically. Set `CV_AUTOCOMMIT=1` to commit each change to the data repo.
 
-## Keeping the job hunt private
+## Job hunt Local Instance
 
 1. **File naming.** Job hunt pages, API routes, the MCP route and the request guard are `*.local.tsx` / `*.local.ts`. Next only treats them as routes when `CV_MODE=local`, so the static export can't contain them.
 2. **Runtime guard.** `lib/jobhunt` throws unless `CV_MODE=local`, and `lib/content` refuses to read outside `data/cv`.
