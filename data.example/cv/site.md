@@ -10,6 +10,7 @@ website: https://example.com
 github: https://github.com/example
 linkedin: https://www.linkedin.com/in/example
 cvPdf: /Sam_Example_CV.pdf
+portfolioPdf: /Sam_Example_Portfolio.pdf
 headshot: /media/headshot.svg
 contactBlurb: "This is sample data. Replace data/ with your own data repo to make it yours."
 proof:

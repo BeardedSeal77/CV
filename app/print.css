@@ -1,0 +1,75 @@
+/* Page geometry for the printable documents (CV, portfolio, cover letter).
+   Colours come from .print-doc in globals.css; the content is the website's own
+   components, scaled down by .doc-body. Rendered to PDF by lib/pdf.mjs. */
+
+/* Fixed A4 sheets that clip: the CV and the cover letter */
+@page sheet {
+  size: A4;
+  margin: 0;
+}
+
+/* Flowing A4 pages: the portfolio */
+@page flow {
+  size: A4;
+  margin: 14mm 15mm;
+}
+
+.print-doc {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.print-sheet {
+  page: sheet;
+  box-sizing: border-box;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  padding: 11mm 14mm 11mm;
+  background: #fff;
+}
+
+.print-flow {
+  page: flow;
+  background: #fff;
+}
+
+/* Website components at document scale: 15px body copy prints at 9pt */
+.doc-body {
+  zoom: 0.8;
+}
+
+@media screen {
+  .print-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8mm;
+    padding: 8mm 0;
+  }
+  .print-sheet,
+  .print-flow {
+    box-shadow: 0 2px 16px rgb(0 0 0 / 0.18);
+  }
+  .print-flow {
+    box-sizing: border-box;
+    width: 210mm;
+    padding: 14mm 15mm;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  .print-sheet {
+    break-after: page;
+  }
+  .print-sheet:last-child {
+    break-after: auto;
+  }
+  .print-break {
+    break-before: page;
+  }
+}

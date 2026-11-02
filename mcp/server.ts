@@ -4,7 +4,7 @@ import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mc
 import { z } from "zod"
 
 import { splitLetter, joinLetter } from "../lib/jobhunt/letter"
-import { buildApplicationPdf } from "../lib/jobhunt/pdf"
+import { buildApplicationPdf, parsePdfOptions } from "../lib/jobhunt/pdf"
 import { STATUSES, ListingPatchSchema, StatusSchema } from "../lib/jobhunt/schema"
 import { jobStats } from "../lib/jobhunt/stats"
 import {
@@ -150,10 +150,16 @@ export function createMcpServer({ baseUrl }: McpOptions) {
     "jobs_build_pdf",
     {
       description:
-        "Render the cover letter plus the CV into one PDF in jobhunt/output. Needs the local server running.",
-      inputSchema: { id: z.string() },
+        "Render a PDF into jobhunt/output. kind \"application\" (default) is the CV, with the cover letter in front unless coverLetter is false and the portfolio behind if portfolio is true; kind \"letter\" is the cover letter alone. Needs the local server running.",
+      inputSchema: {
+        id: z.string(),
+        kind: z.enum(["application", "letter"]).optional(),
+        coverLetter: z.boolean().optional(),
+        portfolio: z.boolean().optional(),
+      },
     },
-    async ({ id }) => json(await buildApplicationPdf(id, baseUrl))
+    async ({ id, ...options }) =>
+      json(await buildApplicationPdf(id, baseUrl, parsePdfOptions(options)))
   )
 
   server.registerTool(

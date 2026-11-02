@@ -8,14 +8,14 @@ import { withBasePath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
 
 // "Developer Workbench • SQL-First" + status -> "Developer Workbench · SQL-First · In daily use"
-function eyebrow(project: Project) {
+export function eyebrow(project: Project) {
   return [project.subtitle.replaceAll(" • ", " · "), project.status]
     .filter(Boolean)
     .join(" · ")
 }
 
 // A project is pitched as a capability grid when its capabilities name a stage
-function isGridPitch(project: Project) {
+export function isGridPitch(project: Project) {
   return Boolean(project.pitch?.capabilities?.some((item) => item.group))
 }
 
@@ -28,10 +28,61 @@ function groupByStage(capabilities: Capability[]) {
   return [...groups.entries()]
 }
 
+// Stages as columns, written column by column so extracted text reads stage by stage
+export function CapabilityGrid({
+  capabilities,
+  className,
+}: {
+  capabilities: Capability[]
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(13rem,1fr))] doc:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] doc:gap-x-5 doc:gap-y-2",
+        className
+      )}
+    >
+      {groupByStage(capabilities).map(([stage, items]) => (
+        <div key={stage}>
+          <h4 className="mb-1 font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase doc:mb-0.5">
+            {stage}
+          </h4>
+          <ul>
+            {items.map((item) => (
+              <li key={item.title} className="border-t py-3 doc:py-1.5">
+                <p className="text-[14.5px] leading-snug font-semibold">
+                  {item.title}
+                  {item.planned && (
+                    <span className="font-normal text-muted-foreground">
+                      {" "}
+                      · in development
+                    </span>
+                  )}
+                </p>
+                {item.value && (
+                  <p className="mt-0.5 text-[13.5px] leading-normal text-muted-foreground doc:leading-snug">
+                    {item.value}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function Links({ project }: { project: Project }) {
   const links = [
     ...(project.caseStudy
-      ? [{ label: "Case study and demo", href: withBasePath(project.caseStudy) }]
+      ? [
+          {
+            label: "Case study and demo",
+            href: withBasePath(project.caseStudy),
+          },
+        ]
       : []),
     ...(project.links ?? []),
   ]
@@ -57,54 +108,34 @@ function Links({ project }: { project: Project }) {
 }
 
 // The flagship: problem, capabilities by stage, proof, stack
-function PitchBlock({ project }: { project: Project }) {
+export function PitchBlock({ project }: { project: Project }) {
   const pitch = project.pitch!
   return (
-    <article className="mt-7 rounded-lg border bg-card p-6 md:p-8">
+    <article
+      id={project.slug}
+      className="mt-7 scroll-mt-20 rounded-lg border bg-card p-6 md:p-8 doc:mt-3 doc:p-4"
+    >
       <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
         <div className="min-w-0 flex-[1_1_32rem]">
           <p className="font-mono text-[12.5px] text-muted-foreground">
             {eyebrow(project)}
           </p>
-          <h3 className="mt-1.5 text-[26px] leading-tight font-semibold tracking-[-0.02em] md:text-[30px]">
+          <h3 className="mt-1.5 text-[26px] leading-tight font-semibold tracking-[-0.02em] md:text-[30px] doc:mt-0.5 doc:text-[24px]">
             {project.title}
           </h3>
-          <p className="mt-2.5 max-w-[680px] text-lg leading-normal">
+          <p className="mt-2.5 max-w-[680px] text-lg leading-normal doc:mt-1 doc:max-w-none doc:text-base">
             {pitch.problem}
           </p>
         </div>
-        <Links project={project} />
+        <div className="doc:hidden">
+          <Links project={project} />
+        </div>
       </div>
 
-      <div className="mt-7 grid gap-x-7 gap-y-6 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(13rem,1fr))]">
-        {groupByStage(pitch.capabilities ?? []).map(([stage, items]) => (
-          <div key={stage}>
-            <h4 className="mb-1 font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase">
-              {stage}
-            </h4>
-            <ul>
-              {items.map((item) => (
-                <li key={item.title} className="border-t py-3">
-                  <p className="text-[14.5px] leading-snug font-semibold">
-                    {item.title}
-                    {item.planned && (
-                      <span className="font-normal text-muted-foreground">
-                        {" "}
-                        · in development
-                      </span>
-                    )}
-                  </p>
-                  {item.value && (
-                    <p className="mt-0.5 text-[13.5px] leading-normal text-muted-foreground">
-                      {item.value}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <CapabilityGrid
+        capabilities={pitch.capabilities ?? []}
+        className="mt-7 doc:mt-3"
+      />
 
       {pitch.proof && <ProofStrip items={pitch.proof} variant="inline" />}
       <StackLine items={project.tags} />
@@ -113,14 +144,18 @@ function PitchBlock({ project }: { project: Project }) {
   )
 }
 
-function Chips({ items }: { items: { title: string; planned?: boolean }[] }) {
+export function Chips({
+  items,
+}: {
+  items: { title: string; planned?: boolean }[]
+}) {
   return (
-    <ul className="mt-5 flex flex-wrap gap-2 text-[13.5px]">
+    <ul className="mt-5 flex flex-wrap gap-2 text-[13.5px] doc:mt-2.5 doc:gap-1.5">
       {items.map((item) => (
         <li
           key={item.title}
           className={cn(
-            "rounded-md border px-2.5 py-1.5",
+            "rounded-md border px-2.5 py-1.5 doc:py-0.5",
             item.planned && "border-dashed text-muted-foreground"
           )}
         >
@@ -133,7 +168,7 @@ function Chips({ items }: { items: { title: string; planned?: boolean }[] }) {
 }
 
 // Compact project: problem or description, traction, feature chips
-function ProjectCard({
+export function ProjectCard({
   project,
   className,
 }: {
@@ -141,13 +176,13 @@ function ProjectCard({
   className?: string
 }) {
   const chips =
-    project.pitch?.capabilities ??
-    project.features?.map((title) => ({ title }))
+    project.pitch?.capabilities ?? project.features?.map((title) => ({ title }))
 
   return (
     <article
+      id={project.slug}
       className={cn(
-        "flex h-full flex-col rounded-lg border p-6 md:px-8 md:py-7",
+        "flex h-full scroll-mt-20 flex-col rounded-lg border p-6 md:px-8 md:py-7 doc:p-4",
         className
       )}
     >
@@ -156,7 +191,7 @@ function ProjectCard({
           <p className="font-mono text-[12.5px] text-muted-foreground">
             {eyebrow(project)}
           </p>
-          <h3 className="mt-1.5 text-2xl leading-tight font-semibold tracking-[-0.015em]">
+          <h3 className="mt-1.5 text-2xl leading-tight font-semibold tracking-[-0.015em] doc:mt-0.5 doc:text-[21px]">
             {project.title}
           </h3>
         </div>
@@ -179,7 +214,7 @@ function ProjectCard({
 
       {project.pitch ? (
         <>
-          <p className="mt-2.5 max-w-[680px] text-base">
+          <p className="mt-2.5 max-w-[680px] text-base doc:mt-1 doc:max-w-none">
             {project.pitch.problem}
           </p>
           <MoreDetail html={project.html} />
@@ -209,7 +244,7 @@ function ProjectCard({
       <div className="mt-auto pt-1">
         <StackLine items={project.tags} />
         {project.links && (
-          <div className="mt-4">
+          <div className="mt-4 doc:hidden">
             <Links project={{ ...project, caseStudy: undefined }} />
           </div>
         )}
@@ -227,7 +262,7 @@ export function Projects({ projects }: { projects: Project[] }) {
       {pitched.map((project) => (
         <PitchBlock key={project.title} project={project} />
       ))}
-      <div className="mt-5 grid gap-5 md:grid-cols-2">
+      <div className="mt-5 grid gap-5 md:grid-cols-2 doc:mt-3 doc:gap-3">
         {rest.map((project) => (
           <ProjectCard
             key={project.title}

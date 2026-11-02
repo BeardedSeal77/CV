@@ -1,14 +1,15 @@
-// Renders the /cv page of the static export (out/) to the CV PDF.
-// Run after `npm run build`. Writes the PDF into out/ (so the deploy ships it)
-// and public/ (git-ignored, so `npm run dev` and `npm run local` can serve it).
+// Renders the document pages of the static export (out/) to PDF: the CV from /cv,
+// and the portfolio from /portfolio/print once site.md names its PDF.
+// Run after `npm run build`. Writes the PDFs into out/ (so the deploy ships them)
+// and public/ (git-ignored, so `npm run dev` and `npm run local` can serve them).
 import fs from "node:fs"
 import http from "node:http"
 import path from "node:path"
 
 import matter from "gray-matter"
-import { chromium } from "playwright-core"
 
 import { cvDir } from "../lib/data-dir.mjs"
+import { launchBrowser, printPage } from "../lib/pdf.mjs"
 
 const root = process.cwd()
 const outDir = path.join(root, "out")
@@ -34,7 +35,13 @@ if (!fs.existsSync(path.join(outDir, "cv.html"))) {
   process.exit(1)
 }
 
-const { cvPdf } = matter.read(path.join(cvDir(), "site.md")).data
+const { name, cvPdf, portfolioPdf } = matter.read(
+  path.join(cvDir(), "site.md")
+).data
+
+const documents = [{ route: "/cv", file: cvPdf }]
+if (portfolioPdf)
+  documents.push({ route: "/portfolio/print", file: portfolioPdf })
 
 // Static server for out/, mirroring GitHub Pages: /CV/cv -> out/cv.html
 const server = http.createServer((req, res) => {
@@ -59,50 +66,20 @@ const server = http.createServer((req, res) => {
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve))
 const { port } = server.address()
 
-async function launch() {
-  // Use an installed browser rather than downloading one
-  for (const channel of ["chrome", "msedge"]) {
-    try {
-      return await chromium.launch({ channel })
-    } catch {}
-  }
-  throw new Error("No Chrome or Edge installation found.")
-}
-
-const browser = await launch()
+const browser = await launchBrowser()
 try {
-  const page = await browser.newPage({ colorScheme: "light" })
-  await page.goto(`http://127.0.0.1:${port}${BASE_PATH}/cv`, {
-    waitUntil: "networkidle",
-  })
-  await page.emulateMedia({ media: "print" })
-  await page.evaluate(() => document.fonts.ready)
-
-  // Pages are fixed-size sheets that clip; fail rather than ship cut-off text
-  const overflows = await page.evaluate(() =>
-    [...document.querySelectorAll(".cv-page")].flatMap((sheet, index) => {
-      const inner = sheet.lastElementChild
-      const limit =
-        inner.getBoundingClientRect().bottom -
-        parseFloat(getComputedStyle(inner).paddingBottom)
-      const bottom = Math.max(
-        ...[...inner.querySelectorAll("*")].map(
-          (el) => el.getBoundingClientRect().bottom
-        )
-      )
-      const overMm = (bottom - limit) / (96 / 25.4)
-      return overMm > 0.5 ? [`page ${index + 1} by ${overMm.toFixed(1)}mm`] : []
-    })
-  )
-  if (overflows.length) {
-    throw new Error(`CV content overflows: ${overflows.join(", ")}`)
+  for (const { route, file } of documents) {
+    const pdf = await printPage(
+      browser,
+      `http://127.0.0.1:${port}${BASE_PATH}${route}`
+    )
+    for (const dir of [outDir, path.join(root, "public")]) {
+      fs.writeFileSync(path.join(dir, file), pdf)
+    }
+    console.log(
+      `Wrote ${file} (${(pdf.length / 1024).toFixed(0)} KB) for ${name}`
+    )
   }
-
-  const pdf = await page.pdf({ preferCSSPageSize: true, printBackground: true })
-  for (const dir of [outDir, path.join(root, "public")]) {
-    fs.writeFileSync(path.join(dir, cvPdf), pdf)
-  }
-  console.log(`Wrote ${cvPdf} (${(pdf.length / 1024).toFixed(0)} KB)`)
 } finally {
   await browser.close()
   server.close()

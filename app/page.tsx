@@ -16,6 +16,7 @@ import {
   getProjects,
   getSite,
   getSkills,
+  portfolioEnabled,
 } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 
@@ -51,10 +52,20 @@ export default async function Page() {
   ])
 
   const cvHref = withBasePath(site.cvPdf)
+  const sections: NavSection[] = portfolioEnabled(site)
+    ? [
+        ...NAV_SECTIONS,
+        {
+          id: "portfolio",
+          label: "Portfolio",
+          href: withBasePath("/portfolio"),
+        },
+      ]
+    : NAV_SECTIONS
 
   return (
     <>
-      <Navbar name={site.name} cvHref={cvHref} sections={NAV_SECTIONS} />
+      <Navbar name={site.name} cvHref={cvHref} sections={sections} />
       <main>
         <Hero site={site} cvHref={cvHref} />
         <About about={about} />

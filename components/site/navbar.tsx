@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils"
 export interface NavSection {
   id: string
   label: string
+  // A separate page rather than a section anchor
+  href?: string
 }
 
 interface NavbarProps {
@@ -53,7 +55,7 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
           {sections.map((section) => (
             <a
               key={section.id}
-              href={`#${section.id}`}
+              href={section.href ?? `#${section.id}`}
               className={cn(
                 "rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground",
                 activeId === section.id && "font-medium text-foreground"
@@ -97,7 +99,7 @@ export function Navbar({ name, cvHref, sections }: NavbarProps) {
           {sections.map((section) => (
             <a
               key={section.id}
-              href={`#${section.id}`}
+              href={section.href ?? `#${section.id}`}
               className={cn(
                 "block rounded-md px-2 py-2.5 text-sm text-muted-foreground hover:text-foreground",
                 activeId === section.id && "font-medium text-foreground"

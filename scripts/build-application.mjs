@@ -50,5 +50,4 @@ else if (arg) {
 for (const opp of chosen) {
   const result = await api(`/api/jobs/${opp.id}/pdf`, "POST")
   console.log(`Built ${result.file}`)
-  if (result.letterPages > 1) console.warn(`  Warning: the letter runs to ${result.letterPages} pages.`)
 }

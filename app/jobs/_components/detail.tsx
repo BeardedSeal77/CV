@@ -109,11 +109,12 @@ export function OpportunityDetail({
 }) {
   const router = useRouter()
   const [error, setError] = useState("")
-  const [pdfState, setPdfState] = useState<{ busy: boolean; message: string; ready: boolean }>({
+  const [pdfState, setPdfState] = useState<{ busy: boolean; message: string; name: string }>({
     busy: false,
     message: "",
-    ready: false,
+    name: "",
   })
+  const [pdfOptions, setPdfOptions] = useState({ coverLetter: true, portfolio: false })
   const [form, setForm] = useState({ date: todayStr(), status: "", note: "", link: "" })
 
   async function addEvent(event: { date: string; status?: string; note: string; link?: string }) {
@@ -128,15 +129,13 @@ export function OpportunityDetail({
     }
   }
 
-  async function buildPdf() {
-    setPdfState({ busy: true, message: "Building the PDF…", ready: false })
+  async function buildPdf(kind: "letter" | "application") {
+    setPdfState({ busy: true, message: "Building the PDF…", name: "" })
     try {
-      const result = await call(`/api/jobs/${opp.id}/pdf`, "POST")
-      const warn =
-        result.letterPages > 1 ? ` The letter runs to ${result.letterPages} pages; trim it.` : ""
-      setPdfState({ busy: false, message: `Built ${result.file}.${warn}`, ready: true })
+      const result = await call(`/api/jobs/${opp.id}/pdf`, "POST", { kind, ...pdfOptions })
+      setPdfState({ busy: false, message: `Built ${result.file}.`, name: result.name })
     } catch (err) {
-      setPdfState({ busy: false, message: (err as Error).message, ready: false })
+      setPdfState({ busy: false, message: (err as Error).message, name: "" })
     }
   }
 
@@ -201,17 +200,51 @@ export function OpportunityDetail({
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Application PDF</h2>
           <p className="text-sm text-muted-foreground">
-            The cover letter page followed by your CV, printed from this server.
+            Your CV, printed from this server, with the cover letter in front and the portfolio
+            behind if you tick them. Or build the cover letter on its own.
           </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={pdfOptions.coverLetter}
+                onChange={(e) => setPdfOptions((o) => ({ ...o, coverLetter: e.target.checked }))}
+                className="size-4 accent-primary"
+              />
+              Cover letter in front
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={pdfOptions.portfolio}
+                onChange={(e) => setPdfOptions((o) => ({ ...o, portfolio: e.target.checked }))}
+                className="size-4 accent-primary"
+              />
+              Portfolio at the back
+            </label>
+          </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={buildPdf} disabled={pdfState.busy}>
-              {pdfState.busy ? "Building…" : "Build application PDF"}
+            <Button onClick={() => buildPdf("application")} disabled={pdfState.busy}>
+              {pdfState.busy ? "Building…" : "Build CV PDF"}
+            </Button>
+            <Button variant="outline" onClick={() => buildPdf("letter")} disabled={pdfState.busy}>
+              Build letter only
             </Button>
             <Button variant="outline" nativeButton={false} render={<Link href={`/jobs/${opp.id}/letter`} target="_blank" />}>
               Preview letter
             </Button>
-            {pdfState.ready && (
-              <Button variant="outline" nativeButton={false} render={<a href={`/api/jobs/${opp.id}/pdf`} target="_blank" rel="noreferrer" />}>
+            {pdfState.name && (
+              <Button
+                variant="outline"
+                nativeButton={false}
+                render={
+                  <a
+                    href={`/api/jobs/${opp.id}/pdf?name=${encodeURIComponent(pdfState.name)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                }
+              >
                 Open PDF
               </Button>
             )}

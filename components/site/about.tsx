@@ -4,10 +4,12 @@ import type { About as AboutContent } from "@/lib/content"
 export function About({ about }: { about: AboutContent }) {
   return (
     <Section id="profile" title="Profile">
-      <div className="mt-7 max-w-[720px]">
+      <div className="mt-7 max-w-[720px] doc:mt-2 doc:max-w-none">
         {about.summary ? (
           <>
-            <p className="text-lg leading-relaxed">{about.summary}</p>
+            <p className="text-lg leading-relaxed doc:text-base doc:leading-normal">
+              {about.summary}
+            </p>
             <MoreDetail html={about.html} label="More about me" />
           </>
         ) : (

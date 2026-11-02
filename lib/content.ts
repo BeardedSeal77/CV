@@ -12,7 +12,9 @@ function contentPath(relativePath: string) {
   const root = cvDir()
   const full = path.resolve(root, relativePath)
   if (!full.startsWith(root + path.sep)) {
-    throw new Error(`Refusing to read outside the CV data folder: ${relativePath}`)
+    throw new Error(
+      `Refusing to read outside the CV data folder: ${relativePath}`
+    )
   }
   return full
 }
@@ -29,6 +31,8 @@ export interface SiteMeta {
   github: string
   linkedin: string
   cvPdf: string
+  // Set once the portfolio has content: enables /portfolio and its PDF
+  portfolioPdf?: string
   headshot?: string
   contactBlurb: string
   // Page-level proof strip under the hero: measured numbers only
@@ -61,6 +65,10 @@ export interface ExperienceEntry {
   current?: boolean
   // 2–4 outcome-first bullets, used instead of the body paragraph where present
   highlights?: string[]
+  // One or two lines that replace the body paragraph in printed documents
+  summary?: string
+  // Slug of a project to show compactly under this role in printed documents
+  project?: string
   tags: string[]
   html: string
 }
@@ -111,6 +119,8 @@ export interface ProjectMedia {
 }
 
 export interface Project {
+  // Anchor and portfolio id: frontmatter `slug`, else the file name without its order prefix
+  slug: string
   title: string
   subtitle: string
   featured?: boolean
@@ -167,6 +177,19 @@ export async function getSite(): Promise<SiteMeta> {
   return readFile("site.md").data as SiteMeta
 }
 
+// The portfolio is public once site.md names its PDF; locally it is always on, to work on
+export function portfolioEnabled(site: SiteMeta) {
+  return Boolean(site.portfolioPdf) || process.env.CV_MODE === "local"
+}
+
+// Projects with a pitch are the portfolio case studies; grid pitches lead
+export function portfolioProjects(projects: Project[]) {
+  const pitched = projects.filter((project) => project.pitch)
+  const grid = (project: Project) =>
+    project.pitch?.capabilities?.some((item) => item.group) ? 0 : 1
+  return [...pitched].sort((a, b) => grid(a) - grid(b))
+}
+
 export async function getAbout(): Promise<About> {
   const { data, content } = readFile("about.md")
   return { ...data, html: await toHtml(content) } as About
@@ -185,7 +208,17 @@ export async function getCertifications(): Promise<CertificationItem[]> {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  return readCollection<Project>("projects")
+  const dir = "projects"
+  const files = fs
+    .readdirSync(contentPath(dir))
+    .filter((file) => file.endsWith(".md"))
+    .sort()
+  const projects = await readCollection<Project>(dir)
+  return projects.map((project, index) => ({
+    ...project,
+    slug:
+      project.slug ?? path.basename(files[index], ".md").replace(/^\d+-/, ""),
+  }))
 }
 
 export async function getSkills(): Promise<SkillGroup[]> {

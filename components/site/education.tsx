@@ -11,9 +11,9 @@ export function Education({ entries, certifications }: EducationProps) {
     <Section id="education" title="Education">
       <ol>
         {entries.map((entry) => (
-          <li key={entry.degree} className="border-b py-6">
+          <li key={entry.degree} className="border-b py-6 doc:py-2">
             <MetaRow meta={entry.dates}>
-              <h3 className="text-[17px] leading-snug font-semibold">
+              <h3 className="text-[17px] leading-snug font-semibold doc:text-[15px]">
                 {entry.degree}{" "}
                 <span className="font-normal text-muted-foreground">
                   · {entry.institution}
@@ -28,7 +28,7 @@ export function Education({ entries, certifications }: EducationProps) {
               )}
               {entry.html && (
                 <div
-                  className="markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85"
+                  className="markdown mt-2.5 max-w-[720px] text-[15px] text-foreground/85 doc:hidden"
                   dangerouslySetInnerHTML={{ __html: entry.html }}
                 />
               )}
@@ -38,12 +38,12 @@ export function Education({ entries, certifications }: EducationProps) {
       </ol>
 
       {certifications.length > 0 && (
-        <MetaRow meta="Certificates" className="pt-6">
+        <MetaRow meta="Certificates" className="pt-6 doc:pt-2">
           <ul className="grid gap-x-10 md:grid-cols-2">
             {certifications.map((certification) => (
               <li
                 key={certification.title}
-                className="flex items-baseline justify-between gap-4 border-b py-2.5 text-[15px]"
+                className="flex items-baseline justify-between gap-4 border-b py-2.5 text-[15px] doc:py-1"
               >
                 <span>
                   {certification.title}

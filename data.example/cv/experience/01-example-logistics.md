@@ -4,6 +4,7 @@ company: Example Logistics
 role: Backend Engineer
 dates: "2023 – Present"
 current: true
+project: dispatch
 highlights:
   - "Built the dispatch service that assigns drivers to deliveries across every depot."
   - "Replaced a spreadsheet morning report with a live operations view."

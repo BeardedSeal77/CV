@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Inside a printable document (CV, portfolio, letter): denser, always light */
+@custom-variant doc (.print-doc &);
 
 @theme inline {
     --font-heading: var(--font-sans);
@@ -125,6 +127,29 @@
     --sidebar-accent-foreground: #e7eaef;
     --sidebar-border: #252c36;
     --sidebar-ring: #7d9bff;
+}
+
+/* Printable documents use the print theme on screen too, whatever the site theme */
+.print-doc {
+    --background: #ffffff;
+    --foreground: #111418;
+    --card: #ffffff;
+    --card-foreground: #111418;
+    --primary: #1f47c4;
+    --primary-foreground: #ffffff;
+    --primary-soft: #edf1fd;
+    --brand-2: #1f47c4;
+    --secondary: #f2f3f5;
+    --secondary-foreground: #111418;
+    --muted: #f2f3f5;
+    --muted-foreground: #4a515c;
+    --accent: #f2f3f5;
+    --accent-foreground: #111418;
+    --border: #c9cdd4;
+    --input: #858c97;
+    --ring: #1f47c4;
+    color-scheme: light;
+    color: var(--foreground);
 }
 
 /* Printing the website always uses the light print theme */

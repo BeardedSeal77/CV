@@ -20,23 +20,25 @@ export function ProofStrip({
   return (
     <dl
       className={cn(
-        "grid grid-cols-2 gap-x-8 md:grid-cols-[repeat(auto-fit,minmax(10rem,1fr))]",
-        page ? "border-y" : "mt-6 gap-y-4 border-t pt-5",
+        "grid grid-cols-2 gap-x-8 md:grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] doc:grid-cols-[repeat(auto-fit,minmax(8rem,1fr))]",
+        page ? "border-y" : "mt-6 gap-y-4 border-t pt-5 doc:mt-3 doc:pt-2.5",
         className
       )}
     >
       {items.map((item, index) => (
         <div
           key={item.label}
-          className={cn("flex flex-col-reverse", page && "py-6")}
+          className={cn("flex flex-col-reverse", page && "py-6 doc:py-2.5")}
         >
-          <dt className="mt-1.5 text-[13.5px] leading-snug text-muted-foreground">
+          <dt className="mt-1.5 text-[13.5px] leading-snug text-muted-foreground doc:mt-0.5">
             {item.label}
           </dt>
           <dd
             className={cn(
               "font-mono leading-[1.1] font-medium tracking-[-0.02em]",
-              page ? "text-[32px] md:text-[40px]" : "text-[26px]",
+              page
+                ? "text-[32px] md:text-[40px] doc:text-[30px]"
+                : "text-[26px] doc:text-[22px]",
               index === 0 && "text-primary"
             )}
           >

@@ -13,12 +13,12 @@ export function Skills({ groups }: { groups: SkillGroup[] }) {
 
   return (
     <Section id="skills" title="Skills">
-      <dl className="mt-4">
+      <dl className="mt-4 doc:mt-1">
         {ordered.map((group) => (
           <div
             key={group.title}
             className={cn(
-              "grid gap-x-12 gap-y-1 border-b py-3 text-[15px] md:grid-cols-[11.25rem_minmax(0,1fr)]",
+              "grid gap-x-12 gap-y-1 border-b py-3 text-[15px] md:grid-cols-[11.25rem_minmax(0,1fr)] doc:grid-cols-[8.5rem_minmax(0,1fr)] doc:gap-x-6 doc:py-1",
               isWorkingStyle(group) && "text-muted-foreground"
             )}
           >
