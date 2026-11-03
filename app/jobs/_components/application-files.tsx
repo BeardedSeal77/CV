@@ -18,12 +18,13 @@ import type { JobDetail } from "@/lib/jobhunt/view"
 import { action } from "./api"
 import { CopyButton } from "./copy-button"
 
-// The four PDFs that go with an application
-const DOWNLOADS: { label: string; body: Record<string, unknown> }[] = [
-  { label: "CV", body: { coverLetter: false } },
-  { label: "CV + cover letter", body: {} },
-  { label: "CV + portfolio", body: { coverLetter: false, portfolio: true } },
-  { label: "All three", body: { portfolio: true } },
+// Every PDF a form might ask for; the letter alone sits on the letter's card
+const DOWNLOADS: { label: string; kind: string; letter: boolean }[] = [
+  { label: "CV", kind: "cv", letter: false },
+  { label: "Letter + CV", kind: "application", letter: true },
+  { label: "Portfolio", kind: "portfolio", letter: false },
+  { label: "CV + portfolio", kind: "cv_portfolio", letter: false },
+  { label: "All three", kind: "application_portfolio", letter: true },
 ]
 
 function Spinner() {
@@ -35,13 +36,13 @@ export function ApplicationFiles({ job }: { job: JobDetail }) {
   const [busy, setBusy] = useState("")
   const [error, setError] = useState("")
 
-  async function download(label: string, body: Record<string, unknown>) {
+  async function download(label: string, kind: string) {
     setBusy(label)
     setError("")
     try {
       const built = await action<{ name: string }>("jobs.build_pdf", {
         id: job.id,
-        ...body,
+        kind,
       })
       const a = document.createElement("a")
       a.href = `/api/pdf/${job.id}?name=${encodeURIComponent(built.name)}`
@@ -72,7 +73,7 @@ export function ApplicationFiles({ job }: { job: JobDetail }) {
               variant="outline"
               size="sm"
               disabled={!job.letter.text || Boolean(busy)}
-              onClick={() => download("letter", { kind: "letter" })}
+              onClick={() => download("letter", "letter")}
             >
               {busy === "letter" ? (
                 <Spinner />
@@ -105,19 +106,17 @@ export function ApplicationFiles({ job }: { job: JobDetail }) {
         <CardHeader>
           <CardTitle>Application PDFs</CardTitle>
           <CardDescription>
-            Printed from this server in the CV&apos;s own design.
+            Printed from this server in the CV&apos;s own design, each as its
+            own file, for forms that want them separately or in one.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-2">
           {DOWNLOADS.map((d) => (
             <Button
               key={d.label}
-              variant={d.label === "All three" ? "default" : "outline"}
-              disabled={
-                Boolean(busy) ||
-                (d.body.coverLetter !== false && !job.letter.text)
-              }
-              onClick={() => download(d.label, d.body)}
+              variant={d.kind === "application" ? "default" : "outline"}
+              disabled={Boolean(busy) || (d.letter && !job.letter.text)}
+              onClick={() => download(d.label, d.kind)}
             >
               {busy === d.label ? (
                 <Spinner />

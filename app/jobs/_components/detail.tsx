@@ -264,6 +264,14 @@ export function JobPage({ id }: { id: string }) {
             }
           />
           <Editor
+            title="Job description in English"
+            initial={job.description_en}
+            rows={8}
+            save={(text) =>
+              action("jobs.set_document", { id, doc: "jd_en", text })
+            }
+          />
+          <Editor
             title="Interview prep"
             initial={job.notes}
             rows={6}

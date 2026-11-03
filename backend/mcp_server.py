@@ -25,7 +25,7 @@ from mcp.server.transport_security import TransportSecuritySettings  # noqa: E40
 
 from jobs.model.profile import read_letter_rules, read_profile  # noqa: E402
 from utils.errors import ActionError  # noqa: E402
-from utils.maps import describe  # noqa: E402
+from utils.maps import describe, get_action  # noqa: E402
 from utils.pipeline import dispatch  # noqa: E402
 
 INSTRUCTIONS = """Ed's job hunt board and CV. Jobs move through columns backlog -> applied ->
@@ -42,8 +42,10 @@ application lifecycle; pass correction=true only to fix a mistake.
 Workflows, each also a prompt here:
 - finding jobs: jobs_add each listing (it refuses duplicates);
 - draft_cover_letter: jobs_letter_brief, write, jobs_set_letter, move to Ready;
-- apply_to_job: jobs_next_to_apply, jobs_application_packet, fill the form, Ed
-  confirms the submit, then jobs_record_application;
+- apply_to_job: jobs_next_to_apply, jobs_application_packet, fill the form
+  (attach PDFs with jobs_upload_ticket: cv, letter, application or a
+  portfolio kind, whichever fields the form has), Ed confirms the submit, then
+  jobs_record_application;
 - triage_inbox: jobs_find_by_email for each reply, jobs_log_event with
   source "gmail:<thread id>".
 Never create accounts, enter passwords, submit without Ed's yes, or invent answers."""
@@ -55,7 +57,8 @@ def _tool_name(action: str) -> str:
     return action.replace(".", "_")
 
 
-_ACTIONS = {_tool_name(a["name"]): a for a in describe()}
+# Every action but the doors only a route uses (mcp: False in the map)
+_ACTIONS = {_tool_name(a["name"]): a for a in describe() if get_action(a["name"]).get("mcp", True)}
 
 server = Server("cv-platform", version="2.0.0", instructions=INSTRUCTIONS)
 

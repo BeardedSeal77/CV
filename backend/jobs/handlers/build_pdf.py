@@ -4,20 +4,21 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from jobs.model import pdf
 
+Kind = Literal["cv", "letter", "portfolio", "application", "cv_portfolio", "application_portfolio"]
+
 
 class BuildPdf(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     id: str
-    kind: Literal["application", "letter"] = Field(
-        "application", description='"letter" is the cover letter alone; "application" is the CV'
-    )
-    coverLetter: bool = Field(True, description="application only: the cover letter in front")
-    portfolio: bool = Field(False, description="application only: the portfolio at the back")
+    kind: Kind = Field("application", description="cv (the CV), letter (the cover letter), portfolio, application (letter then CV in one file), cv_portfolio (CV then portfolio), application_portfolio (all three in one file)")
+    force: bool = Field(False, description="Print again even when the PDF is newer than the CV and letter")
 
 
 def build_pdf(payload: BuildPdf) -> dict:
-    """Print a PDF into jobhunt/output/<id>/: the cover letter alone, the CV, or
-    the CV with the letter in front and/or the portfolio behind. Needs the
-    website running (npm run local). Returns file, name and page counts."""
-    return pdf.build(payload.id, payload.kind, payload.coverLetter, payload.portfolio)
+    """Print one of the application's PDFs into jobhunt/output/<id>/, named for
+    the employer (e.g. Erin_Cullen_CV.pdf, Erin_Cullen_Cover_Letter_Comarch.pdf).
+    Forms differ, so every combination is a kind: cv (the CV), letter (the cover letter), portfolio, application (letter then CV in one file), cv_portfolio (CV then portfolio), application_portfolio (all three in one file). A PDF newer than
+    the CV and the letter is reused; otherwise it is printed from the website
+    (npm run local). Returns kind, file, name, size, parts and rebuilt."""
+    return pdf.ensure(payload.id, payload.kind, payload.force)

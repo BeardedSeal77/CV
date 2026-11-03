@@ -18,6 +18,7 @@ from flask import Flask, Response, jsonify, request, send_file
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from cv.model.build_document import build_document  # noqa: E402
+from jobs.model import handoff  # noqa: E402
 from jobs.model.pdf import output_file  # noqa: E402
 from utils.errors import ActionError, NotFound  # noqa: E402
 from utils.maps import describe, registry  # noqa: E402
@@ -45,7 +46,11 @@ def _hostname(value: str) -> str:
 def local_only():
     allowed = _allowed_hosts()
     origin = request.headers.get("Origin")
-    if _hostname(request.host) not in allowed or (origin and _hostname(origin) not in allowed):
+    if _hostname(request.host) not in allowed:
+        return jsonify(error="This server only accepts local requests."), 403
+    # /handoff/<token> is the one door a web page may knock on: the ticket
+    # itself names the single origin it serves
+    if origin and _hostname(origin) not in allowed and not request.path.startswith("/handoff/"):
         return jsonify(error="This server only accepts local requests."), 403
     return None
 
@@ -85,6 +90,36 @@ def serve_pdf(job_id: str):
     if file is None:
         raise NotFound("No PDF built yet")
     return send_file(file, mimetype="application/pdf", download_name=file.name, as_attachment=False)
+
+
+def _handoff_headers(response: Response, origin: str) -> Response:
+    response.headers["Access-Control-Allow-Origin"] = origin
+    # A public HTTPS page reaching 127.0.0.1 needs this (private network access)
+    response.headers["Access-Control-Allow-Private-Network"] = "true"
+    response.headers["Access-Control-Expose-Headers"] = "Content-Disposition"
+    response.headers["Vary"] = "Origin"
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
+
+
+@app.route("/handoff/<token>", methods=["GET", "OPTIONS"])
+def serve_handoff(token: str):
+    """One application PDF for the one page origin its ticket names, once
+    (jobs.upload_ticket). OPTIONS answers the browser's preflight without
+    using the ticket."""
+    origin = request.headers.get("Origin", "")
+    if request.method == "OPTIONS":
+        ticket = handoff.check(token, origin)
+        response = Response(status=204)
+        response.headers["Access-Control-Allow-Methods"] = "GET"
+        response.headers["Access-Control-Allow-Headers"] = request.headers.get("Access-Control-Request-Headers", "")
+        response.headers["Access-Control-Max-Age"] = "60"
+        return _handoff_headers(response, ticket["origin"])
+    claimed = dispatch("jobs.claim_handoff", {"token": token, "origin": origin})
+    response = send_file(claimed["path"], mimetype="application/pdf", as_attachment=True,
+                         download_name=claimed["name"], max_age=0)
+    return _handoff_headers(response, claimed["origin"])
 
 
 @app.get("/api/documents/<file_name>")

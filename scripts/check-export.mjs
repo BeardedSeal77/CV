@@ -11,14 +11,14 @@ if (!fs.existsSync(out)) {
 }
 
 const problems = []
-for (const dir of ["jobs", "api", "mcp"]) {
+for (const dir of ["jobs", "api", "mcp", "handoff"]) {
   if (fs.existsSync(path.join(out, dir)) || fs.existsSync(path.join(out, `${dir}.html`))) {
     problems.push(`out/${dir} exists`)
   }
 }
 
 // Fingerprints of private content, when the job hunt is present (local runs)
-const fingerprints = ['data-private="jobhunt"', "data-private=\\\"jobhunt\\\"", "/api/jobs", "lib/jobhunt"]
+const fingerprints = ['data-private="jobhunt"', "data-private=\\\"jobhunt\\\"", "/api/jobs", "lib/jobhunt", "/handoff/"]
 const jobsDir = path.join(process.env.CV_DATA_DIR ?? "data", "jobhunt", "opportunities")
 if (fs.existsSync(jobsDir)) {
   for (const id of fs.readdirSync(jobsDir)) {

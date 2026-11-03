@@ -63,12 +63,13 @@ def summary(opp: Opportunity) -> dict:
     }
 
 
-def detail(opp: Opportunity, jd: str, letter: str, notes: str) -> dict:
+def detail(opp: Opportunity, jd: str, letter: str, notes: str, jd_en: str = "") -> dict:
     parts = split_letter(letter)
     return {
         **summary(opp),
         "hasLetter": bool(parts["text"]),
         "description": jd,
+        "description_en": jd_en,
         "letter": parts,
         "notes": notes,
         "events": _events(opp),

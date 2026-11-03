@@ -99,7 +99,7 @@ def interest_from_fit(fit: str) -> str:
 
 OPPORTUNITY_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-DOCS = ("jd", "letter", "notes")
+DOCS = ("jd", "jd_en", "letter", "notes")
 
 
 def check_date(value: str, *, optional: bool = True) -> str:

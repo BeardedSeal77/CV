@@ -21,6 +21,7 @@ import { ApplicationFiles } from "./application-files"
 import { ClosingDate } from "./closing-date"
 import { CopyButton } from "./copy-button"
 import { InterestPicker } from "./interest"
+import { JobDescription } from "./job-description"
 import { MoveCard } from "./move-card"
 import { PayCheckPanel } from "./pay-check"
 import { COUNTRY, Dot, fmtDate, StatusPill, today } from "./status"
@@ -322,22 +323,10 @@ export function JobDialog({
                 <PayCheckPanel check={job.pay_check} />
                 <ApplicationFiles job={job} />
 
-                <Card size="sm">
-                  <CardHeader>
-                    <CardTitle>Job description</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {job.description ? (
-                      <div className="max-h-72 overflow-y-auto text-[13.5px] leading-relaxed whitespace-pre-wrap text-foreground/90">
-                        {job.description}
-                      </div>
-                    ) : (
-                      <p className="text-[14px] text-muted-foreground">
-                        No description saved.
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
+                <JobDescription
+                  original={job.description}
+                  english={job.description_en}
+                />
               </div>
             </div>
           </div>

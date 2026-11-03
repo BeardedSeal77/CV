@@ -55,6 +55,8 @@ export interface JobSummary {
 export interface JobDetail extends JobSummary {
   /** The job description (jd.md) */
   description: string
+  /** Its English translation (jd.en.md), for listings in another language */
+  description_en: string
   letter: {
     /** The printed letter: header, date, salutation, body, sign-off */
     text: string

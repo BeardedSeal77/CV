@@ -13,15 +13,17 @@ class ApplicationPacket(BaseModel):
 
     id: str
     build_files: bool = Field(True, description="Print the PDFs now (needs the website running)")
-    portfolio: bool = Field(False, description="Also build the CV with the portfolio behind")
+    portfolio: bool = Field(False, description="Also build the portfolio kinds (portfolio, cv_portfolio, application_portfolio)")
 
 
 def get_application_packet(payload: ApplicationPacket) -> dict:
     """Everything needed to fill in this job's application form: where to apply,
     the applicant profile (contact details and standard answers: notice period,
-    work authorisation, salary expectation...), the cover letter text, and fresh
-    PDFs to upload (the letter alone, the CV alone, and both in one), each with
-    its path in the repo and its download link on the website, and the pay
+    work authorisation, salary expectation...), the cover letter text, and the
+    PDFs to upload, up to date: cv, letter and application (letter then CV in
+    one file), plus the portfolio kinds when asked. Attach them to the form with
+    jobs.upload_ticket: cv for a CV field, letter for a separate cover letter
+    field, application when the form takes one file. Also the pay
     check with the city's targets and Blue Card minimum: pick a salary ask
     above the minimum, at grade B or better where the listed range allows.
     Never invent an answer the profile doesn't give: ask Ed."""
@@ -33,17 +35,17 @@ def get_application_packet(payload: ApplicationPacket) -> dict:
 
     files = []
     if payload.build_files:
-        builds = [("letter", {"kind": "letter"}), ("cv", {"cover_letter": False}), ("application", {})]
+        kinds = ["cv", "letter", "application"]
         if payload.portfolio:
-            builds.append(("cv_with_portfolio", {"cover_letter": False, "portfolio": True}))
-        for kind, options in builds:
-            built = pdf.build(opp.id, **options)
-            path = pdf.output_file(opp.id, built["name"])
+            kinds += ["portfolio", "cv_portfolio", "application_portfolio"]
+        for kind in kinds:
+            built = pdf.ensure(opp.id, kind)
             files.append(
                 {
                     "kind": kind,
                     "name": built["name"],
-                    "path": repo_relative(path) if path else built["file"],
+                    "size": built["size"],
+                    "path": repo_relative(pdf.output_dir(opp.id) / built["name"]),
                     "url": f"/api/pdf/{opp.id}?name={quote(built['name'])}",
                 }
             )

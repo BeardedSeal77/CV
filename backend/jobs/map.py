@@ -2,8 +2,10 @@
 # DevTools reads this file without importing it, so every value is a literal
 # or a handler imported by name.
 from jobs.handlers.create_job import create_job
+from jobs.handlers.create_upload_ticket import create_upload_ticket
 from jobs.handlers.expire_closed_jobs import expire_closed_jobs
 from jobs.handlers.build_pdf import build_pdf
+from jobs.handlers.claim_handoff import claim_handoff
 from jobs.handlers.get_job import get_job
 from jobs.handlers.get_letter import get_letter
 from jobs.handlers.get_letter_brief import get_letter_brief
@@ -71,6 +73,12 @@ ACTIONS = {
                           'payload': {'required': ['id', 'doc']}},
     'jobs.build_pdf': {'mode': 'sync', 'access': 'write', 'handler': build_pdf, 'validators': [],
                        'permission': 'local', 'payload': {'required': ['id']}},
+    # A single-use link a form's page can fetch one PDF from
+    'jobs.upload_ticket': {'mode': 'sync', 'access': 'write', 'handler': create_upload_ticket, 'validators': [],
+                           'permission': 'local', 'payload': {'required': ['id', 'kind', 'origin']}},
+    # The door behind GET /handoff/<token>; not an agent tool
+    'jobs.claim_handoff': {'mode': 'sync', 'access': 'write', 'handler': claim_handoff, 'validators': [],
+                           'permission': 'local', 'mcp': False, 'payload': {'required': ['token']}},
 
     # ----------------------------------------------------------------
     # Agents: drafting letters, applying and reading replies

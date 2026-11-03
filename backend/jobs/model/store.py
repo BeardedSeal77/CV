@@ -16,7 +16,8 @@ from utils.files import folder_lock, write_atomic
 from .schema import DOCS, OPPORTUNITY_ID, Application, JobEvent, Listing, Opportunity
 
 log = logging.getLogger("jobs.store")
-DOC_FILES = {"jd": "jd.md", "letter": "letter.md", "notes": "notes.md"}
+# jd_en: an English translation of a description in another language
+DOC_FILES = {"jd": "jd.md", "jd_en": "jd.en.md", "letter": "letter.md", "notes": "notes.md"}
 
 
 def today() -> str:
