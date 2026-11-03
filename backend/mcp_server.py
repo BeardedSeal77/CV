@@ -1,11 +1,13 @@
 """MCP server for agents: one tool per action in the services' maps (jobs.move
 becomes jobs_move), each with the handler's own input schema and description.
 Every call goes through the same pipeline as POST /api/actions/<name>.
+Written against the mcp SDK version on the approved list (1.30).
 
   python mcp_server.py            Streamable HTTP on 127.0.0.1:5401/mcp (CV_MCP_PORT)
   python mcp_server.py --stdio    for clients that only take stdio
 """
 
+import contextlib
 import json
 import os
 import sys
@@ -16,7 +18,8 @@ import anyio
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from mcp import types  # noqa: E402
-from mcp.server.lowlevel.server import Server  # noqa: E402
+from mcp.server.lowlevel import Server  # noqa: E402
+from mcp.server.streamable_http_manager import StreamableHTTPSessionManager  # noqa: E402
 from mcp.server.transport_security import TransportSecuritySettings  # noqa: E402
 
 from utils.errors import ActionError  # noqa: E402
@@ -36,23 +39,26 @@ def _tool_name(action: str) -> str:
 
 _ACTIONS = {_tool_name(a["name"]): a for a in describe()}
 
-
-async def list_tools(ctx, params) -> types.ListToolsResult:
-    return types.ListToolsResult(
-        tools=[
-            types.Tool(name=name, description=a["description"], input_schema=a["input_schema"])
-            for name, a in _ACTIONS.items()
-        ]
-    )
+server = Server("cv-platform", version="2.0.0", instructions=INSTRUCTIONS)
 
 
-async def call_tool(ctx, params: types.CallToolRequestParams) -> types.CallToolResult:
-    action = _ACTIONS.get(params.name)
+@server.list_tools()
+async def list_tools() -> list[types.Tool]:
+    return [
+        types.Tool(name=name, description=a["description"], inputSchema=a["input_schema"])
+        for name, a in _ACTIONS.items()
+    ]
+
+
+# The pipeline validates every payload with the handler's own model
+@server.call_tool(validate_input=False)
+async def call_tool(name: str, arguments: dict) -> types.CallToolResult:
+    action = _ACTIONS.get(name)
     if action is None:
-        return _error(f"Unknown tool: {params.name}")
+        return _error(f"Unknown tool: {name}")
     try:
         # Handlers are synchronous (files, and Playwright's sync API for PDFs)
-        result = await anyio.to_thread.run_sync(lambda: dispatch(action["name"], params.arguments or {}))
+        result = await anyio.to_thread.run_sync(lambda: dispatch(action["name"], arguments or {}))
     except ActionError as err:
         return _error(str(err))
     text = json.dumps(result, ensure_ascii=False, indent=2)
@@ -60,30 +66,38 @@ async def call_tool(ctx, params: types.CallToolRequestParams) -> types.CallToolR
 
 
 def _error(message: str) -> types.CallToolResult:
-    return types.CallToolResult(content=[types.TextContent(type="text", text=message)], is_error=True)
-
-
-server = Server(
-    "cv-platform",
-    version="2.0.0",
-    instructions=INSTRUCTIONS,
-    on_list_tools=list_tools,
-    on_call_tool=call_tool,
-)
+    return types.CallToolResult(content=[types.TextContent(type="text", text=message)], isError=True)
 
 
 def http_app():
-    host = os.environ.get("CV_MCP_HOST", "127.0.0.1")
+    from starlette.applications import Starlette
+    from starlette.routing import Route
+
     extra = [h.strip() for h in os.environ.get("CV_ALLOWED_HOSTS", "").split(",") if h.strip()]
     hosts = ["127.0.0.1", "localhost", "[::1]", *extra]
-    security = TransportSecuritySettings(
-        enable_dns_rebinding_protection=True,
-        allowed_hosts=[f"{h}:*" for h in hosts],
-        allowed_origins=[f"http://{h}:*" for h in hosts],
+    manager = StreamableHTTPSessionManager(
+        app=server,
+        json_response=True,
+        stateless=True,
+        security_settings=TransportSecuritySettings(
+            enable_dns_rebinding_protection=True,
+            allowed_hosts=[f"{h}:*" for h in hosts],
+            allowed_origins=[f"http://{h}:*" for h in hosts],
+        ),
     )
-    return server.streamable_http_app(
-        stateless_http=True, json_response=True, transport_security=security, host=host
-    )
+
+    class Endpoint:
+        """A raw ASGI endpoint, so /mcp is served as is (a Mount redirects it to /mcp/)."""
+
+        async def __call__(self, scope, receive, send):
+            await manager.handle_request(scope, receive, send)
+
+    @contextlib.asynccontextmanager
+    async def lifespan(_app):
+        async with manager.run():
+            yield
+
+    return Starlette(routes=[Route("/mcp", endpoint=Endpoint(), methods=["GET", "POST", "DELETE"])], lifespan=lifespan)
 
 
 async def run_stdio():
