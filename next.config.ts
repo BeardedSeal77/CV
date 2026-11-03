@@ -18,7 +18,18 @@ const BASE_PATH = local ? "" : (process.env.CV_BASE_PATH ?? "")
 // board calls it same-origin; Next forwards these paths to it.
 const API_URL = BACKEND_URL
 
+// The dev server only accepts its own hostname for its dev resources (the HMR
+// socket the page needs to hydrate). In Docker it binds 0.0.0.0, so the
+// browser's 127.0.0.1 and the compose service names must be listed: the same
+// local names proxy.local.ts accepts.
+const LOCAL_ORIGINS = [
+  "127.0.0.1",
+  "localhost",
+  ...(process.env.CV_ALLOWED_HOSTS ?? "").split(",").map((h) => h.trim()).filter(Boolean),
+]
+
 const nextConfig: NextConfig = {
+  ...(local && { allowedDevOrigins: LOCAL_ORIGINS }),
   output: local ? undefined : "export",
   basePath: BASE_PATH,
   pageExtensions: local ? ["local.tsx", "local.ts", "tsx", "ts"] : ["tsx", "ts"],
