@@ -97,6 +97,9 @@ class JobEvent(BaseModel):
     status: Status | None = None
     note: str = ""
     link: str | None = None
+    # Where the update came from, e.g. "gmail:<thread id>", so a rescan of the
+    # same email never logs it twice
+    source: str | None = None
 
     @field_validator("date")
     @classmethod

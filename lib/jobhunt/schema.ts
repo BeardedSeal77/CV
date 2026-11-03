@@ -76,4 +76,6 @@ export interface JobEvent {
   status?: Status
   note: string
   link?: string
+  /** Where the update came from, e.g. "gmail:<thread id>" */
+  source?: string
 }

@@ -3,33 +3,15 @@
   cd backend && .venv/Scripts/python -m unittest discover -s tests -v
 """
 
-import os
-import shutil
-import sys
-import tempfile
 import threading
 import unittest
-from pathlib import Path
 
-BACKEND = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(BACKEND))
-
-_tmp = tempfile.mkdtemp(prefix="cv-backend-test-")
-shutil.copytree(BACKEND.parent / "data.example", Path(_tmp) / "data", dirs_exist_ok=True)
-os.environ["CV_DATA_DIR"] = str(Path(_tmp) / "data")
-os.environ.pop("CV_AUTOCOMMIT", None)
+from tests.sample_data import EXAMPLE, SAMPLE  # noqa: F401  (sets up the sample data first)
 
 from app import app  # noqa: E402
 from utils.errors import ActionError  # noqa: E402
 from utils.maps import describe, registry  # noqa: E402
 from utils.pipeline import dispatch  # noqa: E402
-
-EXAMPLE = "example-robotics-backend"  # Interview in the sample data
-SAMPLE = "sample-data-ai-engineer"  # Shortlisted
-
-
-def tearDownModule():
-    shutil.rmtree(_tmp, ignore_errors=True)
 
 
 class MapsTest(unittest.TestCase):
@@ -58,7 +40,7 @@ class JobsTest(unittest.TestCase):
         )
         self.assertEqual((job["column"], job["status"], job["method"]), ("backlog", "Shortlisted", "linkedin"))
         self.assertEqual(job["dates"]["listed"], "2026-10-30")
-        again = dispatch("jobs.add", {"company": "Acme", "role": "AI Engineer"})
+        again = dispatch("jobs.add", {"company": "Acme", "role": "AI Engineer", "allow_duplicate": True})
         self.assertNotEqual(again["id"], job["id"])
 
     def test_lifecycle_guard_and_correction(self):

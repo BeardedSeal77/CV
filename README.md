@@ -68,7 +68,11 @@ claude mcp add --transport http cv http://127.0.0.1:5401/mcp
 
 For stdio-only clients: `backend/.venv/Scripts/python backend/mcp_server.py --stdio`.
 
-Tools: `jobs_list`, `jobs_get`, `jobs_add`, `jobs_update`, `jobs_move`, `jobs_log_event`, `jobs_get_letter`, `jobs_set_letter`, `jobs_set_document`, `jobs_build_pdf`, `jobs_stats`, `jobs_version`, `cv_list_sections`, `cv_get_section`, `cv_update_section`.
+Tools: `jobs_list`, `jobs_get`, `jobs_add` (refuses duplicates), `jobs_update`, `jobs_move`, `jobs_log_event` (an email `source` is logged once), `jobs_get_letter`, `jobs_set_letter`, `jobs_set_document`, `jobs_build_pdf`, `jobs_stats`, `jobs_version`, `cv_list_sections`, `cv_get_section`, `cv_update_section`, and for agents: `jobs_letter_brief`, `jobs_next_to_apply`, `jobs_application_packet`, `jobs_record_application`, `jobs_find_by_email`.
+
+Prompts (the agent workflows, in `backend/prompts/`): `draft_cover_letter`, `apply_to_job` (one job at a time, the owner confirms every submit; never creates accounts or enters passwords), `triage_inbox` (reads replies through the agent's own email connector and logs them; clear ones move the card, ambiguous ones are listed). Resources: `jobs://profile`, `jobs://letter-rules`, `jobs://job/{id}`, `cv://section/{name}`.
+
+The agents read two private files in the data repo: `jobhunt/profile.md` (standard application answers: work authorisation, notice period, salary expectations by country; a blank value means ask, never guess) and `jobhunt/letter-rules.md` (how the letters are written). `data.example/jobhunt/` has samples of both.
 
 Every write is validated, locked per opportunity and written atomically. Set `CV_AUTOCOMMIT=1` to commit each change to the data repo. Tests: `cd backend && .venv/Scripts/python -m unittest discover -s tests`.
 

@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 import anyio
+import frontmatter
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -22,15 +23,24 @@ from mcp.server.lowlevel import Server  # noqa: E402
 from mcp.server.streamable_http_manager import StreamableHTTPSessionManager  # noqa: E402
 from mcp.server.transport_security import TransportSecuritySettings  # noqa: E402
 
+from jobs.model.profile import read_letter_rules, read_profile  # noqa: E402
 from utils.errors import ActionError  # noqa: E402
 from utils.maps import describe  # noqa: E402
 from utils.pipeline import dispatch  # noqa: E402
 
 INSTRUCTIONS = """Ed's job hunt board and CV. Jobs move through columns backlog -> applied ->
-interview -> accepted / declined (archived holds ruled-out roles). Typical flow:
-jobs_add a listing you found, read the CV with cv_get_section, write a cover
-letter with jobs_set_letter, then jobs_move it as it progresses. Moves follow the
-application lifecycle; pass correction=true only to fix a mistake."""
+interview -> accepted / declined (archived holds ruled-out roles). Moves follow the
+application lifecycle; pass correction=true only to fix a mistake.
+Workflows, each also a prompt here:
+- finding jobs: jobs_add each listing (it refuses duplicates);
+- draft_cover_letter: jobs_letter_brief, write, jobs_set_letter, move to Ready;
+- apply_to_job: jobs_next_to_apply, jobs_application_packet, fill the form, Ed
+  confirms the submit, then jobs_record_application;
+- triage_inbox: jobs_find_by_email for each reply, jobs_log_event with
+  source "gmail:<thread id>".
+Never create accounts, enter passwords, submit without Ed's yes, or invent answers."""
+
+PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 
 
 def _tool_name(action: str) -> str:
@@ -67,6 +77,82 @@ async def call_tool(name: str, arguments: dict) -> types.CallToolResult:
 
 def _error(message: str) -> types.CallToolResult:
     return types.CallToolResult(content=[types.TextContent(type="text", text=message)], isError=True)
+
+
+# Prompts: the agent workflows, one Markdown file each in prompts/ (frontmatter
+# gives the description and arguments; {argument} in the body is filled in)
+def _load_prompts() -> dict:
+    out = {}
+    for path in sorted(PROMPTS_DIR.glob("*.md")):
+        doc = frontmatter.load(path)
+        out[path.stem] = {
+            "description": doc.metadata.get("description", ""),
+            "arguments": doc.metadata.get("arguments") or {},
+            "body": doc.content.strip(),
+        }
+    return out
+
+
+@server.list_prompts()
+async def list_prompts() -> list[types.Prompt]:
+    return [
+        types.Prompt(
+            name=name,
+            description=p["description"],
+            arguments=[types.PromptArgument(name=k, description=v, required=False) for k, v in p["arguments"].items()],
+        )
+        for name, p in _load_prompts().items()
+    ]
+
+
+@server.get_prompt()
+async def get_prompt(name: str, arguments: dict[str, str] | None) -> types.GetPromptResult:
+    prompt = _load_prompts().get(name)
+    if prompt is None:
+        raise ValueError(f"Unknown prompt: {name}")
+    body = prompt["body"]
+    for key in prompt["arguments"]:
+        value = (arguments or {}).get(key) or ("the last 14 days" if key == "since" else "(not given)")
+        body = body.replace("{" + key + "}", value)
+    return types.GetPromptResult(
+        description=prompt["description"],
+        messages=[types.PromptMessage(role="user", content=types.TextContent(type="text", text=body))],
+    )
+
+
+# Resources: the profile, the letter rules, CV sections and jobs, readable by URI
+@server.list_resources()
+async def list_resources() -> list[types.Resource]:
+    return [
+        types.Resource(uri="jobs://profile", name="profile", description="Ed's standard application answers", mimeType="application/json"),
+        types.Resource(uri="jobs://letter-rules", name="letter-rules", description="How Ed's cover letters are written", mimeType="text/markdown"),
+    ]
+
+
+@server.list_resource_templates()
+async def list_resource_templates() -> list[types.ResourceTemplate]:
+    return [
+        types.ResourceTemplate(uriTemplate="jobs://job/{id}", name="job", description="One job with its timeline, description and letter", mimeType="application/json"),
+        types.ResourceTemplate(uriTemplate="cv://section/{name}", name="cv-section", description="A CV section as Markdown, e.g. cv://section/about", mimeType="text/markdown"),
+    ]
+
+
+@server.read_resource()
+async def read_resource(uri) -> str:
+    uri = str(uri)
+
+    def read() -> str:
+        if uri == "jobs://profile":
+            return json.dumps(read_profile(), ensure_ascii=False, indent=2)
+        if uri == "jobs://letter-rules":
+            return read_letter_rules()
+        if uri.startswith("jobs://job/"):
+            return json.dumps(dispatch("jobs.get", {"id": uri.removeprefix("jobs://job/")}), ensure_ascii=False, indent=2)
+        if uri.startswith("cv://section/"):
+            return dispatch("cv.get_section", {"name": uri.removeprefix("cv://section/")})["content"]
+        raise ValueError(f"Unknown resource: {uri}")
+
+    return await anyio.to_thread.run_sync(read)
 
 
 def http_app():

@@ -91,7 +91,32 @@ def _slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", text).strip("-")[:50]
 
 
-def add(listing: Listing, jd: str = "", letter: str = "", job_id: str | None = None) -> Opportunity:
+def _norm_url(url: str) -> str:
+    return url.strip().split("#", 1)[0].rstrip("/").lower()
+
+
+def find_duplicate(listing: Listing) -> Opportunity | None:
+    """A job already on the board with the same listing link, or the same
+    company and role."""
+    url = _norm_url(listing.url)
+    key = (listing.company.strip().lower(), listing.role.strip().lower())
+    for opp in list_all():
+        if (url and _norm_url(opp.url) == url) or (opp.company.strip().lower(), opp.role.strip().lower()) == key:
+            return opp
+    return None
+
+
+def add(
+    listing: Listing, jd: str = "", letter: str = "", job_id: str | None = None, allow_duplicate: bool = False
+) -> Opportunity:
+    if not allow_duplicate:
+        existing = find_duplicate(listing)
+        if existing:
+            raise ActionError(
+                f"Already on the board as {existing.id} ({existing.company}: {existing.role}).",
+                code="duplicate",
+                existing_id=existing.id,
+            )
     base = job_id or _slugify(f"{listing.company}-{listing.role}")
     if not OPPORTUNITY_ID.match(base or ""):
         base = f"opp-{int(time.time())}"
@@ -130,12 +155,25 @@ def log_event(job_id: str, event: JobEvent) -> Opportunity:
         raise ActionError("An event needs a note or a status.")
     with folder_lock(opp_dir(job_id)):
         opp = read(job_id)
+        if _seen(opp, event):
+            return opp  # the same email (or other source) was logged already
         opp.application.events.append(event)
         if event.status:
             opp.application.status = event.status
         opp.application.updated = today()
         _write(opp)
     return opp
+
+
+def _seen(opp: Opportunity, event: JobEvent) -> bool:
+    return bool(event.source) and any(
+        e.source == event.source and e.status == event.status for e in opp.application.events
+    )
+
+
+def already_logged(job_id: str, event: JobEvent) -> bool:
+    """Whether this exact update (same source and status) is on the timeline."""
+    return _seen(read(job_id), event)
 
 
 def set_doc(job_id: str, doc: str, text: str) -> None:

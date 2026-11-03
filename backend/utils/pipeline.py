@@ -35,14 +35,14 @@ def _check_process(spec: dict, payload: Any) -> None:
     if state is None:
         return
     allowed = {t["to"] for t in state["transitions"]}
-    if target != current and target not in allowed:
+    if target == current:
+        return  # no change of status: the event is a note (e.g. a second email saying the same)
+    if target not in allowed:
         raise ActionError(
             f'Can\'t move from {current} to {target}. Allowed: {", ".join(sorted(allowed)) or "none"}. '
             "Pass correction: true to fix a mistake.",
             code="transition_not_allowed",
         )
-    if target == current and current not in allowed:
-        raise ActionError(f"The job is already {current}.", code="no_change")
 
 
 def _invalid(err: ValidationError) -> ActionError:
