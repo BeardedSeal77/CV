@@ -53,6 +53,7 @@ def summary(opp: Opportunity) -> dict:
         "url": opp.url,
         "email": opp.email,
         "fit": opp.fit,
+        "interest": opp.interest,
         "size": opp.size,
         "what": opp.what,
         "hasLetter": letter_path(opp.id).is_file(),

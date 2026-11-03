@@ -1,34 +1,29 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Archive, FileText, Loader2, MapPin, Plus } from "lucide-react"
+import { Fragment, useCallback, useEffect, useRef, useState } from "react"
+import { ChevronDown, Loader2, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
   type Column,
   COLUMN_LABEL,
   COLUMN_OF,
+  COLUMNS,
   DEFAULT_STATUS,
-  METHOD_LABEL,
+  type Interest,
+  INTERESTS,
   type Status,
-  statusesIn,
 } from "@/lib/jobhunt/schema"
 import type { JobSummary } from "@/lib/jobhunt/view"
 import { cn } from "@/lib/utils"
 
 import { action, ActionError, type Lifecycle, loadLifecycle } from "./api"
 import { AddJobDialog } from "./add-job-dialog"
+import { INTEREST_TONE } from "./interest"
+import { JobCard } from "./job-card"
 import { JobDialog } from "./job-dialog"
-import { COUNTRY, Dot, fmtDate, StatusPill } from "./status"
 
-const BOARD: Column[] = [
-  "backlog",
-  "applied",
-  "interview",
-  "accepted",
-  "declined",
-  "not_interested",
-]
+const BOARD: Column[] = [...COLUMNS]
 
 // A soft accent per column, so the board reads left to right at a glance
 const COLUMN_TONE: Record<Column, string> = {
@@ -38,13 +33,14 @@ const COLUMN_TONE: Record<Column, string> = {
   accepted: "bg-domain-backend",
   declined: "bg-destructive/70",
   not_interested: "bg-muted-foreground/30",
-  archived: "bg-muted-foreground/30",
+  expired: "bg-muted-foreground/20",
 }
 
+// A drop target: one column within one interest band
+const cellKey = (column: Column, interest: Interest) => `${interest}:${column}`
+
 const listJobs = () =>
-  action<{ jobs: JobSummary[]; version: string }>("jobs.list", {
-    include_archived: true,
-  })
+  action<{ jobs: JobSummary[]; version: string }>("jobs.list", {})
 
 /** The status a card would take moving into a column, if its lifecycle allows it */
 export function targetStatus(
@@ -57,78 +53,6 @@ export function targetStatus(
   return allowed.find((status) => COLUMN_OF[status] === column)
 }
 
-function JobCard({
-  job,
-  onOpen,
-  onDragStart,
-  onDragEnd,
-}: {
-  job: JobSummary
-  onOpen: () => void
-  onDragStart: () => void
-  onDragEnd: () => void
-}) {
-  const place = [job.city, COUNTRY[job.country] ?? job.country]
-    .filter(Boolean)
-    .join(", ")
-  const showStatus = statusesIn(job.column).length > 1
-  return (
-    <button
-      type="button"
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.setData("text/plain", job.id)
-        e.dataTransfer.effectAllowed = "move"
-        onDragStart()
-      }}
-      onDragEnd={onDragEnd}
-      onClick={onOpen}
-      className="w-full cursor-grab rounded-lg border bg-card p-3 text-left transition-colors hover:border-input focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:cursor-grabbing"
-    >
-      <div className="flex items-start justify-between gap-2">
-        <p className="min-w-0 text-[14.5px] leading-snug font-semibold">
-          {job.company}
-        </p>
-        {job.hasLetter && (
-          <FileText
-            aria-label="Cover letter written"
-            className="mt-0.5 size-3.5 shrink-0 text-primary"
-          />
-        )}
-      </div>
-      <p className="mt-0.5 text-[13px] leading-snug text-muted-foreground">
-        {job.role}
-      </p>
-      {place && (
-        <p className="mt-2 flex items-center gap-1 text-[12.5px] text-muted-foreground">
-          <MapPin aria-hidden className="size-3" />
-          {place}
-        </p>
-      )}
-      <div className="mt-2 flex flex-wrap items-center gap-1.5">
-        {showStatus && <StatusPill status={job.status} />}
-        <span className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
-          {METHOD_LABEL[job.method]}
-        </span>
-        {job.pay && (
-          <span className="truncate font-mono text-[11px] text-muted-foreground">
-            {job.pay}
-          </span>
-        )}
-      </div>
-      <p className="mt-2 font-mono text-[11px] text-muted-foreground">
-        Added {fmtDate(job.dates.added)}
-        {job.dates.applied && (
-          <>
-            <Dot />
-            Applied {fmtDate(job.dates.applied)}
-          </>
-        )}
-      </p>
-    </button>
-  )
-}
-
 /** The job hunt as a Kanban board: drag a card to move it, click it for everything about it */
 export function Kanban() {
   const [jobs, setJobs] = useState<JobSummary[] | null>(null)
@@ -136,11 +60,11 @@ export function Kanban() {
   // The same fingerprint as state, so the open dialog reloads when files change
   const [seen, setSeen] = useState("")
   const [lifecycle, setLifecycle] = useState<Lifecycle>({})
-  const [showArchived, setShowArchived] = useState(false)
   const [openId, setOpenId] = useState<string | null>(null)
   const [adding, setAdding] = useState(false)
   const [dragging, setDragging] = useState<JobSummary | null>(null)
-  const [over, setOver] = useState<Column | null>(null)
+  const [over, setOver] = useState<string | null>(null)
+  const [folded, setFolded] = useState<Interest[]>([])
   const [error, setError] = useState("")
   // A move the lifecycle doesn't allow, waiting for "fix a mistake?"
   const [pending, setPending] = useState<{
@@ -217,14 +141,32 @@ export function Kanban() {
     await refresh()
   }
 
+  async function setInterest(job: JobSummary, interest: Interest) {
+    setError("")
+    setJobs((all) =>
+      (all ?? []).map((j) => (j.id === job.id ? { ...j, interest } : j))
+    )
+    try {
+      await action("jobs.update", { id: job.id, interest })
+    } catch (err) {
+      setError((err as Error).message)
+    }
+  }
+
+  // Another band changes the interest, another column moves the job
+  async function drop(job: JobSummary, column: Column, interest: Interest) {
+    if (interest !== job.interest) await setInterest(job, interest)
+    if (column !== job.column) await move({ ...job, interest }, column)
+    else await refresh()
+  }
+
   const valid = (column: Column) =>
     !dragging ||
     column === dragging.column ||
     Boolean(targetStatus(lifecycle, dragging.status, column))
 
-  const columns = showArchived ? [...BOARD, "archived" as Column] : BOARD
+  const columns = BOARD
   const all = jobs ?? []
-  const archived = all.filter((j) => j.column === "archived").length
 
   return (
     <div className="space-y-4">
@@ -240,14 +182,6 @@ export function Kanban() {
           ))}
         </dl>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowArchived((v) => !v)}
-          >
-            <Archive data-icon="inline-start" />
-            {showArchived ? "Hide archived" : `Show archived (${archived})`}
-          </Button>
           <Button size="sm" onClick={() => setAdding(true)}>
             <Plus data-icon="inline-start" />
             Add job
@@ -292,75 +226,126 @@ export function Kanban() {
       ) : (
         <div className="-mx-4 overflow-x-auto px-4 pb-2">
           <div
-            className="grid gap-4"
+            className="grid gap-x-3 gap-y-2"
             style={{
               gridTemplateColumns: `repeat(${columns.length}, minmax(15.5rem, 1fr))`,
             }}
           >
-            {columns.map((column) => {
-              const cards = all
-                .filter((j) => j.column === column)
-                .sort((a, b) => b.dates.updated.localeCompare(a.dates.updated))
-              const ok = valid(column)
+            {columns.map((column) => (
+              <h2
+                key={column}
+                className="flex items-center justify-between rounded-lg border bg-muted/40 px-3 py-2 text-[14px] font-semibold"
+              >
+                <span className="flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className={cn("size-2 rounded-full", COLUMN_TONE[column])}
+                  />
+                  {COLUMN_LABEL[column]}
+                </span>
+                <span className="font-mono text-[12px] font-normal text-muted-foreground">
+                  {all.filter((j) => j.column === column).length}
+                </span>
+              </h2>
+            ))}
+
+            {INTERESTS.map((interest) => {
+              const band = all.filter((j) => j.interest === interest)
+              const open = !folded.includes(interest)
               return (
-                <section
-                  key={column}
-                  aria-label={COLUMN_LABEL[column]}
-                  onDragOver={(e) => {
-                    if (!dragging) return
-                    e.preventDefault()
-                    setOver(column)
-                  }}
-                  onDragLeave={() => setOver((c) => (c === column ? null : c))}
-                  onDrop={(e) => {
-                    e.preventDefault()
-                    const job = dragging
-                    setOver(null)
-                    setDragging(null)
-                    if (job) move(job, column)
-                  }}
-                  className={cn(
-                    "flex min-h-[60vh] flex-col rounded-lg border bg-muted/40 p-2 transition-[background-color,border-color,opacity]",
-                    dragging && !ok && "opacity-45",
-                    over === column && ok && "border-primary bg-primary-soft",
-                    over === column && !ok && "border-domain-automation"
-                  )}
-                >
-                  <header className="flex items-center justify-between px-1.5 pt-1 pb-2.5">
-                    <h2 className="flex items-center gap-2 text-[14px] font-semibold">
+                <Fragment key={interest}>
+                  <div style={{ gridColumn: "1 / -1" }} className="pt-2">
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      onClick={() =>
+                        setFolded((f) =>
+                          open
+                            ? [...f, interest]
+                            : f.filter((i) => i !== interest)
+                        )
+                      }
+                      className="sticky left-0 flex items-center gap-2 rounded-md px-1 py-0.5 text-[13px] font-semibold hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+                    >
+                      <ChevronDown
+                        aria-hidden
+                        className={cn(
+                          "size-3.5 text-muted-foreground transition-transform",
+                          !open && "-rotate-90"
+                        )}
+                      />
                       <span
                         aria-hidden
                         className={cn(
-                          "size-2 rounded-full",
-                          COLUMN_TONE[column]
+                          "h-3 w-1 rounded-full",
+                          INTEREST_TONE[interest]
                         )}
                       />
-                      {COLUMN_LABEL[column]}
-                    </h2>
-                    <span className="font-mono text-[12px] text-muted-foreground">
-                      {cards.length}
-                    </span>
-                  </header>
-                  <div className="flex flex-col gap-2">
-                    {cards.map((job) => (
-                      <JobCard
-                        key={job.id}
-                        job={job}
-                        onOpen={() => setOpenId(job.id)}
-                        onDragStart={() => setDragging(job)}
-                        onDragEnd={() => {
-                          setDragging(null)
-                          setOver(null)
-                        }}
-                      />
-                    ))}
-                    {cards.length === 0 && (
-                      <p className="rounded-md border border-dashed px-3 py-6 text-center text-[12.5px] text-muted-foreground">
-                        {dragging && ok ? "Drop here" : "No jobs here"}
-                      </p>
-                    )}
+                      {interest} interest
+                      <span className="font-mono text-[12px] font-normal text-muted-foreground">
+                        {band.length}
+                      </span>
+                    </button>
                   </div>
-                </section>
+
+                  {open &&
+                    columns.map((column) => {
+                      const key = cellKey(column, interest)
+                      const cards = band
+                        .filter((j) => j.column === column)
+                        .sort((a, b) =>
+                          b.dates.updated.localeCompare(a.dates.updated)
+                        )
+                      const ok = valid(column)
+                      return (
+                        <section
+                          key={key}
+                          aria-label={`${COLUMN_LABEL[column]}, ${interest} interest`}
+                          onDragOver={(e) => {
+                            if (!dragging) return
+                            e.preventDefault()
+                            setOver(key)
+                          }}
+                          onDragLeave={() =>
+                            setOver((c) => (c === key ? null : c))
+                          }
+                          onDrop={(e) => {
+                            e.preventDefault()
+                            const job = dragging
+                            setOver(null)
+                            setDragging(null)
+                            if (job) drop(job, column, interest)
+                          }}
+                          className={cn(
+                            "flex min-h-24 flex-col gap-2 rounded-lg border bg-muted/40 p-2 transition-[background-color,border-color,opacity]",
+                            dragging && !ok && "opacity-45",
+                            over === key &&
+                              ok &&
+                              "border-primary bg-primary-soft",
+                            over === key && !ok && "border-domain-automation"
+                          )}
+                        >
+                          {cards.map((job) => (
+                            <JobCard
+                              key={job.id}
+                              job={job}
+                              onOpen={() => setOpenId(job.id)}
+                              onDragStart={() => setDragging(job)}
+                              onDragEnd={() => {
+                                setDragging(null)
+                                setOver(null)
+                              }}
+                            />
+                          ))}
+                          {cards.length === 0 && dragging && ok && (
+                            <p className="rounded-md border border-dashed px-3 py-6 text-center text-[12.5px] text-muted-foreground">
+                              Drop here
+                            </p>
+                          )}
+                        </section>
+                      )
+                    })}
+                </Fragment>
               )
             })}
           </div>

@@ -38,7 +38,7 @@ export function CompaniesBoard() {
 
   useEffect(() => {
     Promise.all([
-      action<{ jobs: JobSummary[] }>("jobs.list", { include_archived: true }),
+      action<{ jobs: JobSummary[] }>("jobs.list", {}),
       action<JobStats>("jobs.stats"),
     ])
       .then(([list, numbers]) => {

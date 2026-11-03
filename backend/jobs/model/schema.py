@@ -5,7 +5,7 @@ them into columns."""
 import re
 from typing import Literal, get_args
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 Status = Literal[
     "Shortlisted",
@@ -19,11 +19,13 @@ Status = Literal[
     "Withdrawn",
     "Closed",
     "Not interested",
-    "Ruled out",
+    "Expired",
 ]
 STATUSES: tuple[str, ...] = get_args(Status)
 
-Column = Literal["backlog", "applied", "interview", "accepted", "declined", "not_interested", "archived"]
+Column = Literal[
+    "backlog", "applied", "interview", "accepted", "declined", "not_interested", "expired"
+]
 COLUMNS: tuple[str, ...] = get_args(Column)
 
 COLUMN_LABEL = {
@@ -33,13 +35,12 @@ COLUMN_LABEL = {
     "accepted": "Accepted",
     "declined": "Declined",
     "not_interested": "Not interested",
-    "archived": "Archived",
+    "expired": "Expired",
 }
 
-# Screening calls count as interviewing; offers sit in Accepted (the status says
-# whether Ed has accepted yet); Not interested holds roles Ed chose to skip;
-# Ruled out roles were never applied to and live
-# in a hidden archive.
+# Screening calls count as interviewing; offers sit in Accepted (the status says whether
+# Ed has accepted yet). Closed means the company closed the role after Ed
+# applied; Expired means the listing closed before he did.
 COLUMN_OF: dict[str, str] = {
     "Shortlisted": "backlog",
     "Ready": "backlog",
@@ -52,7 +53,7 @@ COLUMN_OF: dict[str, str] = {
     "Withdrawn": "declined",
     "Closed": "declined",
     "Not interested": "not_interested",
-    "Ruled out": "archived",
+    "Expired": "expired",
 }
 
 # The status a card gets when it's moved into a column without one
@@ -63,7 +64,7 @@ DEFAULT_STATUS: dict[str, str] = {
     "accepted": "Offer",
     "declined": "Rejected",
     "not_interested": "Not interested",
-    "archived": "Ruled out",
+    "expired": "Expired",
 }
 
 STATUS_GROUP: dict[str, str] = {
@@ -78,12 +79,23 @@ STATUS_GROUP: dict[str, str] = {
     "Withdrawn": "closed",
     "Closed": "closed",
     "Not interested": "closed",
-    "Ruled out": "closed",
+    "Expired": "closed",
 }
 
 # How the application is made; `platform` keeps the detail (Workable, Lever, ...)
 Method = Literal["indeed", "company_site", "linkedin", "other"]
 METHODS: tuple[str, ...] = get_args(Method)
+
+# How keen Ed is on a role; the board groups every column into these bands
+Interest = Literal["High", "Medium", "Low"]
+INTERESTS: tuple[str, ...] = get_args(Interest)
+_INTEREST_OF_FIT = {"strong": "High", "good": "Medium"}
+
+
+def interest_from_fit(fit: str) -> str:
+    """The interest a job starts with when none is given: Strong fits High,
+    Good fits Medium, anything else Low."""
+    return _INTEREST_OF_FIT.get(fit.strip().lower(), "Low")
 
 OPPORTUNITY_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,79}$")
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -140,6 +152,7 @@ LISTING_FIELDS = (
     "hours",
     "mode",
     "fit",
+    "interest",
     "posted",
     "deadline",
     "size",
@@ -166,11 +179,19 @@ class Listing(BaseModel):
     hours: str = ""
     mode: str = ""
     fit: str = ""
+    interest: Interest = "Low"
     posted: str = ""  # when the role was listed
     deadline: str = ""
     size: str = ""
     what: str = ""
     added: str = ""  # when it was added to the board
+
+    @model_validator(mode="before")
+    @classmethod
+    def _default_interest(cls, data):
+        if isinstance(data, dict) and not data.get("interest"):
+            data = {**data, "interest": interest_from_fit(str(data.get("fit") or ""))}
+        return data
 
     @field_validator("posted", "deadline", "added")
     @classmethod

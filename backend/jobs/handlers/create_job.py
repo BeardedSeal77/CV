@@ -19,8 +19,9 @@ def create_job(payload: CreateJob) -> dict:
     (required), country (ISO code), city, method (indeed, company_site,
     linkedin or other), platform (e.g. Workable), url (the application link),
     website (the company's site), email, pay, hours, mode, fit (Strong, Good or
-    Stretch), posted (date listed, YYYY-MM-DD), deadline, size, what (one line
-    on the company), jd, letter."""
+    Stretch), interest (High, Medium or Low; defaults from the fit: Strong High,
+    Good Medium, else Low), posted (date listed, YYYY-MM-DD), deadline, size,
+    what (one line on the company), jd, letter."""
     listing = Listing.model_validate(payload.model_dump(exclude={"jd", "letter", "allow_duplicate"}))
     opp = store.add(listing, jd=payload.jd, letter=payload.letter, allow_duplicate=payload.allow_duplicate)
     return view.summary(opp)

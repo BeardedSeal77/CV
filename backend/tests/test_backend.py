@@ -27,11 +27,36 @@ class MapsTest(unittest.TestCase):
 
 
 class JobsTest(unittest.TestCase):
-    def test_list_hides_archived_and_counts_columns(self):
+    def test_list_counts_every_column(self):
         result = dispatch("jobs.list", {})
-        self.assertTrue(all(j["column"] != "archived" for j in result["jobs"]))
-        self.assertIn("byColumn", result["stats"])
+        self.assertEqual(
+            set(result["stats"]["byColumn"]),
+            {"backlog", "applied", "interview", "accepted", "declined", "not_interested", "expired"},
+        )
         self.assertTrue(result["version"])
+
+    def test_interest_defaults_from_fit_and_gates_the_queue(self):
+        defaults = {
+            fit: dispatch("jobs.add", {"company": f"Keen {fit or 'blank'} Co", "role": "Dev", "fit": fit})["interest"]
+            for fit in ("Strong", "Good", "Stretch", "")
+        }
+        self.assertEqual(defaults, {"Strong": "High", "Good": "Medium", "Stretch": "Low", "": "Low"})
+        medium = dispatch("jobs.add", {"company": "Medium Co", "role": "Dev", "fit": "Strong", "interest": "Medium"})
+        high = dispatch("jobs.add", {"company": "High Co", "role": "Dev", "fit": "Good", "interest": "High"})
+        low = dispatch("jobs.add", {"company": "Low Co", "role": "Dev", "fit": "Strong", "interest": "Low"})
+        queue = [j["id"] for j in dispatch("jobs.next_to_apply", {"limit": 100})["needs_letter"]]
+        self.assertNotIn(low["id"], queue)
+        self.assertLess(queue.index(high["id"]), queue.index(medium["id"]))
+        raised = dispatch("jobs.update", {"id": low["id"], "interest": "High"})
+        self.assertEqual((raised["interest"], raised["column"]), ("High", "backlog"))
+
+    def test_expired(self):
+        job = dispatch("jobs.add", {"company": "Later Co", "role": "Dev", "fit": "Good"})
+        gone = dispatch("jobs.move", {"id": job["id"], "column": "expired", "note": "Listing taken down"})
+        self.assertEqual((gone["column"], gone["status"]), ("expired", "Expired"))
+        with self.assertRaises(ActionError):
+            dispatch("jobs.move", {"id": job["id"], "column": "applied"})
+        self.assertEqual(dispatch("jobs.move", {"id": job["id"], "column": "backlog"})["status"], "Shortlisted")
 
     def test_add_lands_in_backlog_with_new_fields(self):
         job = dispatch(

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from jobs.model import store, view
-from jobs.model.schema import Method
+from jobs.model.schema import Interest, Method
 
 
 class UpdateJob(BaseModel):
@@ -21,6 +21,7 @@ class UpdateJob(BaseModel):
     hours: str | None = None
     mode: str | None = None
     fit: str | None = None
+    interest: Interest | None = Field(None, description="High, Medium or Low: how keen Ed is")
     posted: str | None = Field(None, description="Date listed, YYYY-MM-DD")
     deadline: str | None = None
     size: str | None = None

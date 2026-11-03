@@ -26,7 +26,7 @@ const TONE: Record<Status, string> = {
   Withdrawn: "bg-muted text-muted-foreground",
   Closed: "bg-muted text-muted-foreground",
   "Not interested": "bg-muted text-muted-foreground",
-  "Ruled out": "bg-muted text-muted-foreground",
+  Expired: "bg-muted text-muted-foreground",
 }
 
 export function StatusPill({ status }: { status: Status }) {

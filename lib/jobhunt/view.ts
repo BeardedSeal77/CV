@@ -1,6 +1,6 @@
 // The shapes the Flask backend returns for the board (backend/jobs/model/view.py).
 // The dates are derived from each job's timeline, so they never disagree with it.
-import type { Column, JobEvent, Method, Status } from "./schema"
+import type { Column, Interest, JobEvent, Method, Status } from "./schema"
 
 export interface JobDates {
   /** When the role was listed (the listing's posted date) */
@@ -38,6 +38,7 @@ export interface JobSummary {
   url: string
   email: string
   fit: string
+  interest: Interest
   size: string
   what: string
   hasLetter: boolean

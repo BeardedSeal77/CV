@@ -19,6 +19,7 @@ import type { JobDetail } from "@/lib/jobhunt/view"
 import { action, type Lifecycle } from "./api"
 import { ApplicationFiles } from "./application-files"
 import { CopyButton } from "./copy-button"
+import { InterestPicker } from "./interest"
 import { MoveCard } from "./move-card"
 import { COUNTRY, Dot, fmtDate, StatusPill, today } from "./status"
 
@@ -175,6 +176,7 @@ export function JobDialog({
                     in {COLUMN_LABEL[job.column]}
                   </span>
                 )}
+                <InterestPicker job={job} onChanged={reload} />
               </div>
               <DialogTitle className="mt-2 text-2xl font-semibold tracking-tight">
                 {job.company}

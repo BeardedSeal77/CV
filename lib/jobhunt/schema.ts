@@ -14,7 +14,7 @@ export const STATUSES = [
   "Withdrawn",
   "Closed",
   "Not interested",
-  "Ruled out",
+  "Expired",
 ] as const
 export type Status = (typeof STATUSES)[number]
 
@@ -26,7 +26,7 @@ export const COLUMNS = [
   "accepted",
   "declined",
   "not_interested",
-  "archived",
+  "expired",
 ] as const
 export type Column = (typeof COLUMNS)[number]
 
@@ -37,13 +37,12 @@ export const COLUMN_LABEL: Record<Column, string> = {
   accepted: "Accepted",
   declined: "Declined",
   not_interested: "Not interested",
-  archived: "Archived",
+  expired: "Expired",
 }
 
 /** Which column each status sits in. Screening calls count as interviewing;
- * offers sit in Accepted (the status says whether Ed has accepted yet);
- * Not interested holds roles Ed chose to skip; Ruled out roles were never
- * applied to and live in a hidden archive. */
+ * offers sit in Accepted. Closed means the company
+ * closed the role after Ed applied; Expired, that the listing closed first. */
 export const COLUMN_OF: Record<Status, Column> = {
   Shortlisted: "backlog",
   Ready: "backlog",
@@ -56,7 +55,7 @@ export const COLUMN_OF: Record<Status, Column> = {
   Withdrawn: "declined",
   Closed: "declined",
   "Not interested": "not_interested",
-  "Ruled out": "archived",
+  Expired: "expired",
 }
 
 /** The status a card gets when it's moved into a column without one */
@@ -67,7 +66,7 @@ export const DEFAULT_STATUS: Record<Column, Status> = {
   accepted: "Offer",
   declined: "Rejected",
   not_interested: "Not interested",
-  archived: "Ruled out",
+  expired: "Expired",
 }
 
 export const statusesIn = (column: Column) =>
@@ -83,6 +82,10 @@ export const METHOD_LABEL: Record<Method, string> = {
   linkedin: "LinkedIn",
   other: "Other",
 }
+
+/** How keen Ed is on a role; the board groups every column into these bands */
+export const INTERESTS = ["High", "Medium", "Low"] as const
+export type Interest = (typeof INTERESTS)[number]
 
 export interface JobEvent {
   date: string

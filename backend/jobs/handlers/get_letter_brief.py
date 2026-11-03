@@ -5,7 +5,9 @@ from jobs.model.profile import read_cv_sections, read_letter_rules, read_profile
 from jobs.model.schema import COLUMN_OF
 
 # Letters to companies that answered are the best examples of the voice
-_EXAMPLE_ORDER = ("accepted", "interview", "applied", "declined", "backlog", "not_interested", "archived")
+_EXAMPLE_ORDER = (
+    "accepted", "interview", "applied", "declined", "backlog", "not_interested", "expired"
+)
 
 
 def get_letter_brief(payload: JobRef) -> dict:

@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
-import { METHOD_LABEL, METHODS } from "@/lib/jobhunt/schema"
+import { INTERESTS, METHOD_LABEL, METHODS } from "@/lib/jobhunt/schema"
 import type { JobSummary } from "@/lib/jobhunt/view"
 
 import { action } from "./api"
@@ -156,6 +156,20 @@ export function AddJobDialog({
             >
               {FITS.map((f) => (
                 <NativeSelectOption key={f}>{f}</NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor="add-interest">Interest</Label>
+            <NativeSelect
+              id="add-interest"
+              value={values.interest ?? ""}
+              onChange={set("interest")}
+              className="w-full"
+            >
+              <NativeSelectOption value="">From the fit</NativeSelectOption>
+              {INTERESTS.map((i) => (
+                <NativeSelectOption key={i}>{i}</NativeSelectOption>
               ))}
             </NativeSelect>
           </div>

@@ -23,7 +23,7 @@ async function action(name, payload = {}) {
   return data
 }
 
-const { jobs } = await action("jobs.list", { include_archived: true })
+const { jobs } = await action("jobs.list", {})
 const withLetters = jobs.filter((job) => job.hasLetter)
 if (!withLetters.length) throw new Error("No job has a cover letter yet.")
 

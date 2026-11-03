@@ -13,8 +13,7 @@ APPLICATION = {
                 {'action': 'mark_ready', 'to': 'Ready', 'trigger': 'user'},
                 {'action': 'apply', 'to': 'Applied', 'trigger': 'user'},
                 {'action': 'not_interested', 'to': 'Not interested', 'trigger': 'user'},
-                {'action': 'rule_out', 'to': 'Ruled out', 'trigger': 'user'},
-                {'action': 'close', 'to': 'Closed', 'trigger': 'user'},
+                {'action': 'expire', 'to': 'Expired', 'trigger': 'user'},
             ],
         },
         'Ready': {
@@ -23,8 +22,7 @@ APPLICATION = {
                 {'action': 'back_to_shortlist', 'to': 'Shortlisted', 'trigger': 'user'},
                 {'action': 'apply', 'to': 'Applied', 'trigger': 'user'},
                 {'action': 'not_interested', 'to': 'Not interested', 'trigger': 'user'},
-                {'action': 'rule_out', 'to': 'Ruled out', 'trigger': 'user'},
-                {'action': 'close', 'to': 'Closed', 'trigger': 'user'},
+                {'action': 'expire', 'to': 'Expired', 'trigger': 'user'},
             ],
         },
         'Applied': {
@@ -97,10 +95,10 @@ APPLICATION = {
                 {'action': 'reconsider', 'to': 'Shortlisted', 'trigger': 'user'},
             ],
         },
-        'Ruled out': {
-            'label': 'Ruled out', 'column': 'archived', 'flags': ['is_terminal'],
+        'Expired': {
+            'label': 'Listing expired', 'column': 'expired', 'flags': ['is_terminal'],
             'transitions': [
-                {'action': 'reconsider', 'to': 'Shortlisted', 'trigger': 'user'},
+                {'action': 'reopen', 'to': 'Shortlisted', 'trigger': 'user'},
             ],
         },
     },
