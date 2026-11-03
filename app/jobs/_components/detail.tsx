@@ -21,6 +21,7 @@ import type { JobDetail } from "@/lib/jobhunt/view"
 import { action } from "./api"
 import { CopyButton } from "./copy-button"
 import { JobsHeader } from "./jobs-header"
+import { PayCheckPanel } from "./pay-check"
 import { fmtDate, StatusPill, today } from "./status"
 
 /** A text field that saves through one backend action */
@@ -120,6 +121,8 @@ export function JobPage({ id }: { id: string }) {
         <span className="text-muted-foreground">{job.role}</span>
         <StatusPill status={job.status} />
       </JobsHeader>
+
+      <PayCheckPanel check={job.pay_check} />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
         <Card size="sm" className="self-start">

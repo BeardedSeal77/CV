@@ -7,6 +7,7 @@ import type { JobSummary } from "@/lib/jobhunt/view"
 import { cn } from "@/lib/utils"
 
 import { daysUntil } from "./closing-date"
+import { GradeChip } from "./grade"
 import { COUNTRY, Dot, fmtDate, StatusPill } from "./status"
 
 /** One job on the board: drag it to move it, click it to open it */
@@ -65,6 +66,13 @@ export function JobCard({
       )}
       <div className="mt-2 flex flex-wrap items-center gap-1.5">
         {showStatus && <StatusPill status={job.status} />}
+        {job.pay_grade && (
+          <GradeChip
+            grade={job.pay_grade.headline_grade}
+            status={job.pay_grade.status}
+            title={job.pay_grade.message}
+          />
+        )}
         <span className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
           {METHOD_LABEL[job.method]}
         </span>

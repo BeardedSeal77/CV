@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-from jobs.model import store, view
-from jobs.model.schema import Interest, Method
+from jobs.model import pay_link, store, view
+from jobs.model.schema import Interest, Method, Salary
 
 
 class UpdateJob(BaseModel):
@@ -12,12 +12,14 @@ class UpdateJob(BaseModel):
     role: str | None = None
     country: str | None = None
     city: str | None = None
+    city_id: str | None = Field(None, description="The pay data's city file; found from city when left out")
     platform: str | None = None
     method: Method | None = None
     url: str | None = Field(None, description="The application link")
     website: str | None = Field(None, description="The company's own website")
     email: str | None = None
-    pay: str | None = None
+    pay: str | None = Field(None, description="As the listing writes it; salary is read from it")
+    salary: Salary | None = Field(None, description="currency, min, max, ask, period (month, year, hour), basis (gross, net)")
     hours: str | None = None
     mode: str | None = None
     fit: str | None = None
@@ -34,6 +36,8 @@ class UpdateJob(BaseModel):
 
 def update_job(payload: UpdateJob) -> dict:
     """Change a job's listing fields; only the fields you pass change. Not its
-    column or status: use jobs.move."""
+    column or status: use jobs.move. A new city re-finds city_id and new pay
+    text re-reads salary (keeping a recorded ask), unless you pass them."""
     changes = payload.model_dump(exclude={"id"}, exclude_none=True)
-    return view.summary(store.update_listing(payload.id, changes))
+    changes, note = pay_link.derive(changes, store.read(payload.id).model_dump())
+    return {**view.summary(store.update_listing(payload.id, changes)), "city_note": note or None}

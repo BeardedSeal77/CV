@@ -1,5 +1,6 @@
 // The shapes the Flask backend returns for the board (backend/jobs/model/view.py).
 // The dates are derived from each job's timeline, so they never disagree with it.
+import type { PayCheck, PaySummary, Salary } from "./pay"
 import type { Column, Interest, JobEvent, Method, Status } from "./schema"
 
 export interface JobDates {
@@ -26,6 +27,8 @@ export interface JobSummary {
   status: Status
   country: string
   city: string
+  /** The pay data's city file, found from city */
+  city_id: string
   pay: string
   hours: string
   mode: string
@@ -37,12 +40,16 @@ export interface JobSummary {
   /** The application link */
   url: string
   email: string
+  /** Read from pay where possible */
+  salary: Salary | null
   fit: string
   interest: Interest
   size: string
   what: string
   hasLetter: boolean
   dates: JobDates
+  /** Only on jobs.list: the headline grade and the pay check's status */
+  pay_grade?: PaySummary
 }
 
 export interface JobDetail extends JobSummary {
@@ -57,4 +64,5 @@ export interface JobDetail extends JobSummary {
   /** Interview prep (notes.md) */
   notes: string
   events: JobEvent[]
+  pay_check: PayCheck
 }

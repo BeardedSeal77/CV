@@ -55,7 +55,7 @@ Other scripts:
 
 ## Backend and MCP
 
-The job hunt backend is a small Flask app in `backend/`, laid out the way DevTools reads services: each service folder (`jobs/`, `cv/`) has a `map.py` listing its actions, and `jobs/processes.py` holds the application lifecycle (Shortlisted → Applied → Interview → Offer → Accepted, and so on). Every call goes through one pipeline that validates the payload, enforces the lifecycle and runs the handler:
+The job hunt backend is a small Flask app in `backend/`, laid out the way DevTools reads services: each service folder (`jobs/`, `cv/`, `pay/`) has a `map.py` listing its actions, and `jobs/processes.py` holds the application lifecycle (Shortlisted → Applied → Interview → Offer → Accepted, and so on). Every call goes through one pipeline that validates the payload, enforces the lifecycle and runs the handler:
 
 - `POST /api/actions/<name>`, e.g. `jobs.move {id, column}`; `GET /api/actions` lists every action with its schema
 - `GET /api/process/definitions` returns the lifecycle; `GET /api/pdf/<id>?name=` serves a built PDF
@@ -73,6 +73,8 @@ Tools: `jobs_list`, `jobs_get`, `jobs_add` (refuses duplicates), `jobs_update`, 
 Prompts (the agent workflows, in `backend/prompts/`): `draft_cover_letter`, `apply_to_job` (one job at a time, the owner confirms every submit; never creates accounts or enters passwords), `triage_inbox` (reads replies through the agent's own email connector and logs them; clear ones move the card, ambiguous ones are listed). Resources: `jobs://profile`, `jobs://letter-rules`, `jobs://job/{id}`, `cv://section/{name}`.
 
 The agents read two private files in the data repo: `jobhunt/profile.md` (standard application answers: work authorisation, notice period, salary expectations by country; a blank value means ask, never guess) and `jobhunt/letter-rules.md` (how the letters are written). `data.example/jobhunt/` has samples of both.
+
+The `pay` service grades each job's salary against Ed's current job (A to D) from data in `data/jobhunt/pay/`: a baseline, grading settings, exchange rates, and one file per country (tax model, average wage, Blue Card minimums) and per city (cost of living, housing, wages), every figure with its source and date. `data.example/jobhunt/pay/` has a made-up baseline and three sample cities.
 
 Every write is validated, locked per opportunity and written atomically. The job hunt is a live local board: `data/jobhunt/` is git-ignored in the data repo too, and nothing in the backend commits or pushes. Tests: `cd backend && .venv/Scripts/python -m unittest discover -s tests`.
 

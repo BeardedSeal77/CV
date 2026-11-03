@@ -118,6 +118,8 @@ class JobEvent(BaseModel):
     # Where the update came from, e.g. "gmail:<thread id>", so a rescan of the
     # same email never logs it twice
     source: str | None = None
+    # The pay check when an offer arrived, kept as it was then
+    pay_check: dict | None = None
 
     @field_validator("date")
     @classmethod
@@ -138,17 +140,32 @@ class Application(BaseModel):
         return check_date(v)
 
 
+class Salary(BaseModel):
+    """What a job pays, read from its pay text or set by hand."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    currency: str = Field(min_length=3, max_length=3, description="e.g. EUR, PLN")
+    min: float | None = Field(None, gt=0)
+    max: float | None = Field(None, gt=0)
+    ask: float | None = Field(None, gt=0, description="What Ed asked for, or will ask")
+    period: Literal["month", "year", "hour"] = "month"
+    basis: Literal["gross", "net"] = "gross"
+
+
 LISTING_FIELDS = (
     "company",
     "role",
     "country",
     "city",
+    "city_id",
     "platform",
     "method",
     "url",
     "website",
     "email",
     "pay",
+    "salary",
     "hours",
     "mode",
     "fit",
@@ -170,12 +187,14 @@ class Listing(BaseModel):
     role: str = Field(min_length=1)
     country: str = ""
     city: str = ""
+    city_id: str = ""  # the pay data's city file, resolved from city
     platform: str = ""
     method: Method = "other"
     url: str = ""  # the application link
     website: str = ""  # the company's own website
     email: str = ""
-    pay: str = ""
+    pay: str = ""  # as the listing writes it
+    salary: Salary | None = None  # read from pay where possible
     hours: str = ""
     mode: str = ""
     fit: str = ""
@@ -213,6 +232,7 @@ class Opportunity(Listing):
     def to_json(self) -> dict:
         """The on-disk shape: id first, events without empty optional keys."""
         data = {"id": self.id, **self.model_dump(include=set(LISTING_FIELDS))}
+        data["salary"] = self.salary.model_dump(exclude_none=True) if self.salary else None
         ordered = {"id": self.id, **{k: data[k] for k in LISTING_FIELDS}}
         ordered["application"] = {
             "status": self.application.status,

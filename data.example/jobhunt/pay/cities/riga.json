@@ -1,0 +1,41 @@
+{
+  "slug": "riga",
+  "name": "Riga",
+  "country": "LV",
+  "aliases": [
+    "Rīga"
+  ],
+  "numbeo": {
+    "col_index": 54.9,
+    "rent_index": 14.5,
+    "col_plus_rent_index": 36.9,
+    "purchasing_power_index": 82.3,
+    "single_person_no_rent": null,
+    "rent_1bed_centre": 488.55,
+    "rent_1bed_outside": 333.61,
+    "groceries_index": 48.4,
+    "restaurant_index": 59.6,
+    "meal_mcdonalds": 7.5,
+    "cappuccino": 3.26,
+    "transit_pass": 30.0,
+    "avg_net_salary": 1168.33,
+    "as_of": "2026-11-03",
+    "source": "numbeo.com rankings 2026 + city page"
+  },
+  "housing": {
+    "planning_monthly": 800,
+    "breakdown": "small 30-45 m2 flat near the centre about 650 + utilities about 150",
+    "market_range": "",
+    "as_of": "2026-10-05",
+    "source": "Investropa (June 2026 data); Arco Real 2025 report"
+  },
+  "wages": {
+    "city_avg_gross": 2068,
+    "as_of": "2026-06-30",
+    "source": "CSB Q2 2026"
+  },
+  "prices": {
+    "big_mac_meal": 8.3
+  },
+  "notes": "Numbeo's 1-bed figures look low against market reports."
+}

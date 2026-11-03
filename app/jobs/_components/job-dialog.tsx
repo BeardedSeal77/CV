@@ -22,6 +22,7 @@ import { ClosingDate } from "./closing-date"
 import { CopyButton } from "./copy-button"
 import { InterestPicker } from "./interest"
 import { MoveCard } from "./move-card"
+import { PayCheckPanel } from "./pay-check"
 import { COUNTRY, Dot, fmtDate, StatusPill, today } from "./status"
 
 function Fact({
@@ -318,6 +319,7 @@ export function JobDialog({
               </div>
 
               <div className="space-y-4">
+                <PayCheckPanel check={job.pay_check} />
                 <ApplicationFiles job={job} />
 
                 <Card size="sm">

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from jobs.model import store, view
+from jobs.model import pay_link, store, view
 from jobs.model.schema import COLUMN_OF, DEFAULT_STATUS, Column, JobEvent, Status
 
 
@@ -39,4 +39,6 @@ def move_job(payload: MoveJob) -> dict:
         note=payload.note.strip() or f"Moved to {payload.status}.",
         link=payload.link,
     )
+    if payload.status == "Offer":
+        event.pay_check = pay_link.pay_check(store.read(payload.id))
     return view.summary(store.log_event(payload.id, event))

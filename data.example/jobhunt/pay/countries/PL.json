@@ -1,0 +1,47 @@
+{
+  "code": "PL",
+  "name": "Poland",
+  "currency": "PLN",
+  "tax_model": "pl_2026_uop",
+  "tax_params": {
+    "pension": 0.0976,
+    "disability": 0.015,
+    "sickness": 0.0245,
+    "zus_ceiling_annual": 282600,
+    "health": 0.09,
+    "kup_monthly": 250,
+    "pit_low": 0.12,
+    "pit_high": 0.32,
+    "pit_threshold_annual": 120000,
+    "reduction_monthly": 300,
+    "ppk": false,
+    "ppk_employee": 0.02,
+    "ppk_employer": 0.015
+  },
+  "tax_source": "PIT and ZUS rules 2026; checked against wynagrodzenia.pl",
+  "tax_as_of": "2026-11-03",
+  "avg_gross_monthly": 8903.56,
+  "avg_gross_as_of": "2025-12-31",
+  "avg_gross_next_release": "2027-02-15",
+  "avg_gross_source": "GUS average wage 2025",
+  "blue_card": [
+    {
+      "kind": "standard",
+      "min_gross_monthly": 13355.34,
+      "basis": "1.5x the 2025 average wage",
+      "official": true,
+      "as_of": "2026-11-03",
+      "source": "GUS; Polish Blue Card rules",
+      "next_release": "2027-02-15"
+    }
+  ],
+  "blue_card_next": {
+    "min_gross_monthly": 14100.0,
+    "max_gross_monthly": 14300.0,
+    "starts": "2027-02",
+    "estimate": true,
+    "as_of": "2026-11-03",
+    "source": "estimate from the 2026 wage trend"
+  },
+  "contract_rule": "Employment contract (umowa o prace) only; B2B does not qualify"
+}

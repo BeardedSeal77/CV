@@ -2,7 +2,7 @@ from urllib.parse import quote
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from jobs.model import pdf, store
+from jobs.model import pay_link, pdf, store
 from jobs.model.letter import split_letter
 from jobs.model.profile import read_profile, repo_relative
 from utils.errors import ActionError
@@ -21,8 +21,10 @@ def get_application_packet(payload: ApplicationPacket) -> dict:
     the applicant profile (contact details and standard answers: notice period,
     work authorisation, salary expectation...), the cover letter text, and fresh
     PDFs to upload (the letter alone, the CV alone, and both in one), each with
-    its path in the repo and its download link on the website. Never invent an
-    answer the profile doesn't give: ask Ed."""
+    its path in the repo and its download link on the website, and the pay
+    check with the city's targets and Blue Card minimum: pick a salary ask
+    above the minimum, at grade B or better where the listed range allows.
+    Never invent an answer the profile doesn't give: ask Ed."""
     data = store.get_with_docs(payload.id)
     opp = data["opportunity"]
     letter = split_letter(data["letter"])["text"]
@@ -60,6 +62,7 @@ def get_application_packet(payload: ApplicationPacket) -> dict:
             "city": opp.city,
             "pay": opp.pay,
         },
+        "pay_check": pay_link.pay_check(opp),
         "profile": read_profile(),
         "letter": letter,
         "files": files,

@@ -32,7 +32,11 @@ INSTRUCTIONS = """Ed's job hunt board and CV. Jobs move through columns backlog 
 interview -> accepted / declined. not_interested holds roles Ed chose to skip;
 expired holds listings that closed before he applied: moved by hand, or with
 jobs_expire_closed for every job past its optional deadline (the listing's
-closing date). Set a deadline only when the listing gives one. Every job has an interest (High, Medium, Low) that groups the
+closing date). Set a deadline only when the listing gives one.
+Pay: jobs_get has a pay_check grading the job's salary against Ed's current
+job (A-D) in its city; pay_quote grades any figure, pay_targets gives the gross
+needed per grade. With status no_city, add the named city file with
+pay_cities_upsert (every figure with its source and as_of). Every job has an interest (High, Medium, Low) that groups the
 board into bands; set it with jobs_update. Moves follow the
 application lifecycle; pass correction=true only to fix a mistake.
 Workflows, each also a prompt here:

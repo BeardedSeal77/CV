@@ -1,0 +1,15 @@
+{
+  "base": "ZAR",
+  "rates": {
+    "EUR": {
+      "rate": 18.65,
+      "as_of": "2026-10-26",
+      "source": "poundsterlinglive.com"
+    },
+    "PLN": {
+      "rate": 4.24,
+      "as_of": "2026-10-16",
+      "source": "valutafx.com"
+    }
+  }
+}

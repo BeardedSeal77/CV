@@ -1,0 +1,15 @@
+{
+  "employer": "Example Systems",
+  "role": "Software Engineer",
+  "started": "2025-01",
+  "country": "ZA",
+  "city": "pretoria",
+  "currency": "ZAR",
+  "gross_monthly": 40000,
+  "costs_monthly": {
+    "housing": 10000,
+    "everyday": 8000,
+    "fixed": 2000
+  },
+  "notes": "Made-up figures for the sample data."
+}

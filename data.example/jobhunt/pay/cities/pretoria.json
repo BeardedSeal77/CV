@@ -1,0 +1,21 @@
+{
+  "slug": "pretoria",
+  "name": "Pretoria",
+  "country": "ZA",
+  "aliases": [
+    "Tshwane"
+  ],
+  "numbeo": {
+    "col_index": 41.6,
+    "rent_index": 13.3,
+    "col_plus_rent_index": 29.0,
+    "purchasing_power_index": 102.1,
+    "single_person_no_rent": 12897,
+    "rent_1bed_centre": 7559,
+    "rent_1bed_outside": 5938,
+    "as_of": "2026-11-03",
+    "source": "numbeo.com rankings 2026 + city page"
+  },
+  "prices": {},
+  "notes": "Home city: the baseline's housing and costs apply."
+}

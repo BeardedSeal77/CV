@@ -1,0 +1,56 @@
+{
+  "code": "ZA",
+  "name": "South Africa",
+  "currency": "ZAR",
+  "tax_model": "za_2027",
+  "tax_params": {
+    "brackets": [
+      [
+        0,
+        0,
+        0.18
+      ],
+      [
+        245100,
+        44118,
+        0.26
+      ],
+      [
+        383100,
+        79998,
+        0.31
+      ],
+      [
+        530200,
+        125599,
+        0.36
+      ],
+      [
+        695800,
+        185215,
+        0.39
+      ],
+      [
+        887000,
+        259783,
+        0.41
+      ],
+      [
+        1878600,
+        666339,
+        0.45
+      ]
+    ],
+    "primary_rebate": 17820,
+    "uif_rate": 0.01,
+    "uif_cap_monthly": 177.12
+  },
+  "tax_source": "SARS rates for the 2027 tax year (1 Mar 2026 - 28 Feb 2027)",
+  "tax_as_of": "2026-11-03",
+  "avg_gross_monthly": null,
+  "avg_gross_as_of": null,
+  "avg_gross_source": "",
+  "blue_card": [],
+  "blue_card_next": null,
+  "contract_rule": null
+}

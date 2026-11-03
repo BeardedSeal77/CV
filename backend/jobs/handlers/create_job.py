@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from jobs.model import store, view
+from jobs.model import pay_link, store, view
 from jobs.model.schema import Listing
 
 
@@ -23,7 +23,13 @@ def create_job(payload: CreateJob) -> dict:
     Good Medium, else Low), posted (date listed, YYYY-MM-DD), deadline (the
     listing's closing date, only when it gives one; jobs.expire_closed moves
     jobs past it to Expired), size, what (one line on the company), jd,
-    letter."""
-    listing = Listing.model_validate(payload.model_dump(exclude={"jd", "letter", "allow_duplicate"}))
+    letter. city_id (the pay data's city file) is found from city, and salary
+    (currency, min, max, ask, period, basis) is read from pay, unless you pass
+    them; the answer's city_note says when the city text named several."""
+    fields = payload.model_dump(exclude={"jd", "letter", "allow_duplicate"})
+    # Defaults don't count as passed: only a city_id or salary the caller gave stops the lookup
+    given = {k: v for k, v in fields.items() if k not in ("city_id", "salary") or k in payload.model_fields_set}
+    derived, note = pay_link.derive(given)
+    listing = Listing.model_validate({**fields, **derived})
     opp = store.add(listing, jd=payload.jd, letter=payload.letter, allow_duplicate=payload.allow_duplicate)
-    return view.summary(opp)
+    return {**view.summary(opp), "city_note": note or None}

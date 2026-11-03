@@ -1,0 +1,35 @@
+{
+  "slug": "krakow",
+  "name": "Kraków",
+  "country": "PL",
+  "aliases": [
+    "Krakow",
+    "Cracow",
+    "Krakau"
+  ],
+  "numbeo": {
+    "col_index": 49.5,
+    "rent_index": 22.4,
+    "col_plus_rent_index": 37.4,
+    "purchasing_power_index": 102.8,
+    "single_person_no_rent": null,
+    "rent_1bed_centre": 3451,
+    "rent_1bed_outside": 2561,
+    "as_of": "2026-11-03",
+    "source": "numbeo.com rankings 2026 + city page"
+  },
+  "housing": {
+    "planning_monthly": 3200,
+    "breakdown": "studio rent plus the building admin fee and utilities",
+    "market_range": "",
+    "as_of": "2026-11-03",
+    "source": ""
+  },
+  "wages": {
+    "city_avg_gross": 13442,
+    "as_of": "2026-03-31",
+    "source": "GUS, March 2026"
+  },
+  "prices": {},
+  "notes": ""
+}

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-from jobs.model import store, view
+from jobs.model import pay_link, store, view
 from jobs.model.schema import JobEvent, Status
 
 
@@ -22,7 +22,8 @@ def log_event(payload: LogEvent) -> dict:
     """Add a dated update to a job's timeline: a note, another interview round
     (status Interview), an email from the company, or a status change that
     follows the lifecycle. With a source, logging the same update again does
-    nothing and answers duplicate: true."""
+    nothing and answers duplicate: true. An Offer keeps the pay check as it
+    was that day."""
     event = JobEvent(
         date=payload.date or store.today(),
         status=payload.status,
@@ -30,5 +31,7 @@ def log_event(payload: LogEvent) -> dict:
         link=payload.link,
         source=payload.source,
     )
+    if payload.status == "Offer":
+        event.pay_check = pay_link.pay_check(store.read(payload.id))
     duplicate = store.already_logged(payload.id, event)
     return {**view.summary(store.log_event(payload.id, event)), "duplicate": duplicate}

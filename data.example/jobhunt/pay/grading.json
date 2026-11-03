@@ -1,0 +1,30 @@
+{
+  "grades": [
+    {
+      "grade": "A",
+      "min_vs_baseline": 1.5,
+      "label": "at least 1.5x better than today"
+    },
+    {
+      "grade": "B",
+      "min_vs_baseline": 1.2,
+      "label": "at least 1.2x better"
+    },
+    {
+      "grade": "C",
+      "min_vs_baseline": 1.0,
+      "label": "about as good as today"
+    },
+    {
+      "grade": "D",
+      "min_vs_baseline": 0,
+      "label": "worse than today"
+    }
+  ],
+  "rent_share_penalty": {
+    "above": 0.4,
+    "drop_grades": 1
+  },
+  "stale_after_days": 183,
+  "fx_stale_after_days": 30
+}

@@ -1,0 +1,30 @@
+{
+  "code": "LV",
+  "name": "Latvia",
+  "currency": "EUR",
+  "tax_model": "lv_2026",
+  "tax_params": {
+    "employee_social": 0.105,
+    "pit_low": 0.255,
+    "pit_high": 0.33,
+    "pit_threshold_annual": 105300,
+    "non_taxable_monthly": 550
+  },
+  "tax_source": "PwC Tax Summaries Latvia; pats.lv calculator",
+  "tax_as_of": "2026-06-30",
+  "avg_gross_monthly": 1886,
+  "avg_gross_as_of": "2026-06-30",
+  "avg_gross_source": "CSB Q2 2026",
+  "blue_card": [
+    {
+      "kind": "standard",
+      "min_gross_monthly": 2722.5,
+      "basis": "1.5x the 2025 average of EUR 1,815",
+      "official": false,
+      "as_of": "2026-09-09",
+      "source": "computed from CSB 2025 average"
+    }
+  ],
+  "blue_card_next": null,
+  "contract_rule": null
+}

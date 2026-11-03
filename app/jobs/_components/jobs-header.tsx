@@ -18,6 +18,12 @@ export function JobsHeader({
           <Link href="/jobs/companies" className="hover:text-foreground">
             Companies
           </Link>
+          <Link href="/jobs/cities" className="hover:text-foreground">
+            Cities
+          </Link>
+          <Link href="/jobs/baseline" className="hover:text-foreground">
+            Baseline
+          </Link>
           <Link href="/" className="hover:text-foreground">
             CV site
           </Link>

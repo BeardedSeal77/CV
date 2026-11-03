@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-from jobs.model import store, view
+from jobs.model import pay_link, store, view
 from jobs.model.schema import JobEvent, Method
 
 
@@ -12,7 +12,9 @@ class RecordApplication(BaseModel):
     date: str | None = Field(None, description="YYYY-MM-DD, defaults to today")
     method: Method | None = Field(None, description="How it was sent, when it differs from the listing's")
     sent: list[str] = Field(default_factory=list, description="What was submitted, e.g. the PDF names")
-    salary_quoted: str = Field("", description="Any salary expectation entered on the form")
+    salary_quoted: str = Field(
+        "", description='Any salary expectation entered on the form, e.g. "EUR 6,000"; it becomes the salary ask'
+    )
     note: str = Field("", description="Anything else worth remembering about this application")
     link: str | None = Field(None, description="e.g. the confirmation email or page")
 
@@ -34,4 +36,7 @@ def record_application(payload: RecordApplication) -> dict:
     opp = store.log_event(payload.id, event)
     if payload.method and payload.method != opp.method:
         opp = store.update_listing(payload.id, {"method": payload.method})
+    salary = pay_link.record_ask(opp.salary.model_dump(exclude_none=True) if opp.salary else None, payload.salary_quoted)
+    if salary:
+        opp = store.update_listing(payload.id, {"salary": salary})
     return view.summary(opp)
