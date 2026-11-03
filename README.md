@@ -74,7 +74,7 @@ Prompts (the agent workflows, in `backend/prompts/`): `draft_cover_letter`, `app
 
 The agents read two private files in the data repo: `jobhunt/profile.md` (standard application answers: work authorisation, notice period, salary expectations by country; a blank value means ask, never guess) and `jobhunt/letter-rules.md` (how the letters are written). `data.example/jobhunt/` has samples of both.
 
-Every write is validated, locked per opportunity and written atomically. Set `CV_AUTOCOMMIT=1` to commit each change to the data repo. Tests: `cd backend && .venv/Scripts/python -m unittest discover -s tests`.
+Every write is validated, locked per opportunity and written atomically. The job hunt is a live local board: `data/jobhunt/` is git-ignored in the data repo too, and nothing in the backend commits or pushes. Tests: `cd backend && .venv/Scripts/python -m unittest discover -s tests`.
 
 ## Job hunt Local Instance
 

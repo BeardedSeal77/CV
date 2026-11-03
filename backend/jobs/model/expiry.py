@@ -1,7 +1,7 @@
 """A job's closing date is optional (the listing's deadline, only when it gives
-one). Once it has passed, a job Ed never applied to moves to Expired on its own.
-The event's source names the date, so a job Ed reopens on purpose stays open
-until its closing date changes."""
+one). Once it has passed, jobs.expire_closed moves a job Ed never applied to
+into Expired. The event's source names the date, so a job Ed reopens on
+purpose stays open until its closing date changes."""
 
 from jobs.model import store
 from jobs.model.schema import JobEvent, Opportunity

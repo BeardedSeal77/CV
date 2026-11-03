@@ -28,12 +28,6 @@ services:
   api:
     <<: *backend
     ports: ["127.0.0.1:5400:5000"]
-    environment:
-      CV_DATA_DIR: data
-      CV_WEB_URL: http://web:3000
-      CV_ALLOWED_HOSTS: api,mcp,web
-      # the hourly check that moves closed listings to Expired
-      CV_TIMERS: "1"
     healthcheck:
       test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/api/health')"]
       interval: 10s

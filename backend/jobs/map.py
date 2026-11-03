@@ -14,7 +14,6 @@ from jobs.handlers.list_jobs import list_jobs
 from jobs.handlers.list_next_to_apply import list_next_to_apply
 from jobs.handlers.log_event import log_event
 from jobs.handlers.move_job import move_job
-from jobs.handlers.on_job_changed import on_job_changed
 from jobs.handlers.record_application import record_application
 from jobs.handlers.search_jobs_by_email import search_jobs_by_email
 from jobs.handlers.update_document import update_document
@@ -56,7 +55,7 @@ ACTIONS = {
                        'process': 'application', 'status_field': 'status',
                        'status_resolver': resolve_application_status,
                        'payload': {'required': ['id']}},
-    # The API also runs this every hour (CV_TIMERS=1)
+    # Fired by hand: the board's button, POST /api/actions/jobs.expire_closed or MCP
     'jobs.expire_closed': {'mode': 'sync', 'access': 'write', 'handler': expire_closed_jobs, 'validators': [],
                            'permission': 'local'},
 
@@ -90,15 +89,6 @@ ACTIONS = {
                            'permission': 'local'},
 }
 
-EVENTS = {
-    # CV_AUTOCOMMIT=1 commits each change to the data repo
-    'job.added': [on_job_changed],
-    'job.applied': [on_job_changed],
-    'job.updated': [on_job_changed],
-    'job.moved': [on_job_changed],
-    'job.event_logged': [on_job_changed],
-    'job.letter_saved': [on_job_changed],
-    'job.document_saved': [on_job_changed],
-}
+EVENTS = {}
 
 PROCESSES = {'application': APPLICATION}

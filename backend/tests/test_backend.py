@@ -58,25 +58,27 @@ class JobsTest(unittest.TestCase):
             dispatch("jobs.move", {"id": job["id"], "column": "applied"})
         self.assertEqual(dispatch("jobs.move", {"id": job["id"], "column": "backlog"})["status"], "Shortlisted")
 
-    def test_closing_date_is_optional_and_expires_open_jobs(self):
+    def test_closing_date_is_optional_and_expire_closed_is_fired_by_hand(self):
         undated = dispatch("jobs.add", {"company": "No Date Co", "role": "Dev"})
         future = dispatch("jobs.add", {"company": "Future Co", "role": "Dev", "deadline": "2999-01-31"})
-        self.assertEqual((undated["status"], future["status"]), ("Shortlisted", "Shortlisted"))
-
         closed = dispatch("jobs.add", {"company": "Closed Co", "role": "Dev", "deadline": "2000-01-31"})
-        self.assertEqual((closed["column"], closed["status"]), ("expired", "Expired"))
+        # Saving never moves a job; only the action does
+        self.assertEqual({undated["status"], future["status"], closed["status"]}, {"Shortlisted"})
 
-        applied = dispatch("jobs.add", {"company": "Applied Co", "role": "Dev"})
+        applied = dispatch("jobs.add", {"company": "Applied Co", "role": "Dev", "deadline": "2000-01-31"})
         dispatch("jobs.move", {"id": applied["id"], "column": "applied"})
-        self.assertEqual(dispatch("jobs.update", {"id": applied["id"], "deadline": "2000-01-31"})["status"], "Applied")
 
-        # Reopened on purpose: the sweep leaves it until its closing date changes
+        swept = {j["id"] for j in dispatch("jobs.expire_closed", {})["expired"]}
+        self.assertIn(closed["id"], swept)
+        self.assertFalse({undated["id"], future["id"], applied["id"]} & swept)
+        self.assertEqual(dispatch("jobs.get", {"id": closed["id"]})["status"], "Expired")
+
+        # Reopened on purpose: it stays open until its closing date changes
         dispatch("jobs.move", {"id": closed["id"], "column": "backlog"})
-        swept = [j["id"] for j in dispatch("jobs.expire_closed", {})["expired"]]
-        self.assertNotIn(closed["id"], swept)
-        self.assertNotIn(applied["id"], swept)
-        moved = dispatch("jobs.update", {"id": closed["id"], "deadline": "2000-02-01"})
-        self.assertEqual(moved["status"], "Expired")
+        self.assertNotIn(closed["id"], {j["id"] for j in dispatch("jobs.expire_closed", {})["expired"]})
+        dispatch("jobs.update", {"id": closed["id"], "deadline": "2000-02-01"})
+        self.assertIn(closed["id"], {j["id"] for j in dispatch("jobs.expire_closed", {})["expired"]})
+
         cleared = dispatch("jobs.update", {"id": future["id"], "deadline": ""})
         self.assertEqual((cleared["status"], cleared["dates"]["deadline"]), ("Shortlisted", ""))
 

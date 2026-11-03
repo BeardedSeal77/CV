@@ -1,7 +1,7 @@
 "use client"
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react"
-import { ChevronDown, Loader2, Plus } from "lucide-react"
+import { CalendarX, ChevronDown, Loader2, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -66,6 +66,8 @@ export function Kanban() {
   const [over, setOver] = useState<string | null>(null)
   const [folded, setFolded] = useState<Interest[]>([])
   const [error, setError] = useState("")
+  const [notice, setNotice] = useState("")
+  const [expiring, setExpiring] = useState(false)
   // A move the lifecycle doesn't allow, waiting for "fix a mistake?"
   const [pending, setPending] = useState<{
     job: JobSummary
@@ -141,6 +143,27 @@ export function Kanban() {
     await refresh()
   }
 
+  // Moves every open job past its closing date to Expired
+  async function expireClosed() {
+    setExpiring(true)
+    setError("")
+    try {
+      const { expired } = await action<{ expired: JobSummary[] }>(
+        "jobs.expire_closed"
+      )
+      setNotice(
+        expired.length
+          ? `Moved to Expired: ${expired.map((j) => j.company).join(", ")}.`
+          : "No open job is past its closing date."
+      )
+      await refresh()
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setExpiring(false)
+    }
+  }
+
   async function setInterest(job: JobSummary, interest: Interest) {
     setError("")
     setJobs((all) =>
@@ -182,6 +205,15 @@ export function Kanban() {
           ))}
         </dl>
         <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={expiring}
+            onClick={expireClosed}
+          >
+            <CalendarX data-icon="inline-start" />
+            Expire closed
+          </Button>
           <Button size="sm" onClick={() => setAdding(true)}>
             <Plus data-icon="inline-start" />
             Add job
@@ -190,6 +222,11 @@ export function Kanban() {
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
+      {notice && (
+        <p className="text-sm text-muted-foreground" role="status">
+          {notice}
+        </p>
+      )}
 
       {pending && (
         <div

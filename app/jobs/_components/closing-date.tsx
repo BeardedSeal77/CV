@@ -16,8 +16,8 @@ export function daysUntil(date: string) {
   return Math.round(ms / 86_400_000)
 }
 
-/** The listing's optional closing date: once it passes, a job not applied to
- * moves to Expired on its own */
+/** The listing's optional closing date; "Expire closed" on the board moves
+ * jobs past it to Expired */
 export function ClosingDate({
   job,
   onChanged,

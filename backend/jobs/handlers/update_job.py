@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from jobs.model import store, view
-from jobs.model.expiry import expire_if_closed
 from jobs.model.schema import Interest, Method
 
 
@@ -27,7 +26,7 @@ class UpdateJob(BaseModel):
     deadline: str | None = Field(
         None,
         description="The listing's closing date, YYYY-MM-DD, only when it gives one; \"\" clears it. "
-        "Once it passes, a job not applied to moves to Expired on its own.",
+        "jobs.expire_closed moves jobs past it to Expired.",
     )
     size: str | None = None
     what: str | None = None
@@ -37,4 +36,4 @@ def update_job(payload: UpdateJob) -> dict:
     """Change a job's listing fields; only the fields you pass change. Not its
     column or status: use jobs.move."""
     changes = payload.model_dump(exclude={"id"}, exclude_none=True)
-    return view.summary(expire_if_closed(store.update_listing(payload.id, changes)))
+    return view.summary(store.update_listing(payload.id, changes))

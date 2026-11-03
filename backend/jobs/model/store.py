@@ -4,7 +4,6 @@ locked per opportunity and atomic."""
 import json
 import logging
 import re
-import subprocess
 import time
 import unicodedata
 from datetime import date
@@ -201,16 +200,3 @@ def version() -> str:
                 except FileNotFoundError:
                     pass
     return f"{count}-{round(latest)}"
-
-
-def autocommit(message: str, job_id: str) -> None:
-    """Commits one job's folder to the data repo (CV_AUTOCOMMIT=1)."""
-    repo = data_dir()
-    if not (repo / ".git").exists():
-        return
-    rel = str(opp_dir(job_id).relative_to(repo))
-    for cmd in (["git", "-C", str(repo), "add", "--", rel], ["git", "-C", str(repo), "commit", "-m", message, "--", rel]):
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode != 0:
-            log.warning("Autocommit failed: %s", result.stderr.strip() or result.stdout.strip())
-            return

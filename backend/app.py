@@ -22,17 +22,11 @@ from jobs.model.pdf import output_file  # noqa: E402
 from utils.errors import ActionError, NotFound  # noqa: E402
 from utils.maps import describe, registry  # noqa: E402
 from utils.pipeline import dispatch  # noqa: E402
-from utils.timer import every  # noqa: E402
 
 LOCAL_HOSTS = {"127.0.0.1", "localhost", "::1"}
 app = Flask(__name__)
 app.json.sort_keys = False  # keep the view's field order
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-
-# Work no request starts: listings passing their closing date. Off unless
-# asked for, so tests and one-off imports never touch the data on their own.
-if os.environ.get("CV_TIMERS") == "1":
-    every(3600, "jobs.expire_closed")
 
 
 def _allowed_hosts() -> set[str]:

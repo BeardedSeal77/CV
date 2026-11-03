@@ -14,7 +14,6 @@ sys.path.insert(0, str(BACKEND))
 TMP = Path(tempfile.mkdtemp(prefix="cv-backend-test-"))
 shutil.copytree(BACKEND.parent / "data.example", TMP / "data", dirs_exist_ok=True)
 os.environ["CV_DATA_DIR"] = str(TMP / "data")
-os.environ.pop("CV_AUTOCOMMIT", None)
 atexit.register(shutil.rmtree, TMP, ignore_errors=True)
 
 EXAMPLE = "example-robotics-backend"  # Interview, fit Strong, has a letter

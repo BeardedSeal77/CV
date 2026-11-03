@@ -90,7 +90,7 @@ export function JobCard({
                 closes <= 7 && "font-medium text-domain-automation"
               )}
             >
-              Closes {fmtDate(job.dates.deadline)}
+              {closes < 0 ? "Closed" : "Closes"} {fmtDate(job.dates.deadline)}
             </span>
           </>
         )}
