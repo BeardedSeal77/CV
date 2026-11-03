@@ -48,7 +48,10 @@ Workflows, each also a prompt here:
   jobs_record_application;
 - triage_inbox: jobs_find_by_email for each reply, jobs_log_event with
   source "gmail:<thread id>".
-Never create accounts, enter passwords, submit without Ed's yes, or invent answers."""
+Never create accounts, enter passwords, submit without Ed's yes, or invent answers.
+After a redeploy the desktop app can keep the old tool list: if a tool rejects a
+field its description names, or a tool named here is missing, ask Ed to restart
+the app."""
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 

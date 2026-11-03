@@ -10,10 +10,14 @@ separate "other documents" field, so every combination is a kind:
   application_portfolio  the cover letter, the CV and the portfolio
 
 A file is reused while it is newer than everything it is printed from (the
-CV's files, and the job's letter), and rebuilt otherwise.
+CV's files, and the job's letter), and rebuilt otherwise. A letter prints the
+day it renders, so a letter kind built on an earlier day is rebuilt too,
+unless the job fixes its letter date. Building removes the job's PDFs that no
+kind is named any more (an older naming, a renamed company).
 """
 
 import re
+from datetime import date, datetime
 from pathlib import Path
 
 from utils.datadir import cv_dir
@@ -49,7 +53,8 @@ def output_dir(job_id: str) -> Path:
 
 
 def file_name(job_id: str, kind: str) -> str:
-    """e.g. Erin_Cullen_CV.pdf, Erin_Cullen_Cover_Letter_Comarch.pdf"""
+    """<prefix>_CV.pdf, <prefix>_Cover_Letter_<Company>.pdf and so on; the
+    prefix is the CV's file name in site.md without _CV (e.g. ED_Cullen)."""
     parts, suffix, with_company = KINDS[kind]
     site, _ = site_meta()
     prefix = re.sub(r"_CV$", "", Path(site.get("cvPdf", "CV.pdf")).stem)
@@ -68,7 +73,16 @@ def _sources_mtime(job_id: str, parts: tuple[str, ...]) -> float:
         times.append((cv_dir() / "site.md").stat().st_mtime)
         if letter_path(job_id).is_file():
             times.append(letter_path(job_id).stat().st_mtime)
+        if not read(job_id).letter_date:  # dated today: yesterday's print is stale
+            times.append(datetime.combine(date.today(), datetime.min.time()).timestamp())
     return max(times, default=0.0)
+
+
+def _remove_superseded(job_id: str) -> None:
+    current = {file_name(job_id, kind) for kind in KINDS}
+    for old in output_dir(job_id).glob("*.pdf"):
+        if old.name not in current:
+            old.unlink(missing_ok=True)
 
 
 def _describe(job_id: str, kind: str, file: Path, rebuilt: bool, pages: dict | None = None) -> dict:
@@ -102,6 +116,7 @@ def ensure(job_id: str, kind: str, force: bool = False) -> dict:
     data, counts = merge(printed, f"{site.get('name', '')}: {LABELS[kind]} for {company}")
     file.parent.mkdir(parents=True, exist_ok=True)
     file.write_bytes(data)
+    _remove_superseded(job_id)
     return _describe(job_id, kind, file, rebuilt=True, pages=dict(zip(parts, counts)))
 
 

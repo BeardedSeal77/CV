@@ -27,7 +27,8 @@ export interface ParsedLetter {
   paragraphs: string[][]
 }
 
-/** Header block (name + contact line), optional date, then paragraphs of lines */
+/** Header block (name + contact line), then paragraphs of lines. A date block
+ * left in an older letter is set aside: the page prints the render date. */
 export function parseLetter(letter: string): ParsedLetter {
   const blocks = letter
     .split(/\n\s*\n/)

@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from jobs.model import store, view
+from jobs.model.history import applied_before
 from jobs.model.letter import split_letter
 
 # Only good fits go in the queue: mass applications to poor fits hurt more than they help
@@ -22,7 +23,8 @@ def list_next_to_apply(payload: NextToApply) -> dict:
     strongest fit and the oldest. "ready" have a cover letter
     and can be applied to (jobs.application_packet); "needs_letter" need one
     drafted first (jobs.letter_brief, then jobs.set_letter). Stretch fits and
-    Low interest stay out unless Ed changes them."""
+    Low interest stay out unless Ed changes them. already_applied is set on a
+    job Ed applied to before (it was reopened): ask him before applying again."""
     queue = [
         o
         for o in store.list_all()
@@ -42,5 +44,6 @@ def list_next_to_apply(payload: NextToApply) -> dict:
     ready, needs_letter = [], []
     for opp in queue:
         has_letter = bool(split_letter(store.read_doc(opp.id, "letter"))["text"])
-        (ready if has_letter else needs_letter).append(view.summary(opp))
+        entry = {**view.summary(opp), "already_applied": applied_before(opp)}
+        (ready if has_letter else needs_letter).append(entry)
     return {"ready": ready[: payload.limit], "needs_letter": needs_letter[: payload.limit]}

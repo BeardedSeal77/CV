@@ -2,7 +2,7 @@ import re
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from jobs.model import pay_link, store, view
+from jobs.model import evidence, pay_link, store, view
 from jobs.model.schema import JobEvent, Method
 
 
@@ -22,6 +22,10 @@ class RecordApplication(BaseModel):
     )
     note: str = Field("", description="Anything else worth remembering about this application")
     link: str | None = Field(None, description="e.g. the confirmation email or page")
+    confirmation_url: str = Field("", description="The page shown after submitting")
+    confirmation_text: str = Field("", description="What that page (or the confirmation email) says")
+    reference: str = Field("", description="Any application or ATS reference number")
+    screenshot: str = Field("", description="A screenshot of the confirmation page: base64 PNG or JPEG")
 
 
 _HANDED = re.compile(r"^Handed (.+) to (\S+)\.$")
@@ -42,7 +46,9 @@ def _handed_since_last_move(opp) -> list[str]:
 def record_application(payload: RecordApplication) -> dict:
     """Record that Ed's application was submitted: moves the job to Applied with
     a dated event saying what was sent, including every PDF handed to the form
-    since the job last moved. Call it only after the submit went through."""
+    since the job last moved. Keep proof: the confirmation page's url and text,
+    any reference, and a screenshot, saved in the job's evidence folder. Call it
+    only after the submit went through."""
     if payload.status != "Applied":
         payload.status = "Applied"
     parts = ["Applied" + (f" via {payload.method.replace('_', ' ')}" if payload.method else "") + "."]
@@ -53,7 +59,26 @@ def record_application(payload: RecordApplication) -> dict:
         parts.append(f"Salary quoted: {payload.salary_quoted}.")
     if payload.note.strip():
         parts.append(payload.note.strip())
-    event = JobEvent(date=payload.date or store.today(), status="Applied", note=" ".join(parts), link=payload.link)
+    day = payload.date or store.today()
+    kept = evidence.save(
+        payload.id,
+        day,
+        url=payload.confirmation_url,
+        text=payload.confirmation_text,
+        reference=payload.reference,
+        screenshot=payload.screenshot,
+    )
+    if payload.reference:
+        parts.append(f"Reference: {payload.reference}.")
+    if not kept:
+        parts.append("No proof of submission kept.")
+    event = JobEvent(
+        date=day,
+        status="Applied",
+        note=" ".join(parts),
+        link=payload.link or payload.confirmation_url or None,
+        evidence=kept or None,
+    )
     opp = store.log_event(payload.id, event)
     if payload.method and payload.method != opp.method:
         opp = store.update_listing(payload.id, {"method": payload.method})

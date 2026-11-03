@@ -120,6 +120,8 @@ class JobEvent(BaseModel):
     source: str | None = None
     # The pay check when an offer arrived, kept as it was then
     pay_check: dict | None = None
+    # Proof kept in the job's folder, e.g. evidence/2026-11-03-confirmation.png
+    evidence: list[str] | None = None
 
     @field_validator("date")
     @classmethod
@@ -172,6 +174,8 @@ LISTING_FIELDS = (
     "interest",
     "posted",
     "deadline",
+    "letter_date",
+    "found_via",
     "size",
     "what",
     "added",
@@ -201,6 +205,8 @@ class Listing(BaseModel):
     interest: Interest = "Low"
     posted: str = ""  # when the role was listed
     deadline: str = ""
+    letter_date: str = ""  # a fixed date for the letter; empty prints the day it renders
+    found_via: str = ""  # where Ed found the listing, for "How did you hear about us?"
     size: str = ""
     what: str = ""
     added: str = ""  # when it was added to the board
@@ -212,7 +218,7 @@ class Listing(BaseModel):
             data = {**data, "interest": interest_from_fit(str(data.get("fit") or ""))}
         return data
 
-    @field_validator("posted", "deadline", "added")
+    @field_validator("posted", "deadline", "added", "letter_date")
     @classmethod
     def _dates(cls, v: str) -> str:
         return check_date(v)

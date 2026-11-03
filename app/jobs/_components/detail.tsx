@@ -152,6 +152,11 @@ export function JobPage({ id }: { id: string }) {
                   <span className="grid justify-items-start gap-1">
                     {e.status && <StatusPill status={e.status} />}
                     {e.note && <span>{e.note}</span>}
+                    {e.evidence && (
+                      <span className="font-mono text-[11.5px] text-muted-foreground">
+                        Kept: {e.evidence.join(", ")}
+                      </span>
+                    )}
                     {e.link && (
                       <a
                         href={e.link}

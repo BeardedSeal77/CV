@@ -23,6 +23,8 @@ x-backend: &backend
     CV_WEB_URL: http://web:3000
     # the compose service names, so containers can call each other
     CV_ALLOWED_HOSTS: api,mcp,web
+    # the repo folder on the host, so the packet can give upload paths (optional)
+    CV_HOST_ROOT: ${CV_HOST_ROOT:-}
 
 services:
   api:
@@ -42,6 +44,7 @@ services:
       CV_WEB_URL: http://web:3000
       CV_ALLOWED_HOSTS: api,mcp,web
       CV_MCP_HOST: 0.0.0.0
+      CV_HOST_ROOT: ${CV_HOST_ROOT:-}
       CV_MCP_PORT: "5401"
     ports: ["127.0.0.1:5401:5401"]
 

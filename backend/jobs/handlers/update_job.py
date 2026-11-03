@@ -30,6 +30,10 @@ class UpdateJob(BaseModel):
         description="The listing's closing date, YYYY-MM-DD, only when it gives one; \"\" clears it. "
         "jobs.expire_closed moves jobs past it to Expired.",
     )
+    letter_date: str | None = Field(
+        None, description='A fixed date for the letter, YYYY-MM-DD, only when one is needed; "" prints the day it renders'
+    )
+    found_via: str | None = Field(None, description='Where Ed found the listing, e.g. "Indeed", "LinkedIn", "Referral"')
     size: str | None = None
     what: str | None = None
 

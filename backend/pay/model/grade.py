@@ -252,6 +252,29 @@ def city_targets(slug: str) -> dict:
         "housing": round(p.housing),
         "everyday": round(p.everyday),
         "targets": targets(h, p),
+        # What the targets rest on, so a change can be explained
+        "inputs": {
+            "baseline": {
+                "currency": h.currency,
+                "net": round(h.net),
+                "housing": h.housing,
+                "everyday": h.everyday,
+                "fixed": h.fixed,
+                "cover": round(h.cover, 2),
+            },
+            "here": {
+                "housing": round(p.housing),
+                "everyday": round(p.everyday),
+                "fixed": round(p.fixed),
+                "col_index": p.city.numbeo.col_index,
+                "home_col_index": h.col_index,
+            },
+            "fx": (
+                {"currency": p.country.currency, **h.fx.rates[p.country.currency].model_dump()}
+                if p.country.currency in h.fx.rates
+                else None
+            ),
+        },
         "blue_card": blue_card(p.country, None),
         "stale": stale(h, p.city, p.country, date.today(), with_wages=True),
     }

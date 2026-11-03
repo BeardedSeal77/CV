@@ -61,7 +61,7 @@ function ContactLine({ line }: { line: string }) {
 
 async function getLetter(id: string) {
   try {
-    return await callAction<{ text: string; notes: string }>(
+    return await callAction<{ text: string; notes: string; date: string }>(
       "jobs.get_letter",
       { id }
     )
@@ -94,11 +94,10 @@ export default async function LetterPage({
             </h1>
             {parsed.contact && <ContactLine line={parsed.contact} />}
           </header>
-          {parsed.date && (
-            <p className="mt-7 mb-6 font-mono text-[13px] text-muted-foreground">
-              {parsed.date}
-            </p>
-          )}
+          {/* The day it renders (or the job's fixed date), never a stored one */}
+          <p className="mt-7 mb-6 font-mono text-[13px] text-muted-foreground">
+            {letter.date}
+          </p>
           <main className="text-[17px] leading-[1.6]">
             {parsed.paragraphs.map((lines, i) => (
               <p key={i} className="mb-4">

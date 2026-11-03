@@ -13,7 +13,9 @@ class Targets(BaseModel):
 
 def list_targets(payload: Targets) -> dict:
     """The monthly gross needed for each grade, per city, with the gross where
-    housing drops to the rent-share limit and the Blue Card minimum alongside."""
+    housing drops to the rent-share limit and the Blue Card minimum alongside,
+    plus the inputs they rest on (baseline net, housing, everyday and fixed
+    costs, the cost-of-living indexes and the exchange rate with its date)."""
     if payload.city:
         slug = payload.city if store.city_exists(payload.city) else resolve(payload.city)["city_id"]
         if not slug:

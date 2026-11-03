@@ -94,4 +94,6 @@ export interface JobEvent {
   link?: string
   /** Where the update came from, e.g. "gmail:<thread id>" */
   source?: string
+  /** Proof kept in the job's folder, e.g. evidence/2026-11-03-confirmation.png */
+  evidence?: string[]
 }
