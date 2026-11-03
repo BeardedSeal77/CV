@@ -25,6 +25,7 @@ const TONE: Record<Status, string> = {
   Rejected: "bg-destructive/15 text-destructive",
   Withdrawn: "bg-muted text-muted-foreground",
   Closed: "bg-muted text-muted-foreground",
+  "Not interested": "bg-muted text-muted-foreground",
   "Ruled out": "bg-muted text-muted-foreground",
 }
 

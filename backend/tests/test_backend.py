@@ -65,6 +65,18 @@ class JobsTest(unittest.TestCase):
         self.assertEqual([i["date"] for i in dates["interviews"]], ["2026-11-03", "2026-11-05", "2026-11-09"])
         self.assertEqual(dates["outcome"], {"date": "2026-11-13", "status": "Accepted"})
 
+    def test_not_interested_from_backlog_only(self):
+        job = dispatch("jobs.add", {"company": "Skip Co", "role": "Dev"})
+        skipped = dispatch("jobs.move", {"id": job["id"], "column": "not_interested"})
+        self.assertEqual((skipped["column"], skipped["status"]), ("not_interested", "Not interested"))
+        back = dispatch("jobs.move", {"id": job["id"], "column": "backlog"})
+        self.assertEqual(back["status"], "Shortlisted")
+        dispatch("jobs.move", {"id": job["id"], "column": "applied"})
+        with self.assertRaises(ActionError) as caught:
+            dispatch("jobs.move", {"id": job["id"], "column": "not_interested"})
+        self.assertEqual(caught.exception.extra.get("code"), "transition_not_allowed")
+        self.assertNotIn(job["id"], [j["id"] for j in dispatch("jobs.next_to_apply", {"limit": 100})["needs_letter"]])
+
     def test_status_must_belong_to_column(self):
         with self.assertRaises(ActionError) as caught:
             dispatch("jobs.move", {"id": SAMPLE, "column": "declined", "status": "Interview"})

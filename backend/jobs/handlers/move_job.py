@@ -8,7 +8,7 @@ class MoveJob(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     id: str
-    column: Column = Field(description="backlog, applied, interview, accepted, declined or archived")
+    column: Column = Field(description="backlog, applied, interview, accepted, declined, not_interested or archived")
     status: Status | None = Field(
         None,
         description="Detail within the column, e.g. Screening (interview), Accepted (accepted), "
@@ -30,7 +30,8 @@ class MoveJob(BaseModel):
 def move_job(payload: MoveJob) -> dict:
     """Move a job to a board column by logging a dated event. Default statuses:
     backlog -> Shortlisted, applied -> Applied, interview -> Interview, accepted ->
-    Offer, declined -> Rejected, archived -> Ruled out. Moves follow the
+    Offer, declined -> Rejected, not_interested -> Not interested, archived ->
+    Ruled out. Moves follow the
     application lifecycle; pass correction=true to fix a mistake."""
     event = JobEvent(
         date=payload.date or store.today(),

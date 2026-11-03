@@ -27,6 +27,7 @@ const BOARD: Column[] = [
   "interview",
   "accepted",
   "declined",
+  "not_interested",
 ]
 
 // A soft accent per column, so the board reads left to right at a glance
@@ -36,6 +37,7 @@ const COLUMN_TONE: Record<Column, string> = {
   interview: "bg-domain-infra",
   accepted: "bg-domain-backend",
   declined: "bg-destructive/70",
+  not_interested: "bg-muted-foreground/30",
   archived: "bg-muted-foreground/30",
 }
 

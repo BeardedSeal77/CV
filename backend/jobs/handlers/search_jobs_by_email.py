@@ -34,7 +34,7 @@ def search_jobs_by_email(payload: SearchByEmail) -> dict:
     """Which job an email is about: matches the sender's domain against each
     job's listing link, website and apply email, and the company name against
     the sender, subject and snippet. Answers candidates with the reasons, best
-    first. Archived (ruled out) jobs are left out."""
+    first. Jobs Ed never applied to (ruled out, not interested) are left out."""
     address = re.search(r"[\w.+-]+@([\w-]+(?:\.[\w-]+)+)", payload.sender)
     sender_domain = address.group(1).lower() if address else ""
     text = f"{payload.sender} {payload.subject} {payload.snippet}".lower()
@@ -43,7 +43,7 @@ def search_jobs_by_email(payload: SearchByEmail) -> dict:
     sender_is_ats = any(ats in sender_domain for ats in _ATS)
     scored = []
     for opp in store.list_all():
-        if opp.application.status == "Ruled out":
+        if opp.application.status in ("Ruled out", "Not interested"):  # never applied to
             continue
         reasons = []
         if sender_domain and sender_domain not in _GENERIC and not sender_is_ats:

@@ -18,11 +18,12 @@ Status = Literal[
     "Rejected",
     "Withdrawn",
     "Closed",
+    "Not interested",
     "Ruled out",
 ]
 STATUSES: tuple[str, ...] = get_args(Status)
 
-Column = Literal["backlog", "applied", "interview", "accepted", "declined", "archived"]
+Column = Literal["backlog", "applied", "interview", "accepted", "declined", "not_interested", "archived"]
 COLUMNS: tuple[str, ...] = get_args(Column)
 
 COLUMN_LABEL = {
@@ -31,11 +32,13 @@ COLUMN_LABEL = {
     "interview": "Interview",
     "accepted": "Accepted",
     "declined": "Declined",
+    "not_interested": "Not interested",
     "archived": "Archived",
 }
 
 # Screening calls count as interviewing; offers sit in Accepted (the status says
-# whether Ed has accepted yet); Ruled out roles were never applied to and live
+# whether Ed has accepted yet); Not interested holds roles Ed chose to skip;
+# Ruled out roles were never applied to and live
 # in a hidden archive.
 COLUMN_OF: dict[str, str] = {
     "Shortlisted": "backlog",
@@ -48,6 +51,7 @@ COLUMN_OF: dict[str, str] = {
     "Rejected": "declined",
     "Withdrawn": "declined",
     "Closed": "declined",
+    "Not interested": "not_interested",
     "Ruled out": "archived",
 }
 
@@ -58,6 +62,7 @@ DEFAULT_STATUS: dict[str, str] = {
     "interview": "Interview",
     "accepted": "Offer",
     "declined": "Rejected",
+    "not_interested": "Not interested",
     "archived": "Ruled out",
 }
 
@@ -72,6 +77,7 @@ STATUS_GROUP: dict[str, str] = {
     "Rejected": "closed",
     "Withdrawn": "closed",
     "Closed": "closed",
+    "Not interested": "closed",
     "Ruled out": "closed",
 }
 

@@ -12,6 +12,7 @@ APPLICATION = {
             'transitions': [
                 {'action': 'mark_ready', 'to': 'Ready', 'trigger': 'user'},
                 {'action': 'apply', 'to': 'Applied', 'trigger': 'user'},
+                {'action': 'not_interested', 'to': 'Not interested', 'trigger': 'user'},
                 {'action': 'rule_out', 'to': 'Ruled out', 'trigger': 'user'},
                 {'action': 'close', 'to': 'Closed', 'trigger': 'user'},
             ],
@@ -21,6 +22,7 @@ APPLICATION = {
             'transitions': [
                 {'action': 'back_to_shortlist', 'to': 'Shortlisted', 'trigger': 'user'},
                 {'action': 'apply', 'to': 'Applied', 'trigger': 'user'},
+                {'action': 'not_interested', 'to': 'Not interested', 'trigger': 'user'},
                 {'action': 'rule_out', 'to': 'Ruled out', 'trigger': 'user'},
                 {'action': 'close', 'to': 'Closed', 'trigger': 'user'},
             ],
@@ -87,6 +89,12 @@ APPLICATION = {
             'label': 'Closed', 'column': 'declined', 'flags': ['is_terminal'],
             'transitions': [
                 {'action': 'reopen', 'to': 'Shortlisted', 'trigger': 'user'},
+            ],
+        },
+        'Not interested': {
+            'label': 'Not interested', 'column': 'not_interested', 'flags': ['is_terminal'],
+            'transitions': [
+                {'action': 'reconsider', 'to': 'Shortlisted', 'trigger': 'user'},
             ],
         },
         'Ruled out': {

@@ -13,12 +13,21 @@ export const STATUSES = [
   "Rejected",
   "Withdrawn",
   "Closed",
+  "Not interested",
   "Ruled out",
 ] as const
 export type Status = (typeof STATUSES)[number]
 
 /** Board columns. Statuses keep their detail; the board groups them. */
-export const COLUMNS = ["backlog", "applied", "interview", "accepted", "declined", "archived"] as const
+export const COLUMNS = [
+  "backlog",
+  "applied",
+  "interview",
+  "accepted",
+  "declined",
+  "not_interested",
+  "archived",
+] as const
 export type Column = (typeof COLUMNS)[number]
 
 export const COLUMN_LABEL: Record<Column, string> = {
@@ -27,12 +36,14 @@ export const COLUMN_LABEL: Record<Column, string> = {
   interview: "Interview",
   accepted: "Accepted",
   declined: "Declined",
+  not_interested: "Not interested",
   archived: "Archived",
 }
 
 /** Which column each status sits in. Screening calls count as interviewing;
  * offers sit in Accepted (the status says whether Ed has accepted yet);
- * Ruled out roles were never applied to and live in a hidden archive. */
+ * Not interested holds roles Ed chose to skip; Ruled out roles were never
+ * applied to and live in a hidden archive. */
 export const COLUMN_OF: Record<Status, Column> = {
   Shortlisted: "backlog",
   Ready: "backlog",
@@ -44,6 +55,7 @@ export const COLUMN_OF: Record<Status, Column> = {
   Rejected: "declined",
   Withdrawn: "declined",
   Closed: "declined",
+  "Not interested": "not_interested",
   "Ruled out": "archived",
 }
 
@@ -54,6 +66,7 @@ export const DEFAULT_STATUS: Record<Column, Status> = {
   interview: "Interview",
   accepted: "Offer",
   declined: "Rejected",
+  not_interested: "Not interested",
   archived: "Ruled out",
 }
 
