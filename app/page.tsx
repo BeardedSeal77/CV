@@ -53,16 +53,22 @@ export default async function Page() {
   ])
 
   const cvHref = withBasePath(site.cvPdf)
-  const sections: NavSection[] = portfolioEnabled(site)
-    ? [
-        ...NAV_SECTIONS,
-        {
-          id: "portfolio",
-          label: "Portfolio",
-          href: withBasePath("/portfolio"),
-        },
-      ]
-    : NAV_SECTIONS
+  const sections: NavSection[] = [
+    ...NAV_SECTIONS,
+    ...(portfolioEnabled(site)
+      ? [
+          {
+            id: "portfolio",
+            label: "Portfolio",
+            href: withBasePath("/portfolio"),
+          },
+        ]
+      : []),
+    // The job hunt only exists on the local server; the public build never links it
+    ...(process.env.CV_MODE === "local"
+      ? [{ id: "jobs", label: "Job hunt", href: "/jobs" }]
+      : []),
+  ]
 
   return (
     <>
@@ -84,7 +90,12 @@ export default async function Page() {
             />
           }
         />
-        <Projects projects={projects} />
+        <Projects
+          projects={projects}
+          portfolioHref={
+            portfolioEnabled(site) ? withBasePath("/portfolio") : undefined
+          }
+        />
         <Skills groups={skills} />
         <Education entries={education} certifications={certifications} />
         <Hobbies hobbies={hobbies} />

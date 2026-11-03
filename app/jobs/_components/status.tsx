@@ -1,18 +1,5 @@
-import { type Status, STATUS_GROUP } from "@/lib/jobhunt/schema"
+import type { Status } from "@/lib/jobhunt/schema"
 import { cn } from "@/lib/utils"
-
-export const PIPELINE_ORDER: Status[] = [
-  "Offer",
-  "Interview",
-  "Screening",
-  "Applied",
-  "Ready",
-  "Shortlisted",
-  "Rejected",
-  "Withdrawn",
-  "Closed",
-  "Ruled out",
-]
 
 export const COUNTRY: Record<string, string> = {
   LV: "Latvia",
@@ -26,23 +13,19 @@ export const COUNTRY: Record<string, string> = {
   IE: "Ireland",
 }
 
+// Workbench colours: each stage of the hunt gets its own soft fill and ink
 const TONE: Record<Status, string> = {
   Shortlisted: "bg-muted text-muted-foreground",
-  Ready: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
-  Applied: "bg-sky-500/15 text-sky-700 dark:text-sky-300",
-  Screening: "bg-sky-500/15 text-sky-700 dark:text-sky-300",
-  Interview: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
-  Offer: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+  Ready: "bg-domain-automation-soft text-domain-automation",
+  Applied: "bg-primary-soft text-primary",
+  Screening: "bg-domain-infra-soft text-domain-infra",
+  Interview: "bg-domain-infra-soft text-domain-infra",
+  Offer: "bg-domain-backend-soft text-domain-backend",
+  Accepted: "bg-domain-backend text-background",
   Rejected: "bg-destructive/15 text-destructive",
   Withdrawn: "bg-muted text-muted-foreground",
   Closed: "bg-muted text-muted-foreground",
   "Ruled out": "bg-muted text-muted-foreground",
-}
-
-export const EDGE: Record<"todo" | "active" | "closed", string> = {
-  todo: "border-l-border",
-  active: "border-l-sky-500",
-  closed: "border-l-border",
 }
 
 export function StatusPill({ status }: { status: Status }) {
@@ -58,10 +41,6 @@ export function StatusPill({ status }: { status: Status }) {
   )
 }
 
-export function statusGroup(status: Status) {
-  return STATUS_GROUP[status]
-}
-
 export function fmtDate(date: string) {
   if (!date) return ""
   const d = new Date(`${date}T12:00:00`)
@@ -73,8 +52,21 @@ export function fmtDate(date: string) {
   })
 }
 
-export function daysBetween(a: string, b: string) {
-  return Math.round(
-    (new Date(`${b}T12:00:00`).getTime() - new Date(`${a}T12:00:00`).getTime()) / 86_400_000
+/** Today as YYYY-MM-DD in local time, for date inputs */
+export function today() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+}
+
+/** A small round separator between inline facts */
+export function Dot({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "mx-1.5 inline-block size-[3px] rounded-full bg-current align-middle opacity-60",
+        className
+      )}
+    />
   )
 }

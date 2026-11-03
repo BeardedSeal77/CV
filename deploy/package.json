@@ -1,0 +1,37 @@
+{
+  "name": "cv-web",
+  "private": true,
+  "type": "module",
+  "//": "Names only, for the DevTools mirror (its approved list decides versions). The public site's build keeps the pinned package.json + lockfile at the repo root.",
+  "dependencies": {
+    "@base-ui/react": "*",
+    "class-variance-authority": "*",
+    "clsx": "*",
+    "gray-matter": "*",
+    "lucide-react": "*",
+    "next": "*",
+    "next-themes": "*",
+    "pdf-lib": "*",
+    "react": "*",
+    "react-dom": "*",
+    "remark": "*",
+    "remark-html": "*",
+    "shadcn": "*",
+    "simple-icons": "*",
+    "tailwind-merge": "*",
+    "tw-animate-css": "*"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "playwright-core": "*",
+    "prettier": "*",
+    "prettier-plugin-tailwindcss": "*",
+    "tailwindcss": "*",
+    "typescript": "*"
+  }
+}

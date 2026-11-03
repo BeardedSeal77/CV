@@ -1,4 +1,6 @@
-import { z } from "zod"
+// The job hunt's columns, statuses and application methods, for the board UI.
+// The Flask backend (backend/jobs/model/schema.py) owns the data and validates
+// every write; this file only mirrors its constants and types.
 
 export const STATUSES = [
   "Shortlisted",
@@ -7,77 +9,71 @@ export const STATUSES = [
   "Screening",
   "Interview",
   "Offer",
+  "Accepted",
   "Rejected",
   "Withdrawn",
   "Closed",
   "Ruled out",
 ] as const
+export type Status = (typeof STATUSES)[number]
 
-export const StatusSchema = z.enum(STATUSES)
-export type Status = z.infer<typeof StatusSchema>
+/** Board columns. Statuses keep their detail; the board groups them. */
+export const COLUMNS = ["backlog", "applied", "interview", "accepted", "declined", "archived"] as const
+export type Column = (typeof COLUMNS)[number]
 
-/** Statuses grouped the way the UI and the stats treat them */
-export const STATUS_GROUP: Record<Status, "todo" | "active" | "closed"> = {
-  Shortlisted: "todo",
-  Ready: "todo",
-  Applied: "active",
-  Screening: "active",
-  Interview: "active",
-  Offer: "active",
-  Rejected: "closed",
-  Withdrawn: "closed",
-  Closed: "closed",
-  "Ruled out": "closed",
+export const COLUMN_LABEL: Record<Column, string> = {
+  backlog: "Backlog",
+  applied: "Applied",
+  interview: "Interview",
+  accepted: "Accepted",
+  declined: "Declined",
+  archived: "Archived",
 }
 
-const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD")
-const optionalDate = z.union([isoDate, z.literal("")]).default("")
+/** Which column each status sits in. Screening calls count as interviewing;
+ * offers sit in Accepted (the status says whether Ed has accepted yet);
+ * Ruled out roles were never applied to and live in a hidden archive. */
+export const COLUMN_OF: Record<Status, Column> = {
+  Shortlisted: "backlog",
+  Ready: "backlog",
+  Applied: "applied",
+  Screening: "interview",
+  Interview: "interview",
+  Offer: "accepted",
+  Accepted: "accepted",
+  Rejected: "declined",
+  Withdrawn: "declined",
+  Closed: "declined",
+  "Ruled out": "archived",
+}
 
-export const EventSchema = z.object({
-  date: isoDate,
-  status: StatusSchema.optional(),
-  note: z.string().default(""),
-  link: z.string().optional(),
-})
-export type JobEvent = z.infer<typeof EventSchema>
+/** The status a card gets when it's moved into a column without one */
+export const DEFAULT_STATUS: Record<Column, Status> = {
+  backlog: "Shortlisted",
+  applied: "Applied",
+  interview: "Interview",
+  accepted: "Offer",
+  declined: "Rejected",
+  archived: "Ruled out",
+}
 
-export const ApplicationSchema = z.object({
-  status: StatusSchema,
-  updated: optionalDate,
-  events: z.array(EventSchema).default([]),
-})
+export const statusesIn = (column: Column) =>
+  STATUSES.filter((status) => COLUMN_OF[status] === column)
 
-export const OPPORTUNITY_ID = /^[a-z0-9][a-z0-9-]{0,79}$/
+/** How the application is made; `platform` keeps the detail (Workable, Lever, ...) */
+export const METHODS = ["indeed", "company_site", "linkedin", "other"] as const
+export type Method = (typeof METHODS)[number]
 
-/** The listing: everything about the role itself, editable as a whole */
-export const ListingSchema = z.object({
-  company: z.string().trim().min(1),
-  role: z.string().trim().min(1),
-  country: z.string().default(""),
-  city: z.string().default(""),
-  platform: z.string().default(""),
-  url: z.string().default(""),
-  email: z.string().default(""),
-  pay: z.string().default(""),
-  mode: z.string().default(""),
-  fit: z.string().default(""),
-  posted: optionalDate,
-  deadline: optionalDate,
-  size: z.string().default(""),
-  what: z.string().default(""),
-  added: optionalDate,
-})
-export type Listing = z.infer<typeof ListingSchema>
+export const METHOD_LABEL: Record<Method, string> = {
+  indeed: "Indeed",
+  company_site: "Company website",
+  linkedin: "LinkedIn",
+  other: "Other",
+}
 
-export const OpportunitySchema = ListingSchema.extend({
-  id: z.string().regex(OPPORTUNITY_ID),
-  application: ApplicationSchema,
-})
-export type Opportunity = z.infer<typeof OpportunitySchema>
-
-/** Fields a caller may change on an existing opportunity */
-export const ListingPatchSchema = ListingSchema.partial()
-export type ListingPatch = z.infer<typeof ListingPatchSchema>
-
-export const DOCS = ["jd", "letter", "notes"] as const
-export type DocName = (typeof DOCS)[number]
+export interface JobEvent {
+  date: string
+  status?: Status
+  note: string
+  link?: string
+}

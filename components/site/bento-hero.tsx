@@ -1,8 +1,8 @@
 import Image from "next/image"
+import { Plane } from "lucide-react"
 
 import { TechStrip } from "@/components/site/graphics"
 import { linkClass } from "@/components/site/hero"
-import { RelocationParts } from "@/components/site/relocation"
 import { Button } from "@/components/ui/button"
 import type { ExperienceEntry, SiteMeta } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
@@ -20,6 +20,8 @@ interface BentoHeroProps {
 // Website hero as fact cards: who, now, where, proof, stack. The PDF keeps <Hero>.
 export function BentoHero({ site, cvHref, current }: BentoHeroProps) {
   const proof = site.proof ?? []
+  // "Relocating to the EU · Blue Card … · notice": the first part is the headline
+  const [move, ...details] = site.relocation?.split(" · ") ?? []
   return (
     <div id="top" className="mx-auto max-w-page px-6 pt-8 md:pt-12">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -40,6 +42,12 @@ export function BentoHero({ site, cvHref, current }: BentoHeroProps) {
             <p className="mt-3 max-w-[560px] text-lg leading-snug text-muted-foreground sm:text-xl">
               {site.tagline}
             </p>
+            {move && (
+              <p className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-3.5 py-2 text-[15px] font-semibold text-primary-foreground">
+                <Plane aria-hidden className="size-4" />
+                {move}
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-[15px]">
             <Button
@@ -100,16 +108,21 @@ export function BentoHero({ site, cvHref, current }: BentoHeroProps) {
           </div>
         )}
 
-        <section aria-label="Location" className={card}>
+        {/* Where: the move to Europe leads, highlighted in the brand tint */}
+        <section
+          aria-label="Location"
+          className={cn(card, move && "border-primary/40 bg-primary-soft")}
+        >
           <p className={label}>Where</p>
           <p className="mt-2 text-[17px] leading-snug font-semibold">
-            {site.location}
+            {move ?? site.location}
           </p>
-          {site.relocation && (
-            <p className="mt-1 text-[13.5px] leading-snug text-muted-foreground">
-              <RelocationParts text={site.relocation} />
-            </p>
-          )}
+          <ul className="mt-1 space-y-0.5 text-[13.5px] leading-snug text-muted-foreground">
+            {move && <li>From {site.location}</li>}
+            {details.map((detail) => (
+              <li key={detail}>{detail}</li>
+            ))}
+          </ul>
         </section>
 
         {proof.map((item, index) => (

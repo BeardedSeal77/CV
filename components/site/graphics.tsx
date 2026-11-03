@@ -526,12 +526,16 @@ export function Timeline({
 
 // --- Pipeline -----------------------------------------------------------
 
-// Stages in order, joined by arrows, with each stage's capabilities beneath
+// Stages in order, joined by arrows, with each stage's capabilities beneath.
+// Up to four stages run in one row; five or six wrap as rows of three. Print
+// keeps every stage in one row and shows capability titles only.
 export function Pipeline({
   capabilities,
+  purposes,
   className,
 }: {
   capabilities: Capability[]
+  purposes?: Record<string, string>
   className?: string
 }) {
   const stages = new Map<string, Capability[]>()
@@ -539,57 +543,76 @@ export function Pipeline({
     const stage = capability.group ?? "Other"
     stages.set(stage, [...(stages.get(stage) ?? []), capability])
   }
+  const count = stages.size
+  const wide = count <= 4
+  const perRow = wide ? count : 3
 
   return (
     <ol
       className={cn(
-        "grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 doc:grid-cols-4 doc:gap-x-6 doc:gap-y-3",
+        "grid gap-x-8 gap-y-7 sm:grid-cols-2 doc:gap-x-4 doc:gap-y-2",
+        wide ? "lg:grid-cols-4" : "lg:grid-cols-3",
+        count > 4 ? "doc:grid-cols-6" : "doc:grid-cols-4",
         className
       )}
     >
-      {[...stages.entries()].map(([stage, items], index) => (
-        <li key={stage} className="relative min-w-0">
-          <p className="relative rounded-md border bg-card px-3 py-2 font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase doc:py-1">
-            {index + 1} · {stage}
-            {index < stages.size - 1 && (
-              <span
-                aria-hidden
-                className="absolute top-1/2 -right-8 hidden w-8 items-center lg:flex doc:-right-6 doc:flex doc:w-6"
-              >
-                <span className="h-px flex-1 bg-input" />
-                <span className="-ml-1.5 size-1.5 rotate-45 border-t border-r border-input" />
-              </span>
-            )}
-          </p>
-          <ul className="mt-3 space-y-3 doc:mt-2 doc:space-y-1.5">
-            {items.map((item) => (
-              <li key={item.title} className="flex gap-2.5">
-                <DomainIcon
-                  domain={item.domain}
-                  icon={item.icon}
-                  className="size-6 [&_svg]:size-3.5"
-                />
-                <div className="min-w-0">
-                  <p className="text-[14px] leading-snug font-semibold">
-                    {item.title}
-                    {item.planned && (
-                      <span className="font-normal text-muted-foreground">
-                        {" "}
-                        · in development
-                      </span>
-                    )}
-                  </p>
-                  {item.value && (
-                    <p className="mt-0.5 text-[12.5px] leading-snug text-muted-foreground">
-                      {item.value}
-                    </p>
+      {[...stages.entries()].map(([stage, items], index) => {
+        const last = index === count - 1
+        const rowEnd = (index + 1) % perRow === 0
+        return (
+          <li key={stage} className="relative min-w-0">
+            <div className="relative rounded-md border bg-card px-3 py-2 doc:px-2 doc:py-1">
+              <p className="font-mono text-xs font-medium tracking-[0.08em] text-primary uppercase doc:text-[11px] doc:tracking-[0.04em]">
+                {index + 1} · {stage}
+              </p>
+              {purposes?.[stage] && (
+                <p className="mt-0.5 text-[12.5px] leading-snug text-muted-foreground doc:hidden">
+                  {purposes[stage]}
+                </p>
+              )}
+              {!last && (
+                <span
+                  aria-hidden
+                  className={cn(
+                    "absolute top-1/2 -right-8 hidden w-8 items-center doc:-right-4 doc:flex doc:w-4",
+                    !rowEnd && "lg:flex"
                   )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
+                >
+                  <span className="h-px flex-1 bg-input" />
+                  <span className="-ml-1.5 size-1.5 rotate-45 border-t border-r border-input" />
+                </span>
+              )}
+            </div>
+            <ul className="mt-3 space-y-3 doc:mt-1.5 doc:space-y-1">
+              {items.map((item) => (
+                <li key={item.title} className="flex gap-2.5 doc:gap-1.5">
+                  <DomainIcon
+                    domain={item.domain}
+                    icon={item.icon}
+                    className="size-6 doc:size-5 [&_svg]:size-3.5 doc:[&_svg]:size-3"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-[14px] leading-snug font-semibold doc:text-[12.5px] doc:font-medium">
+                      {item.title}
+                      {item.planned && (
+                        <span className="font-normal text-muted-foreground">
+                          {" "}
+                          · in development
+                        </span>
+                      )}
+                    </p>
+                    {item.value && (
+                      <p className="mt-0.5 text-[12.5px] leading-snug text-muted-foreground doc:hidden">
+                        {item.value}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        )
+      })}
     </ol>
   )
 }

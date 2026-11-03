@@ -1,0 +1,14 @@
+# never send personal data or local builds to Docker
+data/
+.git/
+node_modules/
+.next/
+out/
+public/media/
+public/*.pdf
+backend/.venv/
+**/__pycache__/
+.claude/
+temp/
+applications/
+*.log

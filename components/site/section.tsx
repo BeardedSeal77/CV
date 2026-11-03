@@ -13,7 +13,7 @@ export function Section({ id, title, children, className }: SectionProps) {
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={cn("scroll-mt-20 pt-16 doc:pt-5 doc:first:pt-0", className)}
+      className={cn("scroll-mt-20 pt-16 doc:pt-4 doc:first:pt-0", className)}
     >
       <div className="mx-auto max-w-page px-6 doc:max-w-none doc:px-0">
         <h2

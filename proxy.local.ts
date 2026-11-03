@@ -3,7 +3,13 @@
 // form post. Reject anything whose Host or Origin isn't this machine.
 import { type NextRequest, NextResponse } from "next/server"
 
-const LOCAL_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"])
+// Plus any names in CV_ALLOWED_HOSTS, e.g. the compose service names in Docker
+const LOCAL_HOSTS = new Set([
+  "127.0.0.1",
+  "localhost",
+  "[::1]",
+  ...(process.env.CV_ALLOWED_HOSTS ?? "").split(",").map((h) => h.trim()).filter(Boolean),
+])
 
 function hostname(value: string) {
   try {

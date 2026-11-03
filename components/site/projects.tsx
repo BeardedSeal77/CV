@@ -1,9 +1,10 @@
-import { ExternalLink } from "lucide-react"
+import { ArrowRight, ExternalLink } from "lucide-react"
 
 import { linkClass } from "@/components/site/hero"
 import { ProofStrip } from "@/components/site/proof-strip"
 import { DomainChip, Pipeline, TechStrip } from "@/components/site/graphics"
 import { MoreDetail, Section } from "@/components/site/section"
+import { Button } from "@/components/ui/button"
 import type { Capability, Domain, Project } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
@@ -109,7 +110,14 @@ function Links({ project }: { project: Project }) {
 }
 
 // A pitched project: problem, capabilities (by stage when staged, else as chips), proof, stack
-export function PitchBlock({ project }: { project: Project }) {
+export function PitchBlock({
+  project,
+  portfolioHref,
+}: {
+  project: Project
+  // The portfolio page; "How it works" opens this project's case study there
+  portfolioHref?: string
+}) {
   const pitch = project.pitch!
   return (
     <article
@@ -136,6 +144,7 @@ export function PitchBlock({ project }: { project: Project }) {
       {isGridPitch(project) ? (
         <Pipeline
           capabilities={pitch.capabilities ?? []}
+          purposes={pitch.stages}
           className="mt-7 doc:mt-3"
         />
       ) : (
@@ -143,8 +152,25 @@ export function PitchBlock({ project }: { project: Project }) {
       )}
 
       {pitch.proof && <ProofStrip items={pitch.proof} variant="inline" />}
-      <TechStrip items={project.tags} />
-      <MoreDetail html={project.html} label="How it works" />
+      {/* Print leaves the stack to Skills */}
+      <TechStrip items={project.tags} className="doc:hidden" />
+      {portfolioHref && (
+        // Its own footer row so the call to action has room around it
+        <div className="mt-7 flex items-center justify-between gap-4 border-t pt-6 doc:hidden">
+          <p className="text-[14px] text-muted-foreground">
+            Screenshots and the full case study
+          </p>
+          <Button
+            size="lg"
+            className="h-11 gap-2 rounded-md px-5 text-[15px] transition-transform hover:translate-x-0.5"
+            nativeButton={false}
+            render={<a href={`${portfolioHref}#${project.slug}`} />}
+          >
+            How it works
+            <ArrowRight data-icon="inline-end" />
+          </Button>
+        </div>
+      )}
     </article>
   )
 }
@@ -265,7 +291,13 @@ export function ProjectCard({
   )
 }
 
-export function Projects({ projects }: { projects: Project[] }) {
+export function Projects({
+  projects,
+  portfolioHref,
+}: {
+  projects: Project[]
+  portfolioHref?: string
+}) {
   // Staged pitches lead, then the other pitched projects, then compact cards
   const pitched = [
     ...projects.filter(isGridPitch),
@@ -276,7 +308,11 @@ export function Projects({ projects }: { projects: Project[] }) {
   return (
     <Section id="projects" title="Projects">
       {pitched.map((project) => (
-        <PitchBlock key={project.title} project={project} />
+        <PitchBlock
+          key={project.title}
+          project={project}
+          portfolioHref={portfolioHref}
+        />
       ))}
       {rest.length > 0 && (
         <div className="mt-5 grid gap-5 md:grid-cols-2 doc:mt-3 doc:gap-3">

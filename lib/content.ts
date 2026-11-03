@@ -138,6 +138,8 @@ export interface Capability {
 
 export interface Pitch {
   problem: string
+  // One-line purpose per stage, by stage name, for the pipeline
+  stages?: Record<string, string>
   capabilities?: Capability[]
   proof?: Stat[]
 }
@@ -151,6 +153,8 @@ export interface Project extends Span {
   domain?: Domain
   // Anchor and portfolio id: frontmatter `slug`, else the file name without its order prefix
   slug: string
+  // Display order; without it projects keep their file-name order
+  order?: number
   title: string
   subtitle: string
   featured?: boolean
@@ -247,11 +251,13 @@ export async function getProjects(): Promise<Project[]> {
     .filter((file) => file.endsWith(".md"))
     .sort()
   const projects = await readCollection<Project>(dir)
-  return projects.map((project, index) => ({
-    ...project,
-    slug:
-      project.slug ?? path.basename(files[index], ".md").replace(/^\d+-/, ""),
-  }))
+  return projects
+    .map((project, index) => ({
+      ...project,
+      slug:
+        project.slug ?? path.basename(files[index], ".md").replace(/^\d+-/, ""),
+    }))
+    .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity))
 }
 
 export async function getSkills(): Promise<SkillGroup[]> {

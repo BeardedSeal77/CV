@@ -1,0 +1,8 @@
+flask
+gunicorn
+pydantic
+mcp
+uvicorn
+playwright
+pypdf
+python-frontmatter

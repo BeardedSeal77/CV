@@ -1,6 +1,5 @@
-import Image from "next/image"
-
 import { Section } from "@/components/site/section"
+import { ZoomableImage } from "@/components/site/zoomable-image"
 import type { Hobby } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 
@@ -11,12 +10,10 @@ export function Hobbies({ hobbies }: { hobbies: Hobby[] }) {
       <div className="mt-7 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         {hobbies.map((hobby) => (
           <article key={hobby.title}>
-            <Image
+            <ZoomableImage
               src={withBasePath(hobby.image)}
               alt={hobby.imageAlt}
-              width={800}
-              height={600}
-              className="aspect-[4/3] w-full rounded-lg border object-cover"
+              thumbClassName="aspect-[4/3] object-center"
             />
             <h3 className="mt-3 text-[15px] font-semibold">{hobby.title}</h3>
             <div

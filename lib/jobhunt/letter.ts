@@ -35,7 +35,7 @@ export function parseLetter(letter: string): ParsedLetter {
     .filter(Boolean)
   const result: ParsedLetter = { paragraphs: [] }
   const first = blocks[0]?.split("\n") ?? []
-  if (first.length === 2 && (first[1].includes("·") || first[1].includes("@"))) {
+  if (first.length === 2 && (first[1].includes("\u00b7") || first[1].includes("@"))) {
     ;[result.name, result.contact] = first
     blocks.shift()
   }

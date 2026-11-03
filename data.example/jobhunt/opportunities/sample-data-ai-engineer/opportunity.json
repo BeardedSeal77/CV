@@ -5,9 +5,12 @@
   "country": "DE",
   "city": "Berlin",
   "platform": "LinkedIn",
+  "method": "linkedin",
   "url": "https://example.com/jobs/ai-engineer",
+  "website": "https://example.org",
   "email": "",
   "pay": "",
+  "hours": "",
   "mode": "On-site",
   "fit": "Good",
   "posted": "",
@@ -18,6 +21,12 @@
   "application": {
     "status": "Shortlisted",
     "updated": "2026-10-10",
-    "events": [{ "date": "2026-10-10", "status": "Shortlisted", "note": "Added." }]
+    "events": [
+      {
+        "date": "2026-10-10",
+        "status": "Shortlisted",
+        "note": "Added."
+      }
+    ]
   }
 }

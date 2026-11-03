@@ -1,0 +1,63 @@
+# The local stack in Docker: website + job hunt backend + MCP server.
+# Every port is published on 127.0.0.1 only; data/ (the private data repo) is
+# bind-mounted, never baked into an image.
+#
+#   docker compose up --build
+#   http://127.0.0.1:3030/jobs   the board
+#   http://127.0.0.1:5401/mcp    MCP for agents
+name: cv
+
+x-backend: &backend
+  build:
+    context: .
+    dockerfile: backend/Dockerfile
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    args:
+      PIP_INDEX_URL: http://host.docker.internal:3141/root/approved/+simple/
+      PIP_TRUSTED_HOST: host.docker.internal
+  image: cv-backend
+  volumes:
+    - ./data:/app/data
+  environment:
+    CV_DATA_DIR: data
+    CV_WEB_URL: http://web:3000
+    # the compose service names, so containers can call each other
+    CV_ALLOWED_HOSTS: api,mcp,web
+
+services:
+  api:
+    <<: *backend
+    ports: ["127.0.0.1:5400:5000"]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mcp:
+    <<: *backend
+    command: ["python3", "mcp_server.py"]
+    environment:
+      CV_DATA_DIR: data
+      CV_WEB_URL: http://web:3000
+      CV_ALLOWED_HOSTS: api,mcp,web
+      CV_MCP_HOST: 0.0.0.0
+      CV_MCP_PORT: "5401"
+    ports: ["127.0.0.1:5401:5401"]
+
+  web:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+      extra_hosts: ["host.docker.internal:host-gateway"]
+      args:
+        NPM_CONFIG_REGISTRY: http://host.docker.internal:4873/
+    volumes:
+      - ./data:/app/data
+    environment:
+      CV_API_URL: http://api:5000
+      CV_ALLOWED_HOSTS: api,mcp,web
+    ports: ["127.0.0.1:3030:3000"]
+    depends_on:
+      api:
+        condition: service_healthy

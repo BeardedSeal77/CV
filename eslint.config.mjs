@@ -8,14 +8,7 @@ const eslintConfig = defineConfig([
   // The job hunt is local-only: nothing outside these folders may import it.
   {
     files: ["**/*.{ts,tsx,js,mjs}"],
-    ignores: [
-      "app/jobs/**",
-      "app/api/**",
-      "app/mcp/**",
-      "mcp/**",
-      "lib/jobhunt/**",
-      "scripts/**",
-    ],
+    ignores: ["app/jobs/**", "lib/jobhunt/**", "lib/backend.ts", "scripts/**"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -27,13 +20,11 @@ const eslintConfig = defineConfig([
                 "@/lib/jobhunt/*",
                 "**/lib/jobhunt",
                 "**/lib/jobhunt/*",
-                "@/mcp/*",
-                "**/mcp/*",
                 "@/app/jobs/*",
                 "**/data/jobhunt/*",
               ],
               message:
-                "The job hunt is local-only. Import it only from app/jobs, app/api, app/mcp, mcp/ or lib/jobhunt.",
+                "The job hunt is local-only. Import it only from app/jobs or lib/jobhunt.",
             },
           ],
         },
@@ -47,6 +38,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // the Python backend (and its virtualenv)
+    "backend/**",
   ]),
 ]);
 

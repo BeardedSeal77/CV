@@ -1,8 +1,7 @@
-import Image from "next/image"
-
 import { ProofStrip } from "@/components/site/proof-strip"
 import { Chips, eyebrow, isGridPitch } from "@/components/site/projects"
 import { Pipeline, TechStrip } from "@/components/site/graphics"
+import { ZoomableImage } from "@/components/site/zoomable-image"
 import type { Project } from "@/lib/content"
 import { withBasePath } from "@/lib/paths"
 import { cn } from "@/lib/utils"
@@ -20,16 +19,11 @@ function Media({ project }: { project: Project }) {
     <div className="mt-8 grid gap-4 sm:grid-cols-3 doc:mt-4 doc:grid-cols-3 doc:gap-3">
       {slots.map((item, index) =>
         item.src ? (
-          <Image
+          <ZoomableImage
             key={item.src}
             src={withBasePath(item.src)}
             alt={item.alt}
-            width={1280}
-            height={800}
-            className={cn(
-              "aspect-video w-full rounded-lg border object-cover object-top",
-              index === 0 && "sm:col-span-3"
-            )}
+            className={cn(index === 0 && "sm:col-span-3 doc:col-span-3")}
           />
         ) : (
           <div
@@ -72,6 +66,7 @@ function CaseStudy({ project, first }: { project: Project; first: boolean }) {
       {isGridPitch(project) ? (
         <Pipeline
           capabilities={pitch.capabilities ?? []}
+          purposes={pitch.stages}
           className="mt-5 doc:mt-3"
         />
       ) : (

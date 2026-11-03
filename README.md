@@ -8,10 +8,14 @@ The stack is public. Your data isn't: it lives in a separate private repo cloned
 
 ```bash
 npm install
+python -m venv backend/.venv
+backend/.venv/Scripts/pip install -r backend/requirements.txt   # bin/pip on macOS/Linux
 npm run local
 ```
 
-Open http://127.0.0.1:3000 for the CV and http://127.0.0.1:3000/jobs for the job hunt. With no `data/` folder it uses `data.example/` and says so.
+Open http://127.0.0.1:3030 for the CV and http://127.0.0.1:3030/jobs for the job hunt. With no `data/` folder it uses `data.example/` and says so.
+
+Or run the whole local stack in Docker: `docker compose up --build` (same ports, all bound to 127.0.0.1, `data/` mounted).
 
 ## Use your own data
 
@@ -40,33 +44,39 @@ jobhunt/                never published
 |---|---|---|
 | Output | static export in `out/` | dev server on 127.0.0.1 |
 | Pages | `/`, `/cv` | also `/jobs`, `/jobs/[id]`, `/jobs/companies`, `/jobs/new` |
-| API and MCP | none | `/api/jobs/*`, MCP at `/mcp` |
+| Backend | none | Flask on :5400 (proxied at `/api/actions/*`), MCP on :5401 |
 | Data | `data/`, or `CV_DATA_DIR=data.example` | `data/`, falling back to `data.example/` |
 
 Other scripts:
 
 - `npm run cv:pdf` renders `/cv` from `out/` to the CV PDF (run after `npm run build`).
 - `npm run application` builds cover letter + CV PDFs into `data/jobhunt/output/` (needs `npm run local`).
-- `npm run mcp:stdio` serves the MCP tools over stdio, for clients that can't connect by URL.
 - `npm run check-export` fails if anything from the job hunt reached `out/`.
 
-## MCP
+## Backend and MCP
 
-With `npm run local` running, connect any MCP client to `http://127.0.0.1:3000/mcp`. For Claude Code:
+The job hunt backend is a small Flask app in `backend/`, laid out the way DevTools reads services: each service folder (`jobs/`, `cv/`) has a `map.py` listing its actions, and `jobs/processes.py` holds the application lifecycle (Shortlisted → Applied → Interview → Offer → Accepted, and so on). Every call goes through one pipeline that validates the payload, enforces the lifecycle and runs the handler:
+
+- `POST /api/actions/<name>`, e.g. `jobs.move {id, column}`; `GET /api/actions` lists every action with its schema
+- `GET /api/process/definitions` returns the lifecycle; `GET /api/pdf/<id>?name=` serves a built PDF
+
+The MCP server (`backend/mcp_server.py`) exposes the same actions as tools (`jobs.move` → `jobs_move`). With `npm run local` running, connect any MCP client to `http://127.0.0.1:5401/mcp`. For Claude Code:
 
 ```bash
-claude mcp add --transport http cv http://127.0.0.1:3000/mcp
+claude mcp add --transport http cv http://127.0.0.1:5401/mcp
 ```
 
-Tools: `jobs_list`, `jobs_get`, `jobs_add`, `jobs_update`, `jobs_log_event`, `jobs_get_letter`, `jobs_set_letter`, `jobs_build_pdf`, `jobs_stats`, `cv_get_section`, `cv_update_section`. Resources: `cv://site`, `cv://section/{name}`, `jobs://opportunity/{id}`.
+For stdio-only clients: `backend/.venv/Scripts/python backend/mcp_server.py --stdio`.
 
-Every write is validated (`lib/jobhunt/schema.ts`), locked per opportunity and written atomically. Set `CV_AUTOCOMMIT=1` to commit each change to the data repo.
+Tools: `jobs_list`, `jobs_get`, `jobs_add`, `jobs_update`, `jobs_move`, `jobs_log_event`, `jobs_get_letter`, `jobs_set_letter`, `jobs_set_document`, `jobs_build_pdf`, `jobs_stats`, `jobs_version`, `cv_list_sections`, `cv_get_section`, `cv_update_section`.
+
+Every write is validated, locked per opportunity and written atomically. Set `CV_AUTOCOMMIT=1` to commit each change to the data repo. Tests: `cd backend && .venv/Scripts/python -m unittest discover -s tests`.
 
 ## Job hunt Local Instance
 
-1. **File naming.** Job hunt pages, API routes, the MCP route and the request guard are `*.local.tsx` / `*.local.ts`. Next only treats them as routes when `CV_MODE=local`, so the static export can't contain them.
-2. **Runtime guard.** `lib/jobhunt` throws unless `CV_MODE=local`, and `lib/content` refuses to read outside `data/cv`.
-3. **Import boundary.** ESLint blocks importing the job hunt from anything outside `app/jobs`, `app/api`, `app/mcp`, `mcp/`, `lib/jobhunt` and `scripts/`.
+1. **File naming.** Job hunt pages and the request guard are `*.local.tsx` / `*.local.ts`. Next only treats them as routes when `CV_MODE=local`, so the static export can't contain them.
+2. **Separate backend.** Only the Flask backend in `backend/` reads or writes `data/jobhunt`, and it never runs in the public build. `lib/content` refuses to read outside `data/cv`.
+3. **Import boundary.** ESLint blocks importing the job hunt from anything outside `app/jobs`, `lib/jobhunt` (board types and constants), `lib/backend.ts` and `scripts/`.
 4. **CI.** The Pages workflow checks out only the data repo's `cv/` folder, and `check-export` scans `out/` before deploying.
 5. **Local requests only.** `proxy.local.ts` rejects requests whose Host or Origin isn't this machine, so web pages can't reach the API or MCP server.
 
