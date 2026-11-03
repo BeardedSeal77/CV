@@ -31,6 +31,8 @@ const nextConfig: NextConfig = {
         { source: "/api/actions/:path*", destination: `${API_URL}/api/actions/:path*` },
         { source: "/api/process/:path*", destination: `${API_URL}/api/process/:path*` },
         { source: "/api/pdf/:path*", destination: `${API_URL}/api/pdf/:path*` },
+        // The CV and portfolio PDFs: printed on demand when public/ has no copy
+        { source: "/:file([^/]+\\.pdf)", destination: `${API_URL}/api/documents/:file` },
       ]
     },
   }),

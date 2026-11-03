@@ -13,10 +13,11 @@ import sys
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, Response, jsonify, request, send_file
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from cv.model.build_document import build_document  # noqa: E402
 from jobs.model.pdf import output_file  # noqa: E402
 from utils.errors import ActionError, NotFound  # noqa: E402
 from utils.maps import describe, registry  # noqa: E402
@@ -84,6 +85,16 @@ def serve_pdf(job_id: str):
     if file is None:
         raise NotFound("No PDF built yet")
     return send_file(file, mimetype="application/pdf", download_name=file.name, as_attachment=False)
+
+
+@app.get("/api/documents/<file_name>")
+def serve_document(file_name: str):
+    """The CV or portfolio PDF named in site.md, printed on demand (local mode
+    has no static build to serve it from)."""
+    data = build_document(file_name)
+    if data is None:
+        raise NotFound(f"No document {file_name}")
+    return Response(data, mimetype="application/pdf", headers={"Content-Disposition": f'inline; filename="{file_name}"'})
 
 
 if __name__ == "__main__":
