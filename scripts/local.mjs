@@ -10,6 +10,8 @@ process.env.CV_MODE = "local"
 const port = process.env.PORT ?? "3030"
 
 process.env.CV_WEB_URL ??= `http://127.0.0.1:${port}`
+// The API's hourly check that moves closed listings to Expired
+process.env.CV_TIMERS ??= "1"
 
 const children = []
 function start(command, args, options = {}) {

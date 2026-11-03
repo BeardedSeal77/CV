@@ -4,7 +4,9 @@ import { FileText, MapPin } from "lucide-react"
 
 import { METHOD_LABEL, statusesIn } from "@/lib/jobhunt/schema"
 import type { JobSummary } from "@/lib/jobhunt/view"
+import { cn } from "@/lib/utils"
 
+import { daysUntil } from "./closing-date"
 import { COUNTRY, Dot, fmtDate, StatusPill } from "./status"
 
 /** One job on the board: drag it to move it, click it to open it */
@@ -23,6 +25,11 @@ export function JobCard({
     .filter(Boolean)
     .join(", ")
   const showStatus = statusesIn(job.column).length > 1
+  // A closing date matters only until Ed applies
+  const closes =
+    job.column === "backlog" && job.dates.deadline
+      ? daysUntil(job.dates.deadline)
+      : null
   return (
     <button
       type="button"
@@ -73,6 +80,18 @@ export function JobCard({
           <>
             <Dot />
             Applied {fmtDate(job.dates.applied)}
+          </>
+        )}
+        {closes !== null && (
+          <>
+            <Dot />
+            <span
+              className={cn(
+                closes <= 7 && "font-medium text-domain-automation"
+              )}
+            >
+              Closes {fmtDate(job.dates.deadline)}
+            </span>
           </>
         )}
       </p>

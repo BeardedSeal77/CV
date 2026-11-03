@@ -1,6 +1,7 @@
 from pydantic import Field
 
 from jobs.model import store, view
+from jobs.model.expiry import expire_if_closed
 from jobs.model.schema import Listing
 
 
@@ -20,8 +21,10 @@ def create_job(payload: CreateJob) -> dict:
     linkedin or other), platform (e.g. Workable), url (the application link),
     website (the company's site), email, pay, hours, mode, fit (Strong, Good or
     Stretch), interest (High, Medium or Low; defaults from the fit: Strong High,
-    Good Medium, else Low), posted (date listed, YYYY-MM-DD), deadline, size,
-    what (one line on the company), jd, letter."""
+    Good Medium, else Low), posted (date listed, YYYY-MM-DD), deadline (the
+    listing's closing date, only when it gives one: once it passes, a job not
+    applied to moves to Expired on its own), size, what (one line on the
+    company), jd, letter."""
     listing = Listing.model_validate(payload.model_dump(exclude={"jd", "letter", "allow_duplicate"}))
     opp = store.add(listing, jd=payload.jd, letter=payload.letter, allow_duplicate=payload.allow_duplicate)
-    return view.summary(opp)
+    return view.summary(expire_if_closed(opp))

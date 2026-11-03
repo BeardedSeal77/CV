@@ -18,6 +18,7 @@ import type { JobDetail } from "@/lib/jobhunt/view"
 
 import { action, type Lifecycle } from "./api"
 import { ApplicationFiles } from "./application-files"
+import { ClosingDate } from "./closing-date"
 import { CopyButton } from "./copy-button"
 import { InterestPicker } from "./interest"
 import { MoveCard } from "./move-card"
@@ -269,6 +270,11 @@ export function JobDialog({
                         )}
                       </Fact>
                     </dl>
+                    <ClosingDate
+                      key={`${job.id}-${job.dates.deadline}`}
+                      job={job}
+                      onChanged={reload}
+                    />
                     <div className="mt-3">
                       <p className="font-mono text-[11.5px] text-muted-foreground">
                         Interviews

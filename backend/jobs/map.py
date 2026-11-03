@@ -2,6 +2,7 @@
 # DevTools reads this file without importing it, so every value is a literal
 # or a handler imported by name.
 from jobs.handlers.create_job import create_job
+from jobs.handlers.expire_closed_jobs import expire_closed_jobs
 from jobs.handlers.build_pdf import build_pdf
 from jobs.handlers.get_job import get_job
 from jobs.handlers.get_letter import get_letter
@@ -55,6 +56,9 @@ ACTIONS = {
                        'process': 'application', 'status_field': 'status',
                        'status_resolver': resolve_application_status,
                        'payload': {'required': ['id']}},
+    # The API also runs this every hour (CV_TIMERS=1)
+    'jobs.expire_closed': {'mode': 'sync', 'access': 'write', 'handler': expire_closed_jobs, 'validators': [],
+                           'permission': 'local'},
 
     # ----------------------------------------------------------------
     # Documents

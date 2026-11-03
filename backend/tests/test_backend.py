@@ -58,6 +58,28 @@ class JobsTest(unittest.TestCase):
             dispatch("jobs.move", {"id": job["id"], "column": "applied"})
         self.assertEqual(dispatch("jobs.move", {"id": job["id"], "column": "backlog"})["status"], "Shortlisted")
 
+    def test_closing_date_is_optional_and_expires_open_jobs(self):
+        undated = dispatch("jobs.add", {"company": "No Date Co", "role": "Dev"})
+        future = dispatch("jobs.add", {"company": "Future Co", "role": "Dev", "deadline": "2999-01-31"})
+        self.assertEqual((undated["status"], future["status"]), ("Shortlisted", "Shortlisted"))
+
+        closed = dispatch("jobs.add", {"company": "Closed Co", "role": "Dev", "deadline": "2000-01-31"})
+        self.assertEqual((closed["column"], closed["status"]), ("expired", "Expired"))
+
+        applied = dispatch("jobs.add", {"company": "Applied Co", "role": "Dev"})
+        dispatch("jobs.move", {"id": applied["id"], "column": "applied"})
+        self.assertEqual(dispatch("jobs.update", {"id": applied["id"], "deadline": "2000-01-31"})["status"], "Applied")
+
+        # Reopened on purpose: the sweep leaves it until its closing date changes
+        dispatch("jobs.move", {"id": closed["id"], "column": "backlog"})
+        swept = [j["id"] for j in dispatch("jobs.expire_closed", {})["expired"]]
+        self.assertNotIn(closed["id"], swept)
+        self.assertNotIn(applied["id"], swept)
+        moved = dispatch("jobs.update", {"id": closed["id"], "deadline": "2000-02-01"})
+        self.assertEqual(moved["status"], "Expired")
+        cleared = dispatch("jobs.update", {"id": future["id"], "deadline": ""})
+        self.assertEqual((cleared["status"], cleared["dates"]["deadline"]), ("Shortlisted", ""))
+
     def test_add_lands_in_backlog_with_new_fields(self):
         job = dispatch(
             "jobs.add",

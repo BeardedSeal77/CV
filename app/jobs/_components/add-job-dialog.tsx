@@ -64,7 +64,7 @@ const FIELDS: {
     placeholder: "e.g. Hybrid, 3 office days",
   },
   { key: "posted", label: "Listed on", type: "date" },
-  { key: "deadline", label: "Deadline", type: "date" },
+  { key: "deadline", label: "Closes on (if listed)", type: "date" },
   { key: "size", label: "Company size" },
   { key: "what", label: "What they do" },
 ]

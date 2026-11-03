@@ -30,8 +30,9 @@ from utils.pipeline import dispatch  # noqa: E402
 
 INSTRUCTIONS = """Ed's job hunt board and CV. Jobs move through columns backlog -> applied ->
 interview -> accepted / declined. not_interested holds roles Ed chose to skip;
-expired holds listings that closed before he applied (set by hand, never
-automatically). Every job has an interest (High, Medium, Low) that groups the
+expired holds listings that closed before he applied: by hand, or on their own
+once a job's optional deadline (the listing's closing date) passes. Set a
+deadline only when the listing gives one. Every job has an interest (High, Medium, Low) that groups the
 board into bands; set it with jobs_update. Moves follow the
 application lifecycle; pass correction=true only to fix a mistake.
 Workflows, each also a prompt here:
